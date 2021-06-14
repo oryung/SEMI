@@ -128,9 +128,9 @@
 		<div class="row" id="secondRow">
 			<!-- 로고  -->
 			<div class="col-3">
-				<div id="logo" onclick="location.href='메인페이지.html';"
+				<div id="logo" onclick="location.href='<%= request.getContextPath() %>/mainPage.me';"
 					style="color: #11BBFF; font-size: 32px; text-align: center; vertical-align: middle; margin-top: 16px; font-weight: bold; cursor: pointer; color: #11BBFF;">
-					<i class="bi bi-house" style="font-size: 37px;"></i>다나와방
+						<i class="bi bi-house" style="font-size: 37px;"></i>다나와방
 				</div>
 			</div>
 
