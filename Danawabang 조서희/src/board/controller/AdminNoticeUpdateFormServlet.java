@@ -1,23 +1,26 @@
-package member.controller;
+package board.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.model.vo.Board;
+
 /**
- * Servlet implementation class CheckIdFormServlet
+ * Servlet implementation class AdminUpdateServlet
  */
-@WebServlet("/checkIdForm.me")
-public class CheckIdFormServlet extends HttpServlet {
+@WebServlet("/adminNoticeUpdateForm.bo")
+public class AdminNoticeUpdateFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CheckIdFormServlet() {
+    public AdminNoticeUpdateFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,7 +29,20 @@ public class CheckIdFormServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("WEB-INF/views/member/checkIdForm.jsp").forward(request, response);
+		request.setCharacterEncoding("UTF-8");
+		
+		String title = request.getParameter("title");
+		int bId = Integer.parseInt(request.getParameter("bId"));
+		String content = request.getParameter("content");
+		
+		Board board = new Board();
+		board.setBoardId(bId);
+		board.setBoardTitle(title);
+		board.setBoardContent(content);
+		
+		request.setAttribute("board", board);
+		request.getRequestDispatcher("WEB-INF/views/board/adminNoticeUpdateForm.jsp").forward(request, response);
+		
 	}
 
 	/**
