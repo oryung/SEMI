@@ -1,4 +1,0 @@
-
-adminMember.jsp에 밑에 부분을 수정해주세요. 
-
-<a class="dropdown-item" onclick="location.href='<%= request.getContextPath() %>/adminSetting.me';">관리자정보수정</a>
