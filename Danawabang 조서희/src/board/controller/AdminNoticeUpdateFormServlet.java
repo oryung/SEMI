@@ -34,11 +34,13 @@ public class AdminNoticeUpdateFormServlet extends HttpServlet {
 		String title = request.getParameter("title");
 		int bId = Integer.parseInt(request.getParameter("bId"));
 		String content = request.getParameter("content");
+		String isFirst = request.getParameter("isFirst");
 		
 		Board board = new Board();
 		board.setBoardId(bId);
 		board.setBoardTitle(title);
 		board.setBoardContent(content);
+		board.setIsFirst(isFirst);
 		
 		request.setAttribute("board", board);
 		request.getRequestDispatcher("WEB-INF/views/board/adminNoticeUpdateForm.jsp").forward(request, response);

@@ -116,7 +116,7 @@ table{
 								<td><%= board.getBoardCount() %></td>
 							</tr>
 							<tr>
-								<th scope="col" id="ie">내용</th>
+								<th scope="col" id="ie">내용<input type="hidden" name="isFirst" value="<%= board.getIsFirst() %>"></th>
 								<td colspan="3">
 								<textarea name="content" class="form-control" readonly style="height: 500px; resize: none; "><%= board.getBoardContent() %></textarea>
 								</td>

@@ -2,7 +2,6 @@
     pageEncoding="UTF-8" import="board.model.vo.Board"%>
 <%
 	Board board = (Board)request.getAttribute("board"); 
-	
 %>   
 <!DOCTYPE html>
 <html>
@@ -117,7 +116,7 @@ table{
 								<td> <input type="text" name="title" value="<%= board.getBoardTitle() %>" size="20px" class="form-control"></td>
 								<th scope="col">중요</th>
 								
-								<td><input type="checkbox" id="isFirst" name="isFirst" class="form-control"></td>
+								<td><input type="checkbox" id="isFirst" name="isFirst" class="form-control" <%= board.getIsFirst().equals("Y") ? "checked" : "" %>></td>
 								
 							</tr>
 							<tr>

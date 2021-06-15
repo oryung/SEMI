@@ -11,6 +11,7 @@
 	int maxPage = pi.getMaxPage();				
 	int startPage = pi.getStartPage();				
 	int endPage = pi.getEndPage();		
+	int checkBoardCount = 0;
 %>     
 <!DOCTYPE html>
 <html>
@@ -101,6 +102,7 @@
 		</div>
 		
 		<!-- 테이블  -->
+		<form action="" id="adminNoticeForm">
 		<div class="row">
 	            <table class="table" id="listArea" style="width: 720px; margin-left: 220px; margin-top: 10px; text-align: center; text-overflow: ellipsis;">
 					<thead>
@@ -122,18 +124,22 @@
 					<% 		for(Board b : nList) {%>
 					<% int bId =  b.getBoardId(); %>
 								<tr>
-									<th scope="row"><input type="checkbox" class="check" name="agree" onclick="selectOne();"></th>
+									<th scope="row"><input type="checkbox" class="check" name="check" onclick="selectOne();"></th>
 									<td><%= bId %></td>
 									<td><%= b.getBoardTitle() %></td>
 									<td><%= b.getWriter() %></td>
 									<td><%= b.getEnrollDate() %></td>
 									<td onclick="location.href='<%= request.getContextPath() %>/adminNoticeDetail.bo?bId='+ <%= bId %>" style="cursor:pointer;"><i class="bi bi-search"></i></td>
 								</tr>
+								<% checkBoardCount++; %>
 					<% 		} %>	
 					<% } %>			
 					</tbody>
 				</table>
 		</div>
+		<!-- 체크된 게시글의 번호 저장 -->
+		<input type="hidden" id="checkBoards" name="checkBoards" value="">
+		
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 30px;"></div>
 		
@@ -154,12 +160,13 @@
 			<% if(loginUser != null){ %>
 			<div class="col" style="left: 38%; width: 70%;">
 				<!-- 등록 버튼 -->
-				<button class="button1" onclick="location.href='<%=request.getContextPath() %>/adminNoticeEnroll.bo'">등록</button>
+				<button type="button" class="button1" onclick="location.href='<%=request.getContextPath() %>/adminNoticeEnroll.bo'">등록</button>
 				<!-- 삭제 버튼 -->
-				<button class="button1" id="delete">삭제</button>
+				<button class="button1" id="delete" onclick="selectDeleteBoard();">삭제</button>
 			</div>
 			<% } %>
 		</div>
+		</form>
 
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 40px;"></div>
@@ -244,42 +251,31 @@
 			});
 		});
 		
-		$(function(){
-			$('#delete').click(function(){
-				var bool = prompt('정말 삭제하시겠습니까? 삭제하시려면 관리자 코드를 입력하십시오')
-				if(bool == "realadmin"){
-					$('#detailForm').attr('action', 'delete.bo');
-					$('#detailForm').submit();
-				} else{
-					alert("관리자 코드를 잘못입력하셨습니다.");
-				}
-			});	
-		});	
 		
 		/* 체크박스 선택방식 메소드 */
 		function selectAll() {
-			var agree = document.getElementsByName("agree");
+			var check = document.getElementsByName("check");
 			var all = document.getElementById("all");
 			
 			if(document.getElementById("all").checked) {
-				for(var i = 0 ; i < agree.length ; i++ ) {
-					agree[i].checked = true;
+				for(var i = 0 ; i < check.length ; i++ ) {
+					check[i].checked = true;
 				}
 			} else {
-				for(var i = 0 ; i < agree.length ; i++ ) {
-					agree[i].checked = false;
+				for(var i = 0 ; i < check.length ; i++ ) {
+					check[i].checked = false;
 				}
 			}
 		}
 		
 		function selectOne() {
-			var agree = document.getElementsByName("agree");
+			var check = document.getElementsByName("check");
 			var all = document.getElementById("all");
 			
 			var count = 0;
 				
-			for(var i = 1 ; i < agree.length ; i++) {
-				if(agree[i].checked) {
+			for(var i = 1 ; i < check.length ; i++) {
+				if(check[i].checked) {
 					count++;		
 				}
 			}
@@ -291,11 +287,45 @@
 			}		
 		}
 		
+		// 중요 공지 표시
 		$(function(){
 			for(var i = 1; i <= <%= fNListCount %>; i++){
 				$('#listArea td').parent().children().eq(6 * i - 4).css({'font-weight' : 'bold'});
 			}
 		});	
+		
+		// 체크박스를 이용한 여러 게시글 한번에 삭제하기
+		 function selectDeleteBoard(){
+			var checkList = document.getElementsByName('check');
+			var checkBoardId = '';
+			
+			// 체크박스 선택된 게시글의 아이디 목록 저장하기 
+			for(var i = 0 ; i < <%= checkBoardCount %> ; i++) {
+				if(checkList[i].checked) {
+					checkBoardId += checkList[i].parentNode.nextSibling.nextSibling.innerHTML + ",";
+				}
+			}
+			document.getElementById('checkBoards').value = checkBoardId;
+			
+			if(checkBoardId == '' || checkBoardId.length == 0) {
+				alert("게시글을 먼저 체크해주세요");
+				return 0;
+			}
+			
+			
+			var result = window.prompt("정말 삭제하시겠습니까? 삭제하시려면 관리자 코드를 입력하십시오");
+			
+			if(result == 'realadmin'){
+				alert("삭제 완료했습니다.");
+				$('#adminNoticeForm').attr('action', '<%= request.getContextPath() %>/deleteNotices.bo');
+				$('#adminNoticeForm').submit();
+				
+			} else if(result == null){
+					
+			} else{
+				alert("잘못 입력하셨습니다.");				
+			}
+		} 
 		
 	</script>
 </body>

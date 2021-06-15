@@ -25,6 +25,49 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">	
 <style>
+.category {
+	font-size: 18px;
+	color: black;
+}
+
+table {
+	margin-left: 10px;
+}
+
+td {
+	font-size: 20px;
+	cursor: pointer;
+}
+
+span {
+	color: #11BBFF;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+td>p {
+	width: 700px;
+	height: 250px;
+	display: none;
+}
+
+.customer {
+	margin-left: 30px;
+	line-height: 30px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#middleCategories {
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.categories {font-size: 20px; color: #11BBFF; font-weight: bold; margin-left:20px;}
+
+.categories:hover {color: #FBA481; text-decoration: none;}
 
 .table th[scope="col"] {
 	background: rgb(17, 187, 255);
@@ -44,49 +87,22 @@
 		<%@ include file="../common/top.jsp" %>
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단 끝!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		
-		<!-- 중단 카테고리 -->	
+		<!-- 행 사이 빈공간-->
+		<div class="row" style="margin-top: 40px;"></div>
+		
 		<div class="row" id="middleCategories">
-			<!-- 중단 카테고리 여백 -->
-			<div class="col"></div>
-			<!-- 회원 관리, 상품 관리, 주문 관리, 게시판 관리, 설정 중단카테고리 -->
-			<div onclick="location.href='회원 관리.html';" class="col"
-				style="text-align: center; vertical-align: middle; text-decoration: none; cursor: pointer; font-size: 20px; font-weight: bold;">
-				회원 관리</div>
-			<div onclick="location.href='상품 관리.html';" class="col"
-				style="text-align: center; vertical-align: middle; text-decoration: none; cursor: pointer; font-size: 20px; font-weight: bold;">
-				상품 관리</div>
-			<div onclick="location.href='주문 관리.html';" class="col"
-				style="text-align: center; vertical-align: middle; text-decoration: none; cursor: pointer; font-size: 20px; font-weight: bold;">
-				주문 관리</div>
-			<div  class="col">
-				<div onclick="location.href='#';" class="dropdown" data-toggle="dropdown"
-					style="text-align: center; vertical-align: middle; text-decoration: none; cursor: pointer; font-size: 20px; font-weight: bold;">
-					게시판 관리
-					<div class="dropdown-menu">
-						<a class="dropdown-item" onclick="location.href='관리자_게시판관리_스토어(AdminBoardStore).html'">스토어</a>
-						<a class="dropdown-item" onclick="location.href='관리자_게시판관리_셀프가이드(AdminBoardSelfGuide).html'">셀프가이드</a>
-						<a class="dropdown-item" onclick="location.href='관리자_게시판관리_프로모션(AdminBoardPromotion).html'">프로모션</a>
-						<a class="dropdown-item" onclick="location.href='관리자_게시판관리_공지사항(AdminBoardNotice).html'">공지사항</a>
-						<a class="dropdown-item" onclick="location.href='관리자_게시판관리_FAQ(AdminBoardFaq).html'">FAQ</a>
-						<a class="dropdown-item" onclick="location.href='관리자_게시판관리_일대일(AdminBoardOtO).html'">1:1게시판</a>
-					</div>
-				</div>
-			</div>
-			<div class="col">
-				<div onclick="location.href='#';"  class="dropdown" data-toggle="dropdown"
-					style="text-align: center; vertical-align: middle; text-decoration: none; cursor: pointer; font-size: 20px; font-weight: bold;">
-					설정
-					<div class="dropdown-menu">
-						<a class="dropdown-item" onclick="location.href='게시판 관리_설정_관리자정보수정.html'">관리자정보수정</a>
-						<a class="dropdown-item" onclick="location.href='설정_관리자탈퇴.html'">관리자탈퇴</a>
-					</div>
-				</div>
-			</div>
-				
-			<!-- 중단 카테고리 여백 -->
-			<div class="col" style="margin-top: 40px;"></div>
+			<div class="col-3"></div>
+			<div onclick="location.href='<%= request.getContextPath() %>/boardNotice.bo';" class="col">
+				공지사항</div>
+			<div onclick="location.href='부트1대1 게시판2.html';"
+				class="col">1:1 게시판</div>
+			<div onclick="location.href='<%= request.getContextPath() %>/boardFaq.bo';" class="col">
+				FAQ</div>
+			<div class="col-3"></div>
 		</div>
-		<br>
+		
+		<!-- 행 사이 빈공간-->
+		<div class="row" style="margin-top: 40px;"></div>
 		
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 본문(공지사항) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 		<div class="row" style="padding: 10px;">
@@ -217,7 +233,7 @@
 				$(this).parent().css({'background':'none'});	
 			}).click(function(){
 				var bId = $(this).parent().children().eq(0).text();	
-				location.href='<%= request.getContextPath() %>/adminNoticeDetail.bo?bId='+ bId;
+				location.href='<%= request.getContextPath() %>/boardNoticeDetail.bo?bId='+ bId;
 			});	
 			
 		});	

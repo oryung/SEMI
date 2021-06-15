@@ -40,7 +40,7 @@ public class AdminNoticeDetailServlet extends HttpServlet {
 			request.setAttribute("board", board);
 		} else {
 			page = "WEB-INF/views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시판 상세조회에 실패하였습니다.");
+			request.setAttribute("msg", "공지사항 상세조회에 실패하였습니다.");
 		}
 		request.getRequestDispatcher(page).forward(request, response);
 		

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="board.model.vo.Board"%>
+<% Board board = (Board)request.getAttribute("board"); %>   
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -114,6 +116,9 @@ table {
 		<%@ include file="../common/top.jsp" %>
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단 끝!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 
+		<!-- 행 사이 빈공간-->
+		<div class="row" style="margin-top: 40px;"></div>
+		
 		<div class="row" id="middleCategories">
 			<div class="col-3"></div>
 			<div onclick="location.href='부트공지사항.html';" class="col">공지사항</div>
@@ -126,48 +131,53 @@ table {
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 40px;"></div>
 
-		<div class="row">
-			<div class="col">
-				<div style="font-weight: bold; font-size: 25px; text-align: center; color: rgb(17, 187, 255);"
-					class="">공지사항</div>
+		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  본문(공지사항 게시글 상세보기) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+		<div class="row" style="padding: 10px;">
+			<div class="col" style="padding: 0px;">
+				<div
+					style="font-weight: bold; font-size: 25px; text-align: center; color: rgb(17, 187, 255);"
+					class="">공지사항 게시글 상세보기</div>
 			</div>
 		</div>
+		
+		<!-- 테이블 -->
+		<div class="row">
+			<form action="<%= request.getContextPath() %>/adminNoticeUpdateForm.bo" id="detailForm" method="post">
+					<table class="table"
+						style="margin-left: 220px; width: 720px; text-align: center;">
+						<tbody>
+							<tr>
+								<th scope="col">제목<input type="hidden" name="bId" value="<%= board.getBoardId() %>"></th>
+								<td><%= board.getBoardTitle() %>
+								<input type="hidden" name="title" value="<%= board.getBoardTitle() %>" size="35px" class="form-control"></td>
+								<th scope="col">조회수</th>
+								<td><%= board.getBoardCount() %></td>
+							</tr>
+							<tr>
+								<th scope="col" id="ie">내용<input type="hidden" name="isFirst" value="<%= board.getIsFirst() %>"></th>
+								<td colspan="3">
+								<textarea name="content" class="form-control" readonly style="height: 500px; resize: none; "><%= board.getBoardContent() %></textarea>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 
+				<!-- 버튼 -->
+				<div class="row" style="height: 50px;">
+					<!-- 돌아가기 버튼 -->
+					<div class="col" style="left: 23%; width: 70%;">
+						<button type="button" class="button1" onclick="location.href='<%= request.getContextPath() %>/boardNotice.bo'">돌아가기</button>
+					</div>
+					<div class="col" style="left: 26%;">
+				
+			</div>	
+				</div>
+			</form>
+		</div>
+		
 		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 20px;"></div>
+		<div class="row" style="margin-top: 80px;"></div>
 
-		<div class="row">
-			<table class="table"
-				style="margin-left: 230px; width: 720px; text-align: center;">
-				<tbody>
-					<tr>
-						<th scope="col">제목</th>
-						<td><input type="text" id="title" size="35px"
-							class="form-control"></td>
-						<th scope="col">작성일</th>
-						<td style="vertical-align: middle;">2021-5-30</td>
-					</tr>
-					<tr>
-						<th scope="col" id="ie">내용</th>
-						<td colspan="3"><textarea class="form-control" id="content"
-								style="height: 500px; resize: none;"></textarea></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<br>
-		<!-- 버튼 -->
-		<div class='row'>
-			<div class="col-2"></div>
-			<div class="col" style="margin-left: 25px;">
-				<button type="button" class="button1"
-					onclick="history.back(); return false;">돌아가기</button>
-			</div>
-			<div class='col-5'></div>
-			<div class='col'></div>
-			<div class="col"></div>
-		</div>
 
 
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
