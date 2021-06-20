@@ -113,7 +113,10 @@ table {
 
 	<!-- 상단 스크립트 -->
 	<script>
+<<<<<<< HEAD:Danawabang_정혜원/web/WEB-INF/views/board/boardNoticeDetail.jsp
 		
+=======
+>>>>>>> fc3a0f78e97a415e2c1ac22120927f87f3c82e29:Danawabang 조서희/web/WEB-INF/views/board/boardNoticeDetail.jsp
 
 		//중단 카테고리 색변환
 		$(function() {

@@ -112,7 +112,7 @@ table{
 			$('#delete').click(function(){
 				var bool = prompt('정말 삭제하시겠습니까? 삭제하시려면 관리자 코드를 입력하십시오')
 				if(bool == "realadmin"){
-					$('#detailForm').attr('action', 'delete.bo');
+					$('#detailForm').attr('action', 'adminNoticeDelete.bo');
 					$('#detailForm').submit();
 				} else{
 					alert("관리자 코드를 잘못입력하셨습니다.");

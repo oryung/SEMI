@@ -96,5 +96,10 @@ table {
 		<%@ include file="../common/bottom.jsp" %>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	</div>
+<<<<<<< HEAD:Danawabang_정혜원/web/WEB-INF/views/board/adminNoticeEnroll.jsp
+=======
+
+
+>>>>>>> fc3a0f78e97a415e2c1ac22120927f87f3c82e29:Danawabang 조서희/web/WEB-INF/views/board/adminNoticeEnroll.jsp
 </body>
 </html>

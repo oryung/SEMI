@@ -36,11 +36,11 @@ public class AdminNoticeDetailServlet extends HttpServlet {
 		
 		String page = null;
 		if(board != null) {
-			page = "WEB-INF/views/board/adminNoticeDetail.jsp";
 			request.setAttribute("board", board);
+			page = "WEB-INF/views/board/adminNoticeDetail.jsp";
 		} else {
-			page = "WEB-INF/views/common/errorPage.jsp";
 			request.setAttribute("msg", "공지사항 상세조회에 실패하였습니다.");
+			page = "WEB-INF/views/common/errorPage.jsp";
 		}
 		request.getRequestDispatcher(page).forward(request, response);
 		

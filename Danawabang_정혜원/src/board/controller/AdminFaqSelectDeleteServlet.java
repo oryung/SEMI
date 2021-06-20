@@ -42,7 +42,7 @@ public class AdminFaqSelectDeleteServlet extends HttpServlet {
 		if(result == board.length) {
 			response.sendRedirect("adminFaq.me");
 		} else {
-			request.setAttribute("msg", "회원 삭제에 실패하였습니다");
+			request.setAttribute("msg", "게시글 삭제에 실패하였습니다");
 			request.getRequestDispatcher("WEB-INF/views/common/errorPage.jsp").forward(request, response);
 		}
 	}

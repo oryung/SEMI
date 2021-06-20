@@ -13,7 +13,7 @@ import board.model.service.BoardService;
 /**
  * Servlet implementation class boardDeleteServlet
  */
-@WebServlet("/delete.bo")
+@WebServlet("/adminNoticeDelete.bo")
 public class AdminNoticeDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

@@ -83,12 +83,12 @@
 					<% 		for(Board b : nList) {%>
 					<% int bId =  b.getBoardId(); %>
 								<tr>
-									<th scope="row"><input type="checkbox" class="check" name="check" onclick="selectOne();"></th>
-									<td><%= bId %></td>
-									<td><%= b.getBoardTitle() %></td>
-									<td><%= b.getWriter() %></td>
-									<td><%= b.getEnrollDate() %></td>
-									<td onclick="location.href='<%= request.getContextPath() %>/adminNoticeDetail.bo?bId='+ <%= bId %>" style="cursor:pointer;"><i class="bi bi-search"></i></td>
+									<th scope="row" style="vertical-align: middle;"><input type="checkbox" class="check" name="check" onclick="selectOne();"></th>
+									<td style="vertical-align: middle;"><%= bId %></td>
+									<td style="vertical-align: middle;"><%= b.getBoardTitle() %></td>
+									<td style="vertical-align: middle;"><%= b.getWriter() %></td>
+									<td style="vertical-align: middle;"><%= b.getEnrollDate() %></td>
+									<td onclick="location.href='<%= request.getContextPath() %>/adminNoticeDetail.bo?bId='+ <%= bId %>" style="cursor:pointer; vertical-align: middle;"><i class="bi bi-search"></i></td>
 								</tr>
 								<% checkBoardCount++; %>
 					<% 		} %>	
@@ -172,8 +172,13 @@
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	</div>
 
+<<<<<<< HEAD:Danawabang_정혜원/web/WEB-INF/views/board/adminNotice.jsp
 	<!-- 상단 스크립트 -->
 	<script>	
+=======
+	<script>
+		
+>>>>>>> fc3a0f78e97a415e2c1ac22120927f87f3c82e29:Danawabang 조서희/web/WEB-INF/views/board/adminNotice.jsp
 		/* 체크박스 선택방식 메소드 */
 		function selectAll() {
 			var check = document.getElementsByName("check");
@@ -210,6 +215,14 @@
 		}
 		
 		// 중요 공지 표시
+// 		$(function(){
+<%-- 			<% if(currentPage == 1) { %> --%>
+<%-- 			for(var i = 1; i <= <%= fNListCount %>; i++){ --%>
+// 				$('#listArea td').parent().children().eq(6 * i - 4).css({'font-weight' : 'bold'});
+// 			}
+<%-- 			<% } %> --%>
+// 		});	
+		
 		$(function(){
 			<% if(currentPage == 1) { %>
 			for(var i = 1; i <= <%= fNListCount %>; i++){

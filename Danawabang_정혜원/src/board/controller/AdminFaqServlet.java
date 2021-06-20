@@ -51,7 +51,6 @@ public class AdminFaqServlet extends HttpServlet {
 		
 		listCount = bService.getBsListCount(board, board2);
 
-		
 		currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));

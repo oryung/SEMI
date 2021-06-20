@@ -47,9 +47,15 @@ public class BoardNoticeServlet extends HttpServlet {
 		
 		BoardService bService = new BoardService();
 		Board board = new Board();
+<<<<<<< HEAD:Danawabang_정혜원/src/board/controller/BoardNoticeServlet.java
 		
 		board.setBoardCategoryId(2440);
 		board.setBoardType(1);
+=======
+		board.setBoardCategoryId(2440);
+		board.setBoardType(1);
+		
+>>>>>>> fc3a0f78e97a415e2c1ac22120927f87f3c82e29:Danawabang 조서희/src/board/controller/BoardNoticeServlet.java
 		listCount = bService.getBListCount(board);
 		int fNListCount =  bService.getFNListCount();
 		

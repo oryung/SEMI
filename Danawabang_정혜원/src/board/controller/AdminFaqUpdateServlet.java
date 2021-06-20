@@ -36,6 +36,7 @@ public class AdminFaqUpdateServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+		System.out.println(category);
 		
 		Board b = new Board();
 		b.setBoardTitle(title);
