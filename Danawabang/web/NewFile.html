@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>API 테스트</title>
+</head>
+<body>
+<a href="javascript:kakaoLogin();"><img src="https://blog.kakaocdn.net/dn/RvGHm/btq0c3b6Thg/7CI0zUHJcapuNgqLP1K5xK/img.png" style="height: 60px; width:auto;"/></a>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+// 065b9fd5666b1039abc786a2995c7d47
+	window.Kakao.init("065b9fd5666b1039abc786a2995c7d47");		// 이 키를 가지고 어떤 애플리케이션으로 연동할 건지 검증
+	
+	function kakaoLogin(){
+		window.Kakao.Auth.login({
+			scope:'profile, account_email',			// 연결된 카카오 계정의 정보 받아오기
+			success: function(authObj){
+				console.log(authObj);
+				window.Kakao.API.request({
+					url:'/v2/user/me',
+					success: res => {
+						const kakao_account = res.kakao_account;
+						console.log(kakao_account);
+					}
+				});
+			}
+		});
+	};
+</script>
+<a href="javascript:kakaoLogin();"><img src="https://blog.kakaocdn.net/dn/RvGHm/btq0c3b6Thg/7CI0zUHJcapuNgqLP1K5xK/img.png" style="height: 60px; width:auto;"/></a>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+// 065b9fd5666b1039abc786a2995c7d47
+	window.Kakao.init("d60784116c3161d8563cb0d099c48c4f");		
+	
+	function kakaoLogin(){
+		window.Kakao.Auth.login({
+			scope:'profile, account_email',			
+			success: function(authObj){				
+				console.log(authObj);				
+				window.Kakao.API.request({
+				    url: '/v2/user/me',
+				    data: {
+				        property_keys: ["kakao_account.profile", "kakao_account.email"]
+				    },
+				    success: function(response) {
+				        console.log(response);
+				        console.log(response.kakao_account);
+				        console.log(response.kakao_account.email);
+				    	$.ajax({
+				    		url: 'kakaoInsert.me',
+				    		data: {kakaoLoginId: response.kakao_account.email},
+				    		success: function(data){
+								console.log(data);
+				    		}	
+				    	});
+				    },
+				    fail: function(error) {
+				        console.log(error);
+				    }
+				});
+
+			}
+		});
+	};
+</script>
+</body>
+</html>
