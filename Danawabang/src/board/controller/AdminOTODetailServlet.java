@@ -37,10 +37,9 @@ public class AdminOTODetailServlet extends HttpServlet {
 		Board board = new BoardService().selectOTOBoard(bId);
 		ArrayList<Reply> replyList = new BoardService().selectOTOReplyList(bId);
 		
-		
 		String page = null;
 		if(board != null) {
-			page = "WEB-INF/views/board/adminOTODetail.jsp";
+			page = "WEB-INF/views/board/boardOTODetail.jsp";
 			request.setAttribute("board", board);
 			request.setAttribute("replyList", replyList);
 		} else {

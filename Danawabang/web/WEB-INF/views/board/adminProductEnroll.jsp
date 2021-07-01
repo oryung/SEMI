@@ -131,7 +131,7 @@ table{
 						<tr>
 							<th scope="col" style="vertical-align: middle;">팁</th>
 							<td colspan="3"><textarea class="form-control" id="tip" name="tip"
-									style="height: 100px; resize:none;">셀프가이드게시물12</textarea></td>
+									style="height: 100px; resize:none;"></textarea></td>
 						</tr>
 						<tr>
 							<th scope="col" style="vertical-align: middle;">내용</th>

@@ -56,7 +56,14 @@
 
 
 /* ------------따라다니는 오른쪽 네비게이션---------------------------------------------------------- */
-#followquick { position:absolute; top:200px; right:50%; margin-right:-850px; }
+#followquick {
+	position: absolute;
+	top: 200px;
+	right: 50%;
+	margin-top: 270px;
+	margin-right: -800px;
+}
+
 </style>
 
 </head>
@@ -150,46 +157,41 @@
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
+	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	
 	<!-- 오른쪽 따라 다니는 네비게이션 바 -->
 
 	<div id="followquick" style="width: 7%;">
 		<div class="row"
-			style="height: 280px; background: #11BBFF; border-radius: 3px;">
-			<div class="col" style="margin-top: -10px;">
-				<br> <i class="bi bi-house"
-					style="font-size: 50px; margin-left: 5px; color: #fff"></i> <span
-					style="font-size: 18px; font-weight: bold; color: #fff">다나와방</span>
-				<div class="row" style="margin-top: 110px;"></div>
-
+			style="height: 200px; background: #11BBFF; color: #fff; border-radius: 10px;">
+			<div class="col"
+				style="margin-top: -10px; text-align: center; cursor: pointer;"
+				onclick="location.href='<%= request.getContextPath() %>/boardFaq.bo';">
 				<div>
-					<a href="" class="side-nav"
-						style="font-size: 20px; font-weight: bold; text-decoration: none">
-						<i class="bi bi-whatsapp i-side"
-						style="font-size: 23px; text-align: center;"></i>&nbsp;&nbsp;고객센터
-					</a>
+					<div class="side-nav"
+						style="font-size: 19px; font-weight: bold; margin-top: 15px;">
+						<i class="bi bi-house" style="font-size: 45px; color: #fff"></i><br>
+						<div style="color: #fff;">
+							다나와방<br>고객센터
+						</div>
+						<br>
+						<div
+							style="font-size: 23px; font-weight: bold; color: #fff; margin-top: -10px;">1555-5551</div>
+					</div>
 				</div>
-
-				<span style="font-size: 15px; font-weight: bold; color: #fff">1555-5551</span>
-
 				<div
-					style="margin-top: 10px; width: 100%; border-bottom: 2px solid #fff"></div>
+					style="margin-top: 5px; width: 100%; border-bottom: 2px solid #fff"></div>
 			</div>
 		</div>
 	</div>
-	<!-- 탭 하면 맨위로 올라가는 버튼 -->				 
+	<!-- 탭 하면 맨위로 올라가는 버튼 -->
 	<div class="row">
 		<div class="col-10"></div>
-		<div class="col-1" style="float-right">
-			<i class="bi bi-arrow-up-circle-fill bottomNav i-plain" 
-			style="cursor:pointer;" onclick="window.scrollTo(0,0);" ></i>
+		<div class="col-1" style="">
+			<i class="bi bi-arrow-up-circle-fill bottomNav i-plain"
+				style="cursor: pointer;" onclick="window.scrollTo(0,0);"></i>
 		</div>
-		<div class="col-1">
-			<i class="bi bi-whatsapp bottomNav i-plain" style="cursor:pointer;" ></i>
-		
-		</div>
-	</div>	
-	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	</div>
 	
 
 		<!-- ---------------------------------------스크립트 영역 --------------------------------------->
@@ -237,8 +239,6 @@
 	};
 	
 	</script>
-	<!-- --------------------따라오는 오른쪽 네비게이션 ------------------------------- -->
-	
 	<script>
 	//follow quick menu
 	$(window).scroll(function(){
@@ -249,24 +249,16 @@
 	$("#followquick").stop();
 	$("#followquick").animate( { "top" : scrollTop });
 	});
-	</script>	
-	<script>
-		$(function(){
-			$('.thumb-list').click(function(){
-				var bId = $(this).find("input").val();
-				console.log(bId);
-				location.href="<%=request.getContextPath()%>/boardPromotionDetail.bo?bId=" + bId;
-			});
-		});
-		
-		$(function(){
-			$('.thumb-list').children().hover(function(){
-				$(this).css('color', '#11BBFF');
-			}, function() {
-				$(this).css('color', 'black');
-			});
-		});
-	</script>	
+
+	$(function(){
+		$('#followquick').children().hover(function(){
+			$(this).css({'background-color':'#FBA481', 'color' : '#fff'});
+	}, function(){
+		$(this).css({'background-color':'#11BBFF', 'color' : '#fff'});
+	});
+	});
+</script>
+
 			
 </body>
 </html>

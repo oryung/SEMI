@@ -35,7 +35,15 @@ public class LoginServlet extends HttpServlet {
 		
 		String id = request.getParameter("id");
 		String pass = request.getParameter("pass");
+		int pwdLength = Integer.parseInt(request.getParameter("pwdLength"));
+			
 		Member member = new Member(id, pass);
+		
+		if(pwdLength == 6) {
+			request.setAttribute("member", member);
+			request.getRequestDispatcher("WEB-INF/views/member/changePwd.jsp").forward(request, response);
+			return;
+		}
 		
 		Member loginUser = new MemberService().login(member);
 		

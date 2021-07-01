@@ -97,7 +97,7 @@
 							<tr>
 								<td scope="row"><input type="checkbox" class="check" name="check" onclick="selectOne();"></td>
 								<td><%= b.getBoardId() %></td>
-								<td><%= b.getBoardTitle() %></td>
+								<td><%= b.getBoardTitle() %><span style="font-weight:bolder; color:#11BBFF">(<%=b.getReplyCount() %>)</span></td>
 								<td><%= b.getWriter() %></td>
 								<td><%= b.getEnrollDate() %></td>
 								<td onclick="location.href='<%= request.getContextPath() %>/adminOTODetail.bo?bId='+ <%= bId %>" style="cursor:pointer;"><i class="bi bi-search"></i></td>
@@ -117,12 +117,6 @@
 			<!-- 검색창  -->
 			<div class="col-3" style="left: 20%;">
 				<div class="input-group mb-3">
-					<input type="text" class="form-control form-control-research"
-						placeholder="검색어를 입력해주세요" aria-label="Recipient's username"
-						aria-describedby="button-addon2"
-						style="font-size: 13px; border-color: #11BBFF;">
-					<button class="btn btn-outline-secondary" type="submit"
-						id="main-search" style="font-size: 13px;">검색</button>
 				</div>
 			</div>
 			
@@ -230,6 +224,7 @@
 					checkBoardId += checkList[i].parentNode.nextSibling.nextSibling.innerHTML + ",";
 				}
 			}
+			console.log(checkBoardId);
 			document.getElementById('checkBoards').value = checkBoardId;
 			
 			if(checkBoardId == '' || checkBoardId.length == 0) {
@@ -237,12 +232,11 @@
 				return 0;
 			}
 			
-			
 			var result = window.prompt("정말 삭제하시겠습니까? 삭제하시려면 관리자 코드를 입력하십시오");
 			
 			if(result == 'realadmin'){
 				alert("삭제 완료했습니다.");
-				$('#adminOTOForm').attr('action', '<%= request.getContextPath() %>/adminOTODetail.bo');
+				$('#adminOTOForm').attr('action', '<%= request.getContextPath() %>/adminOTOSelectDelete.bo');
 				$('#adminOTOForm').submit();
 				
 			} else if(result == null){

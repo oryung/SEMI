@@ -129,29 +129,7 @@
 				$(this).css('color', 'black');
 			});
 		});
-		// 탈퇴 버튼
-		<%-- $(function(){
-			var id = $('#id').val();
-			var pwd = $('#pwd').val();
-			
-			console.log(id);
-			console.log(pwd);
-			console.log('<%= userId %>');
-			console.log('<%= userPwd %>');
-			
-			
-			$('#withdraw').on('click', function(){
-				if('<%=userId%>' == id && '<%=userPwd%>' == pwd){
-					var bool = confirm('정말 탈퇴하시겠습니까?');
-					
-					if(bool){
-						$('#myForm').attr('action', '<%=request.getContextPath()%>/delete.me');
-						$('#myForm').submit();
-					}
-				} else {
-					alert('입력하신 아이디와 비밀번호가 잘못됐습니다.');
-				}
-		}); --%>
+		
 
 		
 		function deleteCheck() {

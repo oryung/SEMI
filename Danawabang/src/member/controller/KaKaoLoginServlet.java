@@ -2,12 +2,12 @@ package member.controller;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import member.model.service.MemberService;
 import member.model.vo.Member;
@@ -15,7 +15,7 @@ import member.model.vo.Member;
 /**
  * Servlet implementation class KaKaoLoginServlet
  */
-@WebServlet("/kakaoInsert.me")
+@WebServlet(urlPatterns="/kakaoLogin.me", name="KaKaoLoginServlet")
 public class KaKaoLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -31,22 +31,44 @@ public class KaKaoLoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String kakaoLoginId = request.getParameter("kakaoLoginId");
-		String kakaoLoginEmail = request.getParameter("kakaoLoginId");
-		Member member = new Member();
-//		member.setId(kakaoLoginId);
-		member.setEmail(kakaoLoginEmail);
+		request.setCharacterEncoding("UTF-8");
 		
-		int result = new MemberService().kakaoInsertMember(member);
+		String kakaoLoginEmail = request.getParameter("kakaoLoginEmail");
+		String kakaoLoginNickName = request.getParameter("kakaoLoginNickName");
+//		String kakaoLoginId = "kakaoUser" + (int)(Math.random()*100000);
+		String kakaoLoginId = kakaoLoginEmail;	// email에 unique 제약조건 걸어놔야 함
+		String kakaoLoginPwd = request.getParameter("kakaoLoginPwd");
+		Member kakaoMember = new Member();
 		
-		if(result > 0) {
-			// 회원가입 성공 페이지
-			response.sendRedirect(request.getContextPath());
-		} else {
-			// 회원가입 실패 페이지
-			request.setAttribute("msg", "회원가입에 실패하였습니다.");
-			RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/common/errorPage.jsp");
-			view.forward(request, response);		// 브라우저 url에 insert.me가 나올 거라 예상함다.
+		kakaoMember.setEmail(kakaoLoginEmail);
+		kakaoMember.setName(kakaoLoginNickName);
+		kakaoMember.setId(kakaoLoginId);
+		kakaoMember.setPwd(kakaoLoginPwd);
+		kakaoMember.setAddress("00000/주소를/입력해주세요");
+		
+		MemberService mService = new MemberService();
+		
+		Member checkedMember = mService.selectMember(kakaoLoginId);
+		if(checkedMember == null){ // 존재하지 않는 회원이라면
+			mService.insertMember(kakaoMember);
+		}
+		checkedMember = mService.selectMember(kakaoLoginId);
+		
+		if(checkedMember != null) {
+			Member member = new Member(checkedMember.getId(), checkedMember.getPwd());
+				
+			Member loginUser = mService.login(member);
+			if(loginUser != null) {
+				HttpSession session = request.getSession();
+				session.setAttribute("loginUser", loginUser);
+				session.setMaxInactiveInterval(7200);
+				
+				response.sendRedirect(request.getContextPath());
+			} else {
+				request.setAttribute("msg", "로그인 실패");
+				request.getRequestDispatcher("WEB-INF/views/common/errorPage.jsp").forward(request, response);
+					
+			}
 		}
 	}
 

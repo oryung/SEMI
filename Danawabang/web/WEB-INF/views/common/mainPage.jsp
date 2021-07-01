@@ -1,5 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="member.model.vo.Member"%>
+	pageEncoding="UTF-8" import="java.util.ArrayList, board.model.vo.*, member.model.vo.Member"%>
+<%
+	ArrayList<Board> bList = (ArrayList<Board>)request.getAttribute("bList");
+	ArrayList<BoardAttachment> bFileList = (ArrayList<BoardAttachment>)request.getAttribute("bFileList");
+	ArrayList<Product> discountProList = (ArrayList<Product>)request.getAttribute("discountProList");
+	ArrayList<Product> newProList = (ArrayList<Product>)request.getAttribute("newProList");
+	ArrayList<ProductAttachment> pFileList = (ArrayList<ProductAttachment>)request.getAttribute("pFileList");
+		
+// 	for(Board b : bList){
+		
+//  		if(b.getBoardCategoryId() == 2421){
+//  			 System.out.println(b.getBoardCategoryId() == 2421);
+//  		}
+// 	}
+	
+%>
 
 <!DOCTYPE html>
 <html>
@@ -120,9 +135,6 @@
 	cursor: pointer;
 }
 
-div .stomach {
-	background: url(images/1.jpg);
-}
 }
 </style>
 
@@ -145,70 +157,67 @@ div .stomach {
 
 		<!-- Swiper -->
 		<div class="swiper-container mySwiper">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide">
-					<img src="images\main_page_images\main_middle_1\pic1_1a.png" alt=""><br>
-				</div>
-				<div class="swiper-slide">
-					<img src="images\main_page_images\main_middle_1\pic1_2a.png" alt=""><br>
-				</div>
-				<div class="swiper-slide">
-					<img src="images\main_page_images\main_middle_1\pic1_3a.png" alt=""><br>
-				</div>
-				<div class="swiper-slide">
-					<img src="images\main_page_images\main_middle_1\pic1_4a.png" alt=""><br>
-				</div>
-				<div class="swiper-slide">
-					<img src="images\main_page_images\main_middle_1\pic1_5a.png" alt=""><br>
-				</div>
-
-			</div>
+			 <% if(bList.isEmpty() || bFileList.isEmpty()) { %>
+              	 	<div class="swiper-wrapper" style="font-weight: bold; font-size: 20px;">
+              	 		<div class="swiper-slide">
+              	 		조회된 리스트가 없습니다.
+              	 		</div>
+              	 	</div>
+              	 <% } else { %>	
+	                  <div class="swiper-wrapper" style="font-weight: bold; font-size: 20px;">
+	              	 	<% for(int i = 0; i < 5; i++) { %>
+						<% Board b = bList.get(i); %>
+						<% int bId =  b.getBoardId(); %>
+		                 		 <input type="hidden" value="<%= bId %>">
+		                     	<% for(int j = 0; j < bFileList.size(); j++) { %>
+									<% BoardAttachment a = bFileList.get(j); %>
+									<% if(b.getBoardId() == a.getBoardId()) { %>
+										<% if(b.getBoardCategoryId() == 2430) { %>
+			                     			<div class="swiper-slide">
+						                        	<img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= a.getChangeName() %>"  onclick="location.href='<%= request.getContextPath() %>/boardPromotionDetail.bo?bId='+ <%= bId %>"  style="width:700px; height:700px" class="img-rounded">
+			                   				</div>
+		                       	    	<% } %>
+		                       	    <% } %>
+		                       	 <% } %>   
+	                 	 <% } %>
+                	  </div>
+                  <% } %>	
 			<div class="swiper-pagination"></div>
 		</div>
 
 
-		<!-- 베스트제품  -->
+		<!-- 할인 특가 제품 구경하기  -->
 		<div class="container px-4 py-5" id="custom-cards"
 			style="margin-top: 60px;">
 			<h3 class="pb-2 border-bottom"
-				style="color: #11bbff; font-weight: bold; border-bottom: #11bbff;">베스트
-				제품 구경하기</h3>
+				style="color: #11bbff; font-weight: bold; border-bottom: #11bbff;"> 할인 특가 제품 구경하기</h3>
 		</div>
-		<div class="row mb-2">
-			<div class="col-md-6">
-				<div
-					class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-					<div class="col p-4 d-flex flex-column position-static">
-						<strong class="d-inline-block mb-2 text-primary">더운 여름의
-							해결사</strong>
-						<h3 class="mb-0">휘센 에어컨</h3>
-						<p class="card-text mb-auto" style="margin-top: 15px;">
-							기능도, 혜택도 업그레이든 된<br>부동의 스테디셀러 휘센 에어컨
-						</p>
-						<div onclick="" class="stretched-link" style="cursor:pointer;">사러가기</div>
-					</div>
-					<div class="col-auto d-none d-lg-block">
-						<img src="images\main_page_images\go_home\pic3_5.jpg">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-6">
-				<div
-					class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-					<div class="col p-4 d-flex flex-column position-static">
-						<strong class="d-inline-block mb-2 text-primary">더운 여름의
-							해결사</strong>
-						<h3 class="mb-0">휘센 에어컨</h3>
-						<p class="card-text mb-auto" style="margin-top: 15px;">
-							기능도, 혜택도 업그레이든 된<br>부동의 스테디셀러 휘센 에어컨
-						</p>
-						<div onclick="" class="stretched-link" style="cursor:pointer;">사러가기</div>
-					</div>
-					<div class="col-auto d-none d-lg-block">
-						<img src="images\main_page_images\go_home\pic3_5.jpg">
-					</div>
-				</div>
+		<div class="container" >
+			<div class="row" style="text-align:center; margin-left:80px; margin-right:80px; "  >
+				<% if(discountProList.isEmpty() || pFileList.isEmpty()) { %>
+				등록된 사진이 없습니다.
+				<% } else { %>
+					<% for(int i = 0; i < 4; i++) { %>
+						<% Product p = discountProList.get(i); %>
+						<input type="hidden" name="cId" value="<%= p.getProductCategoryId() %>">
+						<div class="col-6 thumb-list" onclick="location.href='<%= request.getContextPath() %>/boardStoreDetail.bo?pId='+ <%= p.getProductId() %>"style="display:inline-block; margin-top: 30px; margin-bottom:50px; vertical-align:middle;">
+							<div style="cursor:pointer;" >
+								<% for(int j = 0; j < pFileList.size(); j++) { %>
+									<% ProductAttachment pa = pFileList.get(j); %>
+									<% if(p.getProductId() == pa.getProductId() && pa.getProductFileLevel() == 0) { %>
+										<span><img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= pa.getProductChangeName() %>" width="300px" height="300px"></span><br><br>
+									<% } %>
+								<% } %>
+							</div>
+							<% int rate =  (int)(Math.ceil(p.getProductDiscountRate()*100)); %>
+							<span style="font-size:20px; font-weight:bold; color:#11bbff; margin-left:20px;  margin-right: 80px;"><%= rate %>%</span>
+							<span style="font-size:20px; font-weight:bold;"><%= p.getProductPrice() %>원</span><br><br>
+							<span style="font-size:17px; font-weight:bold; margin-top:10px;"><%= p.getProductName() %></span><br>
+							<span style="font-size:15px;"><%= p.getProductBrand() %></span>
+							<input type="hidden" name="pId" value="<%= p.getProductId() %>">
+						</div>
+					<% } %>
+				<% } %>
 			</div>
 		</div>
 
@@ -218,102 +227,70 @@ div .stomach {
 			<h3 class="pb-2 border-bottom"
 				style="color: #11bbff; font-weight: bold;">셀프 가이드</h3>
 		</div>
-
-		<div class="p-4 p-md-5 mb-4 rounded stomach"
-			style="height: 450px; width: 800px; margin: auto; color: #F5DF94; cursor:pointer;">
-			<div class="col-md-6 px-0"
-				style="border-radius: 5px; background-color: none; margin-top: 25px; margin-left: 445px;">
-				<div class="display-4"
-					style="font-size: 32px; text-align: left; font-weight: bold;">
-					셀프가이드 25:<br>소품 활용
-				</div>
-			</div>
+		 <div>
+			 <% if(bList.isEmpty() || bFileList.isEmpty()) { %>
+              	 	<div style="font-weight: bold; font-size: 20px;">
+              	 		<div>
+              	 		조회된 리스트가 없습니다.
+              	 		</div>
+              	 	</div>
+              	 <% } else { %>	
+	                  <div style="font-weight: bold; font-size: 30px; text-align:center;">
+	              	 	<% for(int i = 0; i < bList.size(); i++) { %>
+						<% Board b = bList.get(i); %>
+							<% int bId =  b.getBoardId(); %>
+							<% int k = b.getBoardCategoryId(); %>
+							 <%if(k == 2421 || k == 2422 || k == 2423 || k == 2424 || k == 2425) { %>
+		                 	<input type="hidden" value="<%= bId %>">
+		                     	<% for(int j = 0; j < bFileList.size(); j++) { %>
+									<% BoardAttachment a = bFileList.get(j); %>
+									<% if(b.getBoardId() == a.getBoardId()) { %>
+			                     			<div>
+						                        <img src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>"  onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>" style="width:700px; height:400px" class="img-rounded"><br>
+			                   					<%= b.getBoardTitle() %>
+			                   				</div>
+		                       	    	<% } %>
+		                       	    <% } %>
+		                       	<% break; } %>
+	                 	 <% } %>
+                	  </div>
+                  <% } %>	
+			<div class="swiper-pagination"></div>
 		</div>
-
-
+		
 		<!-- 신상품 -->
 		<div class="container px-4 py-5" id="custom-cards"
 			style="margin-top: 60px;">
 			<h3 class="pb-2 border-bottom"
-				style="color: #11bbff; font-weight: bold; border-bottom: #11bbff;">따끈따끈한
-				신상품 보러가기</h3>
+				style="color: #11bbff; font-weight: bold; border-bottom: #11bbff;"> 따끈따끈한 신상품 구경하기</h3>
 		</div>
-		<!-- 베스트 제품 이미지 -->
-		<div class="row " style="height: 250px;">
-			<div class="col-1"></div>
-			<div class="col-10">
-
-				<div class="container-fluid ">
-					<div class="row w-100">
-						<div class="col" style="left: 30px;">
-							<div id="outerCarousel" class="carousel fdi-Carousel slide"
-								data-ride="carousel" data-interval="5000">
-								<div class="carousel-inner row no-gutters">
-									<div class="carousel-item active">
-										<div class="col-4 text-center">
-											<input type="image" style="height: 250px;"
-												class="img-rounded"
-												src="images\main_page_images\best_image\pic2_1.jpg"
-												onclick="location.href='';">
-										</div>
-									</div>
-									<div class="carousel-item">
-										<div class="col-4 text-center">
-											<input type="image" style="height: 250px;"
-												class="img-rounded"
-												src="images\main_page_images\best_image\pic2_2.jpg"
-												onclick="location.href='';">
-										</div>
-									</div>
-									<div class="carousel-item">
-										<div class="col-4 text-center">
-											<input type="image" style="height: 250px;"
-												class="img-rounded"
-												src="images\main_page_images\best_image\pic2_3.jpg"
-												onclick="location.href='';">
-										</div>
-									</div>
-									<div class="carousel-item">
-										<div class="col-4 text-center">
-											<input type="image" style="height: 250px;"
-												class="img-rounded"
-												src="images\main_page_images\best_image\pic2_4.jpg"
-												onclick="location.href='';">
-										</div>
-									</div>
-									<div class="carousel-item">
-										<div class="col-4 text-center">
-											<input type="image" style="height: 250px;"
-												class="img-rounded"
-												src="images\main_page_images\best_image\pic2_5.jpg"
-												onclick="location.href='';">
-										</div>
-									</div>
-									<div class="carousel-item">
-										<div class="col-4 text-center">
-											<input type="image" style="height: 250px;"
-												class="img-rounded"
-												src="images\main_page_images\best_image\pic2_6.jpg"
-												onclick="location.href='';">
-										</div>
-									</div>
-								</div>
-								<a class="carousel-control-prev" href="#outerCarousel"
-									role="button" data-slide="prev"> <span
-									class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-									class="sr-only">Previous</span>
-								</a> <a class="carousel-control-next" href="#outerCarousel"
-									role="button" data-slide="next"> <span
-									class="carousel-control-next-icon" aria-hidden="true"></span> <span
-									class="sr-only">Next</span>
-								</a>
+		<div class="container">
+			<div class="row" style="text-align:center; margin-left:80px; margin-right:80px; ">
+				<% if(newProList.isEmpty() || pFileList.isEmpty()) { %>
+				등록된 사진이 없습니다.
+				<% } else { %>
+					<% for(int i = 0; i < 4; i++) { %>
+						<% Product p = newProList.get(i); %>
+						<input type="hidden" name="cId" value="<%= p.getProductCategoryId() %>">
+						<div class="col-6 thumb-list" onclick="location.href='<%= request.getContextPath() %>/boardStoreDetail.bo?pId='+ <%= p.getProductId() %>"style="display:inline-block; margin-top: 30px; margin-bottom:50px; vertical-align:middle;">
+							<div style="cursor:pointer;">
+								<% for(int j = 0; j < pFileList.size(); j++) { %>
+									<% ProductAttachment pa = pFileList.get(j); %>
+									<% if(p.getProductId() == pa.getProductId() && pa.getProductFileLevel() == 0) { %>
+										<span><img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= pa.getProductChangeName() %>" width="300px" height="300px"></span><br><br>
+									<% } %>
+								<% } %>
 							</div>
+							<% int rate =  (int)(Math.ceil(p.getProductDiscountRate()*100)); %>
+							<span style="font-size:20px; font-weight:bold; color:#11bbff; margin-left:20px;  margin-right: 80px;"><%= rate %>%</span>
+							<span style="font-size:20px; font-weight:bold;"><%= p.getProductPrice() %>원</span><br><br>
+							<span style="font-size:17px; font-weight:bold; margin-top:10px;"><%= p.getProductName() %></span><br>
+							<span style="font-size:15px;"><%= p.getProductBrand() %></span>
+							<input type="hidden" name="pId" value="<%= p.getProductId() %>">
 						</div>
-					</div>
-				</div>
-
+					<% } %>
+				<% } %>
 			</div>
-			<div class="col-1"></div>
 		</div>
 
 	<!-- 행 사이 빈공간-->
@@ -359,12 +336,7 @@ div .stomach {
 		</div>
 	</div>
 
-
-
-
 	<!-- ------------------------스크립트 공간 ----------------------- -->
-
-
 
 	<!-- 메인 이미지 슬라이드 -->
 	<script>

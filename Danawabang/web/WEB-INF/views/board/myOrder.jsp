@@ -44,7 +44,7 @@
 			<!-- 중단 카테고리 여백 -->
 			<div class="col-3"></div>
 			<!-- 나의쇼핑, 나의활동, 설정 중단카테고리 -->
-			<div onclick="location.href='마이페이지-나의 쇼핑.html';"
+			<div onclick="location.href='<%= request.getContextPath() %>/myOrder.me';"
 					class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold; padding-right:10px;">
 					나의 쇼핑</div>
 			<div onclick="location.href='<%= request.getContextPath() %>/myReply.bo'"

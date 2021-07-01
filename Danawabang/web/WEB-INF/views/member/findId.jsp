@@ -76,7 +76,7 @@
 
 						<div class="row">
 							<div class="col" style="font-size: 18px; font-weight: bold;">
-								<a href="" class="findPw" style="text-decoration: none;">비밀번호	찾기</a>
+								<a href="<%= request.getContextPath() %>/findPwdForm.me" class="findPw" style="text-decoration: none;">비밀번호 찾기</a>
 							</div>
 						</div>
 

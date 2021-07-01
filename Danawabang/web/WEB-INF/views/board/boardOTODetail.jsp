@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="board.model.vo.Board, board.model.vo.Reply,board.model.vo.BoardAttachment, java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="board.model.vo.Board, board.model.vo.Reply, java.util.ArrayList"%>
 <% 
 	Board board = (Board)request.getAttribute("board"); 
 	ArrayList<Reply> replyList = (ArrayList)request.getAttribute("replyList");
-    ArrayList<BoardAttachment> fileList =  (ArrayList)request.getAttribute("fileList");
     
+    
+   /*  System.out.println(replyList); */
 %>  
 
 <!DOCTYPE html>
@@ -29,15 +30,35 @@
 	font-size: 20px;
 	font-weight: bold;
 }
-/*아이콘 색변경*/
-.refDelete {
+/*댓글 색변경-----------------*/
+.repBtnB {
 	color: #11BBFF;
+	margin-left:10px;
 }
 
-.refDelete:hover {
+.repBtnB:hover {
 	color: #FBA481;
+	cursor:pointer;
+}
+.repBtnF {
+	color: #11BBFF;
+	margin-left:20px;
 }
 
+.repBtnF:hover {
+	color: #FBA481;
+	cursor:pointer;
+}
+/* ====================== */
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+button.firstBtn:focus{ 	
+    border: none;
+    outline:none;
+    }
 </style>
 </head>
 <body style="font-family: 'Nanum Gothic', sans-serif;">
@@ -73,7 +94,7 @@
 		<!-- 가이드 작성 내용-->
 	<form action="<%= request.getContextPath() %>/boardOTOUpdateForm.bo" id="detailForm" method="post" >
 		<div class="row">
-			<input type="hidden" name="bId" value="<%= board.getBoardId()%>">
+			<input type="hidden" id="bId" name="bId" value="<%= board.getBoardId()%>">
 			<div class="col-1"></div>
 			<div class="col-8" style=" font-size: 30px; font-weight: bold;"><%= board.getBoardTitle() %>	</div>
 			<input type="hidden" name="title" value="<%= board.getBoardTitle()%>">
@@ -91,29 +112,6 @@
 			<input type="hidden" name="enrollDate" value="<%= board.getEnrollDate()%>">
 			<div class="col-8"></div>
 		</div>
-		<div class="row">
-			<div class="col-1"></div>
-			<div class="col-9">
-				<table class="detail">
-					<% for(int i = 0; i < fileList.size(); i++){ %>
-					<tr>
-						<td>
-							<div class="detailImgArea">
-								<input type="hidden" name="titleImgChangeName" value="<%=fileList.get(i).getChangeName()%>">
-									<input type="hidden" name="titleImgOriginName" value="<%=fileList.get(i).getOriginName()%>">
-									<input type="hidden" name="titleImgFileId" value="<%=fileList.get(i).getFileId()%>">
-									<input type="hidden" name="titleImgFilePath" value="<%=fileList.get(i).getFilePath()%>">
-								<img id="detailImg" class="detailImg" 
-									src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= fileList.get(i).getChangeName() %>">
-							</div>
-						</td>
-					</tr>
-					<% } %>
-				</table>
-			</div>
-			<div class="col-2"></div>
-		</div>
-		
 		
 		<div class="row">
 			<div class="col-1"></div>
@@ -149,18 +147,26 @@
 								<% } else {%>
 									<% for(int i = 0; i < replyList.size(); i++){ %>
 										<div id="rep<%= i%>">
-											<input type="hidden" value="<%= replyList.get(i).getReplyId() %>">
-											<span style="font-size: 18px; font-weight: bold; width: 10px;"><%= replyList.get(i).getMemberId() %></span>
-											<span style="width: 600px;"><%= replyList.get(i).getEnrollDate() %></span>
+											<input type="hidden" class="replyId" id="replyId<%= i%>"value="<%= replyList.get(i).getReplyId() %>">
+											<span style="font-size: 18px; font-weight: bold;"><%= replyList.get(i).getMemberId() %></span>
+											<span style="margin-left: 10px"><%= replyList.get(i).getEnrollDate() %></span>
+											
+											<% if(loginUser != null && loginUser.getId().equals(replyList.get(i).getMemberId()) && !loginUser.getId().contains("admin") ) { %>
+											<span class="repBtnF repUpdate" id="repUpdate">수정</span>
+											<span class="repBtnB repDelete" id="repDelete">삭제</span>
+											<% } %>
+											
 											<br>
 											<span><%= replyList.get(i).getReplyContent() %></span>
-											<% if(loginUser != null && loginUser.getId().equals(board.getWriter())) { %>
-											<i class="bi bi-x refDelete"></i>
-											<% } %>
 										</div>
+										<div style="display: none; width: 760px; height: 120px" id="repUpdateForm<%= i%>">
+											<span style="font-weight: bold; font-size: 18px;"><%= loginUser.getId() %></span><span class="repBtnF update" id="update<%= i%>">등록</span><span class="repBtnB cancle" id="cancle<%= i%>">취소</span>
+											<textarea rows="3" cols="107" class="form-control" id="updateContent<%= i%>" style="resize: none; border-color: lightgray;"></textarea>
+										</div>
+										
 									<% } %>
 								<% } %>
-							
+								
 							</div>
 						</div> 
 					</div>
@@ -238,7 +244,7 @@
 			});
 		});
 		
-		/* -----댓글------------------------------------------------------------------------------- */
+		/* -----댓글등록------------------------------------------------------------------- */
 		
 		 $('#addReply').on('click', function(){
 			
@@ -248,36 +254,59 @@
 			
 			$.ajax({
 				url: 'insertReply.bo',
-				data: {writer:writer, content:content, bId:bId},
+				data: {memberId:writer, content:content, bId:bId},
 				success: function(data){
-					
 					
 					$replyTable = $('#replySelectTable');
 					$replyTableCT = $('#replySelectTable');
 					$replyTable.html('');
 					$replyTableCT.html('');
+					console.log(data);
 					
 					for(var i in data){
 						
-						console.log();
-						var $div = $('<div>');
-						
-						var $writerTd = $('<span>').text(data[i].MemberId).css({"font-size":"18px","font-weight":"bold","width":"10px"});
-						var $dateTd = $('<span>').text(data[i].EnrollDate).css("width","600px");
+						var $div = $('<div id="rep' + i +'">');
+						var $writerTd = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
+						var $dateTd = $('<span> ').text(data[i].enrollDate).css({"margin-left":"12px"});
+						var $updateTd = $('<span class="repBtnF repUpdate">').text('수정').css({"margin-left":"24px"});
+						var $deleteCT = $('<span class="repBtnB repDelete">').text('삭제').css({"margin-left":"14px"});
 						var $br = $('<br>');
-						var $contentTd = $('<span>').text(data[i].replyContent).css("width","1000px");
+						var $contentTd = $('<span>').text(data[i].replyContent);
+						var $input = $('<input type="hidden" id="replyId'+ i +'" value="'+ data[i].replyId +'">');
+						var $div2 = $('<div id="repUpdateForm' + i + '">').css({"display":"none", "width":"760px", "height":"120px"});
+						var $writer = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
+						var $update = $('<span class="repBtnF update" id="update'+i+'">').text("등록");
+						var $cancle = $('<span class="repBtnB cancle" id="delete'+i+'">').text("취소");
+						var $content = $('<textarea rows="3" cols="107" class="form-control" id="updateContent'+i+'">').css({"resize":"none", "border-color":"lightgray"});
 						
+						// 로그인 o -> 아이디 , 로그인 x -> 'null'
+						var $userId = '<%= loginUser != null ?  loginUser.getId() : null %>';
 						
-						var $deleteCT = $('<i class="bi bi-x refDelete" style="cursor: pointer;font-size:25px;">');
-						
+						$div.append($input);
 						$div.append($writerTd);
 						$div.append($dateTd);
+						
+						var admin = "admin"
+						if(data[i].memberId.indexOf(admin) ){
+								
+							if($userId != null){
+								$div.append($updateTd);
+								$div.append($deleteCT);
+							}
+						}
+						
 						$div.append($br);
 						$div.append($contentTd);
-						$div.append($deleteCT);
 						
 						$replyTable.append($div);
-		
+						
+						$div2.append($writer);
+						$div2.append($update);
+						$div2.append($cancle);
+						$div2.append($content);
+						
+		                $replyTable.append($div2);
+						
 					}
 					
 					$('#replyContent').val('');
@@ -285,28 +314,151 @@
 			});
 		}); 
 		
-		//댓글 삭제
 		
-		$('.refDelete').parent().on('click',function(){
-			if(!confirm("삭제하시겠습니까?")){
+		//댓글 삭제-------------------------------------------------
+		
+		/* $('.refDelete').parent().on('click',function(){ */
+	
+		$(document).on('click', ".repDelete", function(){
+			if (!confirm("삭제하시겠습니까?")) {
 				return;
 			}
-			 
-			 console.log();
+			console.log(this);
 			
-			/* $.ajax({
-				url: "deleteReply.bo",
-				data:{},
-				success:function(data){
-					
-					$(this).remove();
-				},
-				error:function(data){
-					alert("댓글 삭제 실패 했습니다.");
-				}
-			}); */
-		}); 
+			var divId = $(this).parent().attr('id');
+			/* console.log("div 아이디 : " + divId); */
+			
+			var replyId = $(this).parent().children().attr('value');
+			/* console.log("replyId 아이디 : " + replyId); */
 
+			$.ajax({
+				url : "deleteReply.bo",
+				data : {
+					replyId : replyId,
+					divId : divId
+				},
+				success : function(data) {
+					alert("댓글 삭제 성공 했습니다.");
+						$('#' + divId).remove();
+					
+				}
+			});
+		});
+		
+		//--------댓글 수정--------------------------------------------------------
+		$(document).on('click', ".repUpdate", function(){
+			if (!confirm("수정하시겠습니까?")) {
+				return;
+			}
+			var divId = $(this).parent().attr('id');
+			var repUpdateForm = $(this).parent().next();
+			
+			$('#'+divId).hide();
+			$(repUpdateForm).show();
+					
+		});
+			// 댓글 수정 버튼 누른후 등록버튼 누를 때
+			$(document).on('click', ".update", function() {
+				
+		 		var replyId = $(this).parent().prev().children().first().val();
+				var content = $(this).next().next().val();
+				var bId = $('#bId').val();
+				
+				
+				if(content == '') {
+					$(this).next().next().attr("placeholder", "댓글을 입력해주세요");
+					return 0;
+				}
+				
+				// 멤버 아이디와 등록일에 접근하기
+				/* var memberId = $(this).parent().prev().children().eq(1).text();
+				console.log(memberId);
+				var enrollDate = $(this).parent().prev().children().eq(2).text();
+				console.log(enrollDate);
+				var divId = $(this).parent().prev().attr('id');
+				console.log(divId);
+				var replyId = $(this).parent().prev().children().first().val();
+				console.log(replyId); */
+				
+			$.ajax({
+				url : "updateReply.bo",
+				data : {
+					replyId : replyId,
+					content : content,
+					bId : bId
+				},
+				 success : function(data) {
+					 
+					 $replyTable = $('#replySelectTable');
+						$replyTableCT = $('#replySelectTable');
+						$replyTable.html('');
+						$replyTableCT.html('');
+						
+						
+						
+						for(var i in data){
+							
+							
+							var $div = $('<div id="rep' + i +'">');
+							var $writerTd = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
+							var $dateTd = $('<span> ').text(data[i].enrollDate).css({"margin-left":"15px"});
+							var $updateTd = $('<span class="repBtnF repUpdate">').text('수정').css({"margin-left":"24px"});
+							var $deleteCT = $('<span class="repBtnB repDelete">').text('삭제').css({"margin-left":"14px"});
+							var $br = $('<br>');
+							var $contentTd = $('<span>').text(data[i].replyContent);
+							var $input = $('<input type="hidden" id="replyId'+ i +'" value="'+ data[i].replyId +'">');
+							var $div2 = $('<div id="repUpdateForm' + i + '">').css({"display":"none", "width":"760px", "height":"120px"});
+							var $writer = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
+							var $update = $('<span class="repBtnF update" id="update'+i+'">').text("등록");
+							var $cancle = $('<span class="repBtnB cancle" id="delete'+i+'">').text("취소");
+							var $content = $('<textarea rows="3" cols="107" class="form-control" id="updateContent'+i+'">').css({"resize":"none", "border-color":"lightgray"});
+							
+							// 로그인 o -> 아이디 , 로그인 x -> 'null'
+							var $userId = '<%= loginUser != null ?  loginUser.getId() : null %>';
+							
+							$div.append($input);
+							$div.append($writerTd);
+							$div.append($dateTd);
+							
+							var admin = "admin"
+							if(data[i].memberId.indexOf(admin) ){
+								
+								if($userId != null){
+									$div.append($updateTd);
+									$div.append($deleteCT);
+								}
+							}
+							
+							
+							$div.append($br);
+							$div.append($contentTd);
+							$replyTable.append($div);
+							$div2.append($writer);
+							$div2.append($update);
+							$div2.append($cancle);
+							$div2.append($content);
+							
+			                $replyTable.append($div2);
+			               
+						}
+				 }
+			});  
+		});			
+			// 댓글 수정 버튼 누른 후 취소버튼 누를 때
+			$(document).on('click', ".cancle", function() {
+				
+				var divId = $(this).parent().prev().attr('id');
+				console.log(divId);
+				var repUpdateForm = $(this).parent();
+				console.log(repUpdateForm);
+				
+				$('#'+divId).show();
+				$(repUpdateForm).hide();
+				
+			});
+			
+			
+			
 		//게시글삭제 버튼
 		$(function() {
 			$('#delete').click(function() {

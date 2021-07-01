@@ -117,7 +117,7 @@
 						<% int bId = b.getBoardId(); %>
 							<tr>
 								<td><%= b.getBoardId() %></td>
-								<td><%= b.getBoardTitle() %><span></span></td>
+								<td><%= b.getBoardTitle() %><span style="font-weight:bolder; color:#11BBFF">(<%=b.getReplyCount() %>)</span></td>
 								<td><%= b.getWriter() %></td>
 								<td><%= b.getEnrollDate() %></td>
 							</tr>
@@ -140,27 +140,24 @@
 		
 	 	<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 20px;"></div>
-		
 		<!-- 버튼 -->
+	<form action="<%= request.getContextPath() %>/boardOTO.bo" id="listForm" method="post" >
 		<div class="row" style="height: 50px;">
 			<!-- 검색창  -->
-			<div class="col-1"></div>
-			<div class="col-3" style="margin-left: 60px;">
-				<!-- 검색 아이콘  -->
-				<div>
-					<input type="text" class="form-control"
-						style="font-size: 13px; border-color: #11BBFF; margin-left: 30px; margin-top:5px;">
+				<div class="col-1"> </div>
+				<div class="col-3" style="margin-left: 60px;">
+					<!-- 검색 아이콘  -->
+					<div>
+					</div>
 				</div>
-			</div>
-			<div class="col-1">
-				<button class="btn btn-outline-secondary" type="submit"
-					id="main-search" style="font-size: 14px; margin-top:5px;">검색</button>
-			</div>
+				<div class="col-1">
+				</div>
 			<% if(loginUser != null){ %>
 			<div class="col-2"></div>
 			<div class="col"><button type="button" class="button1" onclick="location.href='<%= request.getContextPath() %>/boardOTOEnroll.bo';" style="margin-left: 90px;">등록</button></div>
 			<% } %>
 		</div>
+	</form>
 		
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 50px;"></div>
@@ -206,7 +203,6 @@
 	<!-- 상단 스크립트 -->
 	<script>
 		
-		
 		//중단 카테고리 색변환
 		$(function() {
 			$('#middleCategories').children().hover(function() {
@@ -223,22 +219,27 @@
 			}
 		});
 		
-		//게시글 호버 상세조회
- 		<% if(loginUser != null){ %>
-	 	$(function(){
-			$('#listArea td').mouseenter(function(){	
-				$(this).parent().css({'background':'lightgray', 'cursor':'pointer'});	
-			}).mouseout(function(){
-				$(this).parent().css({'background':'none'});	
-			}).click(function(){
-				var bId = $(this).parent().children().eq(0).text();	
-				location.href='<%= request.getContextPath() %>/boardOTODetail.bo?bId='+ bId;
-			});	
-			
-		});	
-		<% }%>
+	 	//게시글 호버 상세조회
+	 	<% if(loginUser != null){ %>
+	       $(function(){
+	         $('#listArea td').mouseenter(function(){   
+	            $(this).parent().css({'background':'lightgray', 'cursor':'pointer'});   
+	         }).mouseout(function(){
+	            $(this).parent().css({'background':'none'});   
+	         }).click(function(){
+	            var writer = $(this).parent().children().eq(2).text();
+	            
+	            if(writer == "<%= loginUser.getId() %>" || "<%= loginUser.getIsAdmin() %>" == "ADMIN") {
+	               var bId = $(this).parent().children().eq(0).text();   
+	               location.href='<%= request.getContextPath() %>/boardOTODetail.bo?bId='+ bId;      
+	            } else {
+	               alert("글 작성자만 내용을 볼 수 있습니다.")
+	            }
+	         });   
+	      });   
+	      <% }%>
+		
 	</script>
-	
 	
 </body>
 </html>

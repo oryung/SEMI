@@ -22,6 +22,16 @@ public class Reply {
 		this.replyDelete = replyDelete;
 		this.boardCategoryName = boardCategoryName;
 	}
+	
+	public Reply(int replyId, String replyContent, int boardId, String memberId, Date enrollDate, String replyDelete) {
+		super();
+		this.replyId = replyId;
+		this.replyContent = replyContent;
+		this.boardId = boardId;
+		this.memberId = memberId;
+		this.enrollDate = enrollDate;
+		this.replyDelete = replyDelete;
+	}
 
 	public int getReplyId() {
 		return replyId;

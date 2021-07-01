@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import board.model.dao.BoardDAO;
 import board.model.vo.Board;
 import board.model.vo.BoardAttachment;
+import board.model.vo.Cart;
+import board.model.vo.CartWhole;
+import board.model.vo.Orders;
 import board.model.vo.PageInfo;
 import board.model.vo.Product;
 import board.model.vo.ProductAttachment;
@@ -369,367 +372,576 @@ public class BoardService {
 		} else { 
 			list = dao.selectThumbnailList(conn);	
 		}
+
+		close(conn);
+
+		return list;
+	}
+
+	// ----------------------프로모션------------------//
+	// 관리자게시판 프로모션 전체 리스트 가져오기
+	public ArrayList<Board> selectPList(PageInfo pi) {
+		Connection conn = getConnection();
+		ArrayList<Board> list = new BoardDAO().selectPList(conn, pi);
+		close(conn);
+		return list;
+	}
+
+	// 관리자게시판 프로모션 사진 리스트 가져오기
+	public ArrayList<BoardAttachment> selectThumbnailList() {
+		Connection conn = getConnection();
+		ArrayList<BoardAttachment> list = new BoardDAO().selectThumbnailList(conn);
+		close(conn);
+		return list;
+	}
+
+	// 관리자게시판 프로모션 상세보기
+	public Board selectPBoard(int bId) {
+		Connection conn = getConnection();
+		BoardDAO dao = new BoardDAO();
+
+		int result = dao.updateCount(conn, bId);
+
+		Board board = null;
+		if (result > 0) {
+			board = dao.selectPBoard(conn, bId);
+
+			if (board != null) {
+				commit(conn);
+			} else {
+				rollback(conn);
+			}
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+
+		return board;
+	}
+
+	// ------------------ 나의 활동 댓글관리 --------------------- //
+	// 댓글 목록 가져오기
+	public ArrayList<Reply> selectMyReply(PageInfo pi, String userId) {
+		Connection conn = getConnection();
+
+		ArrayList<Reply> list = new BoardDAO().selectMyReply(conn, pi, userId);
+
+		close(conn);
+
+		return list;
+	}
+	
+	public Board selectBoard(int bId) {
+		Connection conn = getConnection();
+		
+		Board b = new BoardDAO().selectBoard(conn, bId);
+		
+		close(conn);
+
+		return b;
+	}
+
+	// 댓글 개수 파악하기
+	public int getRListCount(String userId) {
+		Connection conn = getConnection();
+
+		int result = new BoardDAO().getRListCount(conn, userId);
+
+		close(conn);
+
+		return result;
+	}
+
+	// 댓글 삭제하기
+	public int deleteReplys(String[] rId) {
+		Connection conn = getConnection();
+
+		int result = new BoardDAO().deleteReplys(conn, rId);
+
+		if (result == rId.length) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		close(conn);
+
+		return result;
+	}
+
+	// ------------------1:1게시판-------------------------------------
+	// 전체 1:1 게시글 리스트
+	public ArrayList<Board> selectOTOList(PageInfo pi) {
+		Connection conn = getConnection();
+
+		ArrayList<Board> list = new BoardDAO().selectOTOList(conn, pi);
+
+		close(conn);
+
+		return list;
+	}
+
+	// 1:1 게시글 상세조회
+	public Board selectOTOBoard(int bId) {
+		Connection conn = getConnection();
+
+		BoardDAO bDAO = new BoardDAO();
+
+		int result = bDAO.updateCount(conn, bId);
+
+		Board board = null;
+		if (result > 0) {
+			board = bDAO.selectOTOBoard(conn, bId);
+
+			if (board != null) {
+				commit(conn);
+			} else {
+				rollback(conn);
+			}
+		} else {
+			rollback(conn);
+		}
+
+		close(conn);
+
+		return board;
+	}
+
+	// 댓글 리스트
+	public ArrayList<Reply> selectOTOReplyList(int bId) {
+		Connection conn = getConnection();
+		ArrayList<Reply> replyList = new BoardDAO().selectOTOReplyList(conn, bId);
+		close(conn);
+		return replyList;
+	}
+
+	// 댓글 갯수
+		public int[] replyCount(int[] bIds) {
+			Connection conn = getConnection();
+
+			int[] replyCount = new BoardDAO().replyCount(conn, bIds);
+
+			close(conn);
+
+			return replyCount;
+		}
+
+	// 댓글 등록
+	public ArrayList<Reply> insertReply(Reply r) {
+		Connection conn = getConnection();
+
+		BoardDAO dao = new BoardDAO();
+
+		int result = dao.insertReply(conn, r);
+
+		ArrayList<Reply> list = null;
+		if (result > 0) {
+			commit(conn);
+			list = dao.selectOTOReplyList(conn, r.getBoardId());
+		} else {
+			rollback(conn);
+		}
+
+		close(conn);
+		return list;
+	}
+
+	// 댓글 수정
+	public ArrayList<Reply> updateReply(Reply r) {
+		Connection conn = getConnection();
+
+		BoardDAO dao = new BoardDAO();
+		int result = dao.updateReply(conn, r);
+
+		ArrayList<Reply> list = null;
+		if (result > 0) {
+			list = dao.selectOTOReplyList(conn, r.getBoardId());
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		close(conn);
+
+		return list;
+	}
+
+	// 댓글 삭제
+	public int deleteReply(int replyId) {
+		Connection conn = getConnection();
+		int result = new BoardDAO().deleteReply(conn, replyId);
+
+		if (result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+
+		return result;
+	}
+			            
+	///////////////////////////// 상품관리 게시판///////////////////////////////
+	// 상품관리 게시판 전체 리스트 개수 조회
+	public int getProductCount() {
+		Connection conn = getConnection();
+
+		int listCount = 0;
+
+		listCount = new BoardDAO().getProductCount(conn);
+
+		close(conn);
+
+		return listCount;
+	}
+
+	// 상품관리 게시판 전체 리스트 조회
+	public ArrayList<Product> selectProductList(PageInfo pi) {
+		Connection conn = getConnection();
+
+		ArrayList<Product> list = new BoardDAO().selectProductList(conn, pi);
+
+		close(conn);
+
+		return list;
+	}
+
+	// 상품관리 게시판 상품 등록
+	public int insertProductThumbnail(Product p, ArrayList<ProductAttachment> fileList,
+			ArrayList<ProductOption> optionList) {
+		Connection conn = getConnection();
+		BoardDAO dao = new BoardDAO();
+
+		int result1 = dao.insertProduct(conn, p);
+		int result2 = dao.insertProductThumbnail(conn, fileList);
+		int result3 = dao.insertProductOption(conn, optionList);
+
+		if (result1 > 0 && result2 > 0 && result3 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		close(conn);
+
+		return result1;
+	}
+
+	// 상품 게시글 가져오기
+	public Product selectProductBoard(int pId) {
+		Connection conn = getConnection();
+		Product product = new BoardDAO().selectProductBoard(conn, pId);
+		close(conn);
+		return product;
+	}
+
+	// 상품 게시글 사진 가져오기
+	public ArrayList<ProductAttachment> selectProductThumbnail(int pId) {
+		Connection conn = getConnection();
+		ArrayList<ProductAttachment> list = new BoardDAO().selectProductThumbnail(conn, pId);
+		close(conn);
+		return list;
+	}
+
+	// 상품별 옵션 가져오기
+	public ArrayList<ProductOption> selectProductOption(int pId) {
+		Connection conn = getConnection();
+		ArrayList<ProductOption> list = new BoardDAO().selectProductOption(conn, pId);
+		close(conn);
+		return list;
+	}
+
+	// 상품 게시글 글+사진+옵션 업데이트
+	public int updateProductThumbnail(Product p, ArrayList<ProductAttachment> fileList,
+			ArrayList<ProductOption> optionList) {
+		Connection conn = getConnection();
+
+		BoardDAO dao = new BoardDAO();
+
+		int result1 = dao.updateProductBoard(conn, p);
+		int result2 = dao.updateProductThumbnail(conn, fileList);
+		int result3 = dao.updateProductOption(conn, optionList);
+
+		if (result1 > 0 && result2 > 0 && result3 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		close(conn);
+
+		return result1;
+	}
+
+	// 상품 게시글 삭제
+	public int deleteProductThumbnail(int pId) {
+		Connection conn = getConnection();
+
+		BoardDAO dao = new BoardDAO();
+
+		int result1 = dao.deleteProductBoard(conn, pId);
+		int result2 = dao.deleteProductThumbnail(conn, pId);
+		int result3 = dao.deleteProductOption(conn, pId);
+
+		if (result1 > 0 && result2 > 0 && result3 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+
+		return result1;
+	}
+
+	// 상품 게시글 여러개 삭제
+	public int deleteProductThumbnails(String[] board) {
+		Connection conn = getConnection();
+		BoardDAO dao = new BoardDAO();
+
+		int result1 = dao.deleteProductBoards(conn, board);
+
+		if (result1 == board.length) {
+			for (int i = 0; i < board.length; i++) {
+				int result2 = dao.deleteProductThumbnail(conn, Integer.parseInt(board[i]));
+				int result3 = dao.deleteProductOption(conn, Integer.parseInt(board[i]));
+
+				if (result2 > 0 && result3 > 0) {
+					commit(conn);
+				} else {
+					rollback(conn);
+				}
+			}
+		} else {
+			rollback(conn);
+		}
+
+		close(conn);
+
+		return result1;
+	}
+		
+	///////////////////////////스토어///////////////////////////////////
+	public ArrayList<Product> selectProductsList() {
+		
+		Connection conn = getConnection();
+		
+		ArrayList<Product> list = new BoardDAO().selectProductsList(conn);
 		
 		close(conn);
 		
 		return list;
 	}
 	
-	//----------------------프로모션------------------//
-			//관리자게시판 프로모션 전체 리스트 가져오기
-			public ArrayList<Board> selectPList(PageInfo pi) {
-				Connection conn = getConnection();
-				ArrayList<Board> list = new BoardDAO().selectPList(conn, pi);
-				close(conn);
-				return list;
-			}
-			//관리자게시판 프로모션 사진 리스트 가져오기
-			public ArrayList<BoardAttachment> selectThumbnailList() {
-				Connection conn = getConnection();
-				ArrayList<BoardAttachment> list = new BoardDAO().selectThumbnailList(conn);
-				close(conn);
-				return list;
-			}
-			
-			//관리자게시판 프로모션 상세보기
-			public Board selectPBoard(int bId) {
-				Connection conn = getConnection();
-				BoardDAO dao = new BoardDAO();
-
-				int result = dao.updateCount(conn, bId);
-
-				Board board = null;
-				if (result > 0) {
-					board = dao.selectPBoard(conn, bId);
-
-					if (board != null) {
-						commit(conn);
-					} else {
-						rollback(conn);
-					}
-				} else {
-					rollback(conn);
-				}
-				close(conn);
-
-				return board;
-			}
-	// ------------------ 나의 활동 댓글관리 --------------------- //		
-			 // 댓글 목록 가져오기
-	      	public ArrayList<Reply> selectMyReply(PageInfo pi, String userId) {
-				Connection conn = getConnection();
-				
-				ArrayList<Reply> list = new BoardDAO().selectMyReply(conn, pi, userId);
-				
-				close(conn);
-				
-				return list;
-			}
+	public ArrayList<ProductAttachment> selectProductThumbnails() {
 		
-	      	// 댓글 개수 파악하기
-			public int getRListCount(String userId) {
-				Connection conn = getConnection();
-		
-		        int result = new BoardDAO().getRListCount(conn, userId);
-		
-		        close(conn);
-		
-		        return result;
-			}
-		
-			// 댓글 삭제하기
-			public int deleteReplys(String[] rId) {
-				Connection conn = getConnection();
-				
-				int result = new BoardDAO().deleteReplys(conn, rId);
-				
-				if(result == rId.length) {
-					commit(conn);
-				} else {
-					rollback(conn);
-				}
-				
-				close(conn);
-				
-				return result;
-			}
-			
-	//------------------1:1게시판-------------------------------------
-    //전체 리스트 전체 갯수
-	public int getOTOListCount() {
 		Connection conn = getConnection();
-				
-		int result = new BoardDAO().getOTOListCount(conn);
-				
+		
+		ArrayList<ProductAttachment> list = new BoardDAO().selectProductThumbnails(conn);
+		
 		close(conn);
-				
-		return result;
-	}
-     //전체 1:1 게시글 리스트
-	public ArrayList<Board> selectOTOList(PageInfo pi) {
-	     Connection conn = getConnection();
-			      
-	     ArrayList<Board> list = new BoardDAO().selectOTOList(conn, pi);
-			      
-	     close(conn);
-			      
-	     return list;
-	}
-	public Board selectOTOBoard(int bId) {
-		Connection conn = getConnection();
-		         
-		BoardDAO bDAO = new BoardDAO();
-		         
-	  int result = bDAO.updateCount(conn, bId);	
-	   Board board = null;
-       if (result > 0) {
-          board = bDAO.selectOTOBoard(conn, bId);
-          
-          if(board != null) {
-             commit(conn);
-          } else {
-             rollback(conn);
-          }
-       }else {
-          rollback(conn);
-       }
-       
-       close(conn);
-       return board;
+		
+		return list;
 	}
 	
-	public int updateOTOBoard(Board board) {
+	// 상품관리 게시판 검색 조건에 맞는 리스트 조회
+	public ArrayList<Product> selectProductList(PageInfo pi, String index, int roomSize, int[] itemCategory, int maxPrice) {
 		Connection conn = getConnection();
-       
-       int result = new BoardDAO().updateOTOBoard(conn, board);
-       
-       if(result > 0) {
-          commit(conn);
-       } else {
-          rollback(conn);
-       }
-       
-       close(conn);
-       
-       return result;
-	}
 
-	public ArrayList<Reply> selectOTOReplyList(int bId) {
-		Connection conn = getConnection();
-		ArrayList<Reply> replyList = new BoardDAO().selectOTOReplyList(conn,bId);
+		ArrayList<Product> list = new BoardDAO().selectProductList(conn, pi, index, roomSize, itemCategory, maxPrice);
+
 		close(conn);
-		return replyList;
-	}
 
-	public ArrayList<Reply> insertReply(Reply r) {
+		return list;
+	}
+	
+	// 스토어 검색 처리 서비스
+	public int getProductCount(int roomSize, int[] itemCategory, int maxPrice) {
+
+	   Connection conn = getConnection();
+	   
+	   int listCount = 0;
+	   
+	   listCount = new BoardDAO().getProductCount(conn, roomSize, itemCategory, maxPrice);
+	   
+	   close(conn);
+	   
+	   return listCount;
+	}
+	
+    /////////////////////////////장바구니///////////////////////////////
+   //장바구니 전체 개수 조회
+  public int getCartCount(String id) {
+     Connection conn = getConnection();
+     
+     int listCount = 0;
+     
+     listCount = new BoardDAO().getCartCount(conn, id);
+
+     close(conn);
+
+     return listCount;
+  }
+
+   //장바구니 전체 리스트 조회(페이징x)
+  public ArrayList<Cart> selectCartList() {
+     Connection conn = getConnection();
+     
+     ArrayList<Cart> list = new BoardDAO().selectCartList(conn);
+     
+     close(conn);
+     
+     return list;
+  }  
+  //장바구니 전체 리스트 조회(페이징o)
+  public ArrayList<CartWhole> selectCartListC(PageInfo pi, String id) {
+     Connection conn = getConnection();
+     
+     ArrayList<CartWhole> list = new BoardDAO().selectCartListC(conn, pi, id);
+     
+     close(conn);
+     
+     return list;
+  }
+//상품 전체 리스트 조회
+  public ArrayList<Product> selectProductListC() {
         Connection conn = getConnection();
         
-        BoardDAO dao = new BoardDAO();
-        
-        int result = dao.insertReply(conn, r);
-        
-        ArrayList<Reply> list = null;
-        if(result > 0 ) {
-           commit(conn);
-           list = dao.selectOTOReplyList(conn, r.getBoardId());
-        } else {
-           rollback(conn);
-        }
+        ArrayList<Product> list = new BoardDAO().selectProductListC(conn);
         
         close(conn);
+        
         return list;
+  }
+//상품 옵션 전체 리스트 조회
+  public ArrayList<ProductOption> selectProductOptionListC() {
+        Connection conn = getConnection();
+        
+        ArrayList<ProductOption> list = new BoardDAO().selectProductOptionListC(conn);
+        
+        close(conn);
+        
+        return list;
+     } 
+  //특정 장바구니 가져오기
+  public CartWhole selectCartWhole(int cId) {
+     Connection conn = getConnection();
+        CartWhole cw = new BoardDAO().selectCartWhole(conn, cId);
+        close(conn);
+        return cw;
+  }
+//장바구니 신규등록
+  public int insertCart(Cart c) {
+      Connection conn = getConnection();
+        
+        int result = new BoardDAO().insertCart(conn, c);
+        
+        if(result > 0) {
+        commit(conn);
+     } else {
+        rollback(conn);
      }
-	
-	// 댓글 삭제
-	public int deleteReply(int replyId) {
-		  Connection conn = getConnection();
-	      int result = new BoardDAO().deleteReply(conn, replyId);
-
-	      if (result > 0) {
-	         commit(conn);
-	      } else {
-	         rollback(conn);
-	      }
-	      close(conn);
-
-	      return result;
-	   }
-	
-	
-	
-	//----------------------1:1사진---------------------------
-	public int insertOTOThumbnail(Board b, ArrayList<BoardAttachment> fileList) {
-	      Connection conn = getConnection();
-	      
-	      BoardDAO dao = new BoardDAO();
-	      
-	      int result1 = dao.insertBoard(conn, b);
-	      int result2 = dao.insertThumbnail(conn, fileList);
-	      
-	      if(result1 > 0 || result2 > 0) {
-	         commit(conn);
-	      } else {
-	         rollback(conn);
-	      }
-	      close(conn);
-	      
-	      return result1;      
-	   }
-
-	 public int updateOTOThumbnail(Board b, ArrayList<BoardAttachment> fileList) {
+     
+     close(conn);
+        
+        return result;      
+     }
+  //장바구니 업데이트
+  public int updateCart(Cart c) {
+      Connection conn = getConnection();
+        
+        int result = new BoardDAO().updateCart(conn, c);
+        
+        if(result > 0) {
+        commit(conn);
+     } else {
+        rollback(conn);
+     }
+     
+     close(conn);
+        
+        return result;      
+     }
+  /**/
+  //장바구니 상품 한 개  삭제
+  public int deleteCart(int cId) {
+        Connection conn = getConnection();
+           
+           BoardDAO dao = new BoardDAO();
+           
+           int result = dao.deleteCart(conn, cId);
+          
+           if(result > 0) {
+              commit(conn);
+           } else {
+              rollback(conn);
+           }
+           close(conn);
+           
+           return result;      
+        }
+  //장바구니 상품 여러개 삭제
+  public int deleteCarts(String[] board) {
        Connection conn = getConnection();
-       
-       BoardDAO dao = new BoardDAO();
-       
-       int result1 = dao.updateBoard(conn, b);
-       int result2 = dao.updateThumbnail(conn, fileList);
-       
-       if(result1 > 0 || result2 > 0) {
-          commit(conn);
-       } else {
-          rollback(conn);
-       }
-       close(conn);
-       
-       return result1;      
-    }
-	 
-	   /////////////////////////////상품관리 게시판///////////////////////////////
-	    //상품관리 게시판 전체 리스트 개수 조회
-		public int getProductCount() {
-			Connection conn = getConnection();
-			
-			int listCount = 0;
-			
-			listCount = new BoardDAO().getProductCount(conn);
+         BoardDAO dao = new BoardDAO();
+         
+         int result = dao.deleteCarts(conn, board);
 
-			close(conn);
+         if(result > 0) {
+                    commit(conn);
+                 } else {
+                    rollback(conn);
+                 }
+           
 
-			return listCount;
-		}
+           close(conn);
+
+        return result;
+     }
+  
+  /////////////////////////////주문////////////////////////////
+  //주문 완료 후 주문 신규등록
+  public int insertOrder(Orders order) {
+     Connection conn = getConnection();
+         
+         BoardDAO dao = new BoardDAO();
+         
+         int result = dao.insertOrder(conn, order);
+         
+         if(result > 0 ) {
+            commit(conn);
+         } else {
+            rollback(conn);
+         }
+         
+         close(conn);
+         return result;
+      }
+
+	
+	public ArrayList selectAllForMain(int i) {
+		Connection conn = getConnection();
 		
-	    //상품관리 게시판 전체 리스트 조회
-		public ArrayList<Product> selectProductList(PageInfo pi) {
-			Connection conn = getConnection();
-			
-			ArrayList<Product> list = new BoardDAO().selectProductList(conn, pi);
-			
-			close(conn);
-			
-			return list;
-		}
-		//상품관리 게시판 상품 등록
-		public int insertProductThumbnail(Product p, ArrayList<ProductAttachment> fileList, ArrayList<ProductOption> optionList) {
-			Connection conn = getConnection();
-			BoardDAO dao = new BoardDAO();
-			
-			int result1 = dao.insertProduct(conn, p);
-			int result2 = dao.insertProductThumbnail(conn, fileList);
-			int result3 = dao.insertProductOption(conn, optionList);
-			
-			if(result1 > 0 && result2 > 0 && result3 > 0) {
-				commit(conn);
-			} else {
-				rollback(conn);
-			}
-			
-			close(conn);
-			
-			return result1;
-		}
-		//상품 게시글 가져오기
-		public Product selectProductBoard(int pId) {
-			Connection conn = getConnection();
-			Product product = new BoardDAO().selectProductBoard(conn, pId);
-			close(conn);
-			return product;
-		}
-		//상품 게시글 사진 가져오기
-		public ArrayList<ProductAttachment> selectProductThumbnail(int pId) {
-			Connection conn = getConnection();
-			ArrayList<ProductAttachment> list = new BoardDAO().selectProductThumbnail(conn, pId);
-			close(conn);
-			return list;
-		}
+		ArrayList list = null;
 		
-		// 상품별 옵션 가져오기 
-		public ArrayList<ProductOption> selectProductOption(int pId) {
-			Connection conn = getConnection();
-			ArrayList<ProductOption> list = new BoardDAO().selectProductOption(conn, pId);
-			close(conn);
-			return list;
+		BoardDAO dao = new BoardDAO();		
+		if(i == 1) {
+			list = dao.selectAllBoard(conn);	
+		} else if(i == 2) { 
+			list = dao.selectThumbnailList(conn);	
+		}  else if(i == 3) { 
+			list = dao.selectDiscountProList(conn);
+		} else if(i == 4) { 
+			list = dao.selectNewProList(conn);
+		} else {
+			list = dao.selectProductThumbnails(conn);	
 		}
-		
-		//상품 게시글 글+사진+옵션 업데이트
-		public int updateProductThumbnail(Product p, ArrayList<ProductAttachment> fileList, ArrayList<ProductOption> optionList) {
-			 Connection conn = getConnection();
-		      
-		      BoardDAO dao = new BoardDAO();
-		      
-		      int result1 = dao.updateProductBoard(conn, p);
-		      int result2 = dao.updateProductThumbnail(conn, fileList);
-		      int result3 = dao.updateProductOption(conn, optionList);
-		      
-		  	if(result1 > 0 && result2 > 0 && result3 > 0) {
-				commit(conn);
-			} else {
-				rollback(conn);
-			}
-			
-			close(conn);
-		      
-		      return result1;      
-		   }
-		//상품 게시글 삭제
-		public int deleteProductThumbnail(int pId) {
-			   Connection conn = getConnection();
-			      
-			      BoardDAO dao = new BoardDAO();
-			      
-			      int result1 = dao.deleteProductBoard(conn, pId);
-			      int result2 = dao.deleteProductThumbnail(conn, pId);
-			      int result3 = dao.deleteProductOption(conn, pId);
-			      
-			      if(result1 > 0 && result2 > 0 && result3 > 0) {
-			         commit(conn);
-			      } else {
-			         rollback(conn);
-			      }
-			      close(conn);
-			      
-			      return result1;      
-			   }
-		//상품 게시글 여러개 삭제
-		public int deleteProductThumbnails(String[] board) {
-			  Connection conn = getConnection();
-		       BoardDAO dao = new BoardDAO();
-		       
-		       int result1 = dao.deleteProductBoards(conn, board);
 
-		         if (result1 == board.length) {
-		            for(int i = 0; i < board.length; i++) {
-		               int result2 = dao.deleteProductThumbnail(conn, Integer.parseInt(board[i]));
-		               int result3 = dao.deleteProductOption(conn, Integer.parseInt(board[i]));
-		               
-		               if(result2 > 0 && result3 > 0) {
-		                  commit(conn);
-		               } else {
-		                  rollback(conn);
-		               }
-		            }
-		         } else {
-		            rollback(conn);
-		         }
+		close(conn);
 
-		         close(conn);
-
-		      return result1;
-		   }
-		public ArrayList<ProductAttachment> selectProductThumbnails() {
-		      Connection conn = getConnection();
-		      ArrayList<ProductAttachment> list = new BoardDAO().selectProductThumbnails(conn);
-		      close(conn);
-		      return list;
-		   }
+		return list;
+	}
+	
+	
+	
 
 }

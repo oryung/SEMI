@@ -106,12 +106,6 @@
 			<!-- 검색창  -->
 			<div class="col-3" style="left: 18%;">
 				<div class="input-group mb-3">
-					<input type="text" class="form-control form-control-research"
-						placeholder="검색어를 입력해주세요" aria-label="Recipient's username"
-						aria-describedby="button-addon2"
-						style="font-size: 13px; border-color: #11BBFF;">
-					<button class="btn btn-outline-secondary" type="submit"
-						id="main-search" style="font-size: 13px;">검색</button>
 				</div>
 			</div>
 			

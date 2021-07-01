@@ -89,7 +89,6 @@ td>p {
 			<div class="col-3"></div>
 		</div>
 
-
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 50px;"></div>
 

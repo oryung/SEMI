@@ -25,7 +25,9 @@ import common.wrapper.EncryptWrapper;
 				"MemberDeleteFormServlet", 
 				"MemberInsertServlet", 
 				"MemberUpdateServlet", 
-				"MySettingServlet"
+				"MySettingServlet",
+				"ChangePwdServlet",         //여기 추가하기
+				"KaKaoLoginServlet"
 		})
 public class EncryptFilter implements Filter {
 

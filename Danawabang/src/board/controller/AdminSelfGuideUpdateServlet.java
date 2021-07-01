@@ -44,6 +44,7 @@ public class AdminSelfGuideUpdateServlet extends HttpServlet {
 
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 1500*20000*20;
+			
 			String root = request.getSession().getServletContext().getRealPath("/");
 			String savePath = root + "selfGuide_uploadFiles/";
 			
@@ -74,12 +75,7 @@ public class AdminSelfGuideUpdateServlet extends HttpServlet {
 				count--;
 			}
 			
-//			for(String s : saveFiles) {
-//				System.out.println(s);
-//			}
-//			System.out.println(saveFiles.get(0));
-//			System.out.println(saveFiles.get(1));
-			
+//		
 			ArrayList<BoardAttachment> fileList = new ArrayList<BoardAttachment>();
 			int titleImgFileId = Integer.parseInt(multipartRequest.getParameter("titleImgFileId"));
 			int contentImg1FileId = Integer.parseInt(multipartRequest.getParameter("contentImg1FileId"));

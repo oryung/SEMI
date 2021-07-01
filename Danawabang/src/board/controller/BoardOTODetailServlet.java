@@ -34,16 +34,15 @@ public class BoardOTODetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int bId = Integer.parseInt(request.getParameter("bId"));
+		
 		Board board = new BoardService().selectOTOBoard(bId);
 		ArrayList<Reply> replyList = new BoardService().selectOTOReplyList(bId);
-		ArrayList<BoardAttachment> fileList = new BoardService().selectThumbnail(bId);
 		
 		String page = null;
 		if(board != null) {
 			page = "WEB-INF/views/board/boardOTODetail.jsp";
 			request.setAttribute("board", board);
 			request.setAttribute("replyList", replyList);
-			request.setAttribute("fileList", fileList);
 		} else {
 			page = "WEB-INF/views/common/errorPage.jsp";
 			request.setAttribute("msg", "1대1게시판 상세조회에 실패하였습니다.");

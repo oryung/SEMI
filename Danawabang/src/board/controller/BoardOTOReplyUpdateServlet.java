@@ -1,6 +1,7 @@
 package board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,20 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import board.model.service.BoardService;
+import board.model.vo.Reply;
 
 /**
- * Servlet implementation class ReplyDeleteServlet
+ * Servlet implementation class BoardOTOReplyUpdateServlet
  */
-@WebServlet("/deleteReply.bo")
-public class ReplyDeleteServlet extends HttpServlet {
+@WebServlet("/updateReply.bo")
+public class BoardOTOReplyUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReplyDeleteServlet() {
+    public BoardOTOReplyUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,16 +35,26 @@ public class ReplyDeleteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int replyId = Integer.parseInt(request.getParameter("replyId"));
+		String content = request.getParameter("content");
+		int bId = Integer.parseInt(request.getParameter("bId"));
 		
-		int result = new BoardService().deleteReply(replyId);
+		Reply r = new Reply();
+		r.setReplyId(replyId);
+		r.setReplyContent(content);
+		r.setBoardId(bId);
+		
+		ArrayList<Reply> list = new BoardService().updateReply(r);
+		
+		/*
+		 * for(int i = 0 ; i < list.size() ; i++) {
+		 * System.out.println(list.get(i).getReplyContent()); }
+		 */
 		
 		response.setContentType("application/json; charset=UTF-8");
-		Gson gson = new Gson();
-		gson.toJson(result, response.getWriter());
-		
-		
-		
-	
+		GsonBuilder gd = new GsonBuilder();
+		GsonBuilder dateGd = gd.setDateFormat("yyyy-MM-dd");
+		Gson gson = dateGd.create();
+		gson.toJson(list, response.getWriter());
 	}
 
 	/**

@@ -56,12 +56,12 @@
 				<!-- 행 사이 빈공간-->
 				<div class="row" style="margin-top: 30px;"></div>
 
-				<form onsubmit="return findPw();">
+				<form action="findPwd.me" onsubmit="return findPw();">
 
 					<!-- 정보 입력란 -->
-					<input type="text" class="info form-control" placeholder="아이디"	id="id">
+					<input type="text" class="info form-control" placeholder="아이디"	id="id" name="id">
 					 <br>
-					 <input type="text"	class="info form-control" placeholder="이메일" id="email">
+					 <input type="text"	class="info form-control" placeholder="이메일" id="email" name="email">
 					 <br>
 
 					<!-- 버튼 -->
@@ -76,7 +76,7 @@
 
 					<div class="row">
 						<div class="col" style="font-size: 18px; font-weight: bold;">
-							<a href="" class="findId" style="text-decoration: none;">아이디 찾기</a>
+							<a href="<%= request.getContextPath() %>/findIdForm.me" class="findId" style="text-decoration: none;">아이디 찾기</a>
 						</div>
 					</div>
 

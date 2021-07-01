@@ -3,12 +3,6 @@
 
 <%
 	Member m = (Member) request.getAttribute("findIdMember");
-	if(m == null) {
-	    System.out.println("1");
-	} else {
-	    System.out.println("2");
-		
-	}
 %>
 
 <!DOCTYPE html>
@@ -48,8 +42,6 @@
 				<% if(m.getId() != null) { %>
 				<p style="text-align: center;">고객님의 정보와 일치하는 아이디 입니다.</p>
 				
-		
-				
 				<div style="display: flex; align-items: center; border: 1px solid lightgray; margin: 0 auto; height: 100px; width: 500px; text-align: center;">
 					<span style="margin-left: 110px; font-size: 18px; font-weight: bold;"><%=m.getId()%></span>
 					<span style="margin-left: 100px;">가입일 : <%=m.getEnrollDate()%></span>
@@ -72,17 +64,9 @@
 				<button type="button" class="button1" style="width: 110px; margin-left: 115px;" onclick="history.back();">돌아가기</button>
 				<%} %>
 			</div>
-			<div class="col-4"></div>
-			
-		
+			<div class="col-4"></div>	
 		</div>
-
-
-
-
-
 	</div>
-
 
 	<!-- 행 사이 빈공간-->
 	<div class="row" style="margin-top: 160px;"></div>
@@ -90,9 +74,6 @@
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<%@ include file="../common/bottom.jsp"%>
 	</div>
-
-
-
 
 </body>
 </html>

@@ -106,7 +106,7 @@
 							<th scope="col" style="width: 50px;"><input type="checkbox"
 								id="all" onclick="selectAll();"></th>
 							<th scope="col" style="width: 470px;">댓글</th>
-							<th scope="col" style="width: 100px;" class="board">게시판</th>
+							<th scope="col" style="width: 120px;" class="board">게시판</th>
 							<th scope="col" style="width: 120px;">작성일</th>
 						</tr>
 					</thead>
@@ -115,7 +115,7 @@
 						<% 		for (Reply r : list) {	%>
 						<tr>
 							<td><input type="checkbox" class="check" name="check" onclick="selectOne();"></td>
-							<td class="reply" style="text-align: left;"><%=r.getReplyContent()%></td>
+							<td class="reply" style="text-align: left; cursor:pointer;" onclick="location.href='replyDetail.bo?bId=<%= r.getBoardId() %>'"><%=r.getReplyContent()%></td>
 							<!-- 선택한 댓글 id -->
 							<input type="hidden" name="rId" value="<%=r.getReplyId()%>">
 							<td style="vertical-align: middle;"><%=r.getBoardCategoryName()%></td>

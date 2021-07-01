@@ -103,7 +103,6 @@ table{
 					<input type="file" id="thumbnailImg2" multiple="multiple" name="thumbnailImg2" onchange="LoadImg(this,2)" required>
 				</div>
 				<script>
-					
 					$(function(){
 						$("#fileArea").hide();	
 						

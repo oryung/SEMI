@@ -30,7 +30,8 @@ public class BoardOTODeleteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int bId = Integer.parseInt(request.getParameter("bId"));
-		int result = new BoardService().deleteThumbnail(bId);
+		
+		int result = new BoardService().deleteBoard(bId);
 		
 		if(result > 0) {
 			response.sendRedirect("boardOTO.bo");

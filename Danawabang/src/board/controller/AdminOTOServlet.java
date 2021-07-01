@@ -73,6 +73,26 @@ public class AdminOTOServlet extends HttpServlet {
 		
 		ArrayList<Board> list = bService.selectOTOList(pi);
 		
+//		여기서부터 댓글 개수를 파악하는 코드
+		
+//		각 게시물의 댓글 수를 알기 위해서는 각 게시물의 번호를 알아야 하기 때문에 각 게시글의 번호를 담을 수 있는 배열을 만들었다
+		int[] bIds = new int[list.size()];
+		
+//		list는 한 페이지에 나타나는 게시물의 수를 뜻하고 게시글의 수 만큼 게시글 번호를 bIds에 넣는다
+		for(int i = 0 ; i < list.size() ; i ++) {
+			bIds[i] = list.get(i).getBoardId();
+		}
+		
+//		게시물 번호들이 있는 bIds를 이용해 각 게시물에 있는 댓글의 수를 파악하기위해 DB까지 다녀온다 
+		int[] replyCount = bService.replyCount(bIds);
+		//DB에 가서 각 게시물의 댓글 수를 replyCount에 넣는다
+		
+//		replyCount배열 안에는 각 게시물에 들어있는 댓글의 수가 들어있는데 Board객체에 넣었고 각 게시물에 들어있는 댓글의 수를 BoardOTO.jsp에서 쓰기위해 담았다	
+		for(int j = 0 ; j < list.size() ; j++) {
+			list.get(j).setReplyCount(replyCount[j]);
+		}
+//		댓글 개수 관련 코드 끝-----------------------------------
+		
 		String page = null;
 		if(list != null) {
 			page = "WEB-INF/views/board/adminOTO.jsp";

@@ -110,13 +110,9 @@
 			<div class="col-5">
 				<!-- 검색 아이콘  -->
 				<div style="margin-left:200px;">
-					<input type="text" class="form-control" placeholder="검색어를 입력해주세요"
-						style="font-size: 13px; border-color: #11BBFF; margin-left: 30px;">
 				</div>
 			</div>
 			<div class="col-1" style="margin-top: -30px;">
-				<button class="btn btn-outline-secondary" type="submit"
-					id="main-search" style="font-size: 14px; margin-top: 30px;">검색</button>
 			</div>		
 			
 			<!-- 버튼 -->

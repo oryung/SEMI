@@ -70,25 +70,14 @@ table {
 
 
 		<div class="row">
-			<form action="<%= request.getContextPath() %>/boardOTOInsert.bo" method="post" onsubmit="return enroll();" encType="multipart/form-data" >
+			<form action="<%= request.getContextPath() %>/boardOTOInsert.bo" method="post" onsubmit="return enroll();" >
 				<table class="table"
 					style="margin-left: 230px; width: 720px; text-align: center;">
 					<tbody>
 						<tr>
 							<th scope="col">제목</th>
 							<td><input type="text" id="title" name="title" size="35px" class="form-control"></td>
-							<th scope="col">
-							<div class="dropdown">
-							  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"> 사진 첨부</button>
-							  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-							    <li><a class="dropdown-item"><input type="file" id="thumbnaillmg1" multiple="multiple" name="thumbnaillmg1" onchange="Loadlmg(this,1)" style="margin-top: 7px; width: 250px;"></a></li>
-							    <li><a class="dropdown-item"><input type="file" id="thumbnaillmg2" multiple="multiple" name="thumbnaillmg2" onchange="Loadlmg(this,2)" style="margin-top: 7px; width: 250px;"></a></li>
-							    <li><a class="dropdown-item"><input type="file" id="thumbnaillmg3" multiple="multiple" name="thumbnaillmg3" onchange="Loadlmg(this,3)" style="margin-top: 7px; width: 250px;"></a></li>
-							    <li><a class="dropdown-item"><input type="file" id="thumbnaillmg4" multiple="multiple" name="thumbnaillmg4" onchange="Loadlmg(this,4)" style="margin-top: 7px; width: 250px;"></a></li>
-							  </ul>
-							</div>
-							</th>
-							<td></td>
+							
 						</tr>
 						<tr>
 							<th scope="col" id="ie">내용</th>

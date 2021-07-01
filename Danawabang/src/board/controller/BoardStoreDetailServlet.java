@@ -13,6 +13,7 @@ import board.model.service.BoardService;
 import board.model.vo.Product;
 import board.model.vo.ProductAttachment;
 import board.model.vo.ProductOption;
+import board.model.vo.Reply;
 
 /**
  * Servlet implementation class BoardStoreDetailServlet
@@ -39,12 +40,15 @@ public class BoardStoreDetailServlet extends HttpServlet {
 		Product product = bService.selectProductBoard(pId);
 		ArrayList<ProductAttachment> fileList = bService.selectProductThumbnail(pId);
 		ArrayList<ProductOption> optionList = bService.selectProductOption(pId);
+		ArrayList<Reply> replyList = new BoardService().selectOTOReplyList(253);
 		
 		String page = null;
 		if(fileList != null) {
 			request.setAttribute("product", product);
 			request.setAttribute("fileList", fileList);
 			request.setAttribute("optionList", optionList);
+			request.setAttribute("replyList", replyList);
+			
 			page = "WEB-INF/views/board/boardStoreDetail.jsp";
 		} else {
 			request.setAttribute("msg", "프로모션 게시판 상세보기에 실패하였습니다.");

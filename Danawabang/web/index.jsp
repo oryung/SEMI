@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <title>다나와방</title>
 </head>
-<body>
-	<%@ include file="WEB-INF/views/common/mainPage.jsp" %>
+<body onload="location.href='<%= request.getContextPath() %>/mainPage.me';">
 </body>
 </html>

@@ -40,49 +40,11 @@ public class BoardOTOUpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		if(ServletFileUpload.isMultipartContent(request)) {
-			int maxSize = 1024*1024*10;
-			String root = request.getSession().getServletContext().getRealPath("/");
-			String savePath = root + "thumbnail_uploadFiles/";
+			request.setCharacterEncoding("UTF-8");
 			
-			File f = new File(savePath);
-			if(f.exists()) {
-				f.mkdirs();
-			}
-			MultipartRequest multipartRequest
-				= new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
-			
-			ArrayList<String> saveFiles = new ArrayList<String>(); // 파일의 바뀐 이름을 저장할 공간
-			ArrayList<String> originFiles = new ArrayList<String>(); // 파일의 원래 이름을 저장할 공간
-			
-			Enumeration<String> files = multipartRequest.getFileNames();
-//			int count = 1; 
-			
-			ArrayList<BoardAttachment> list = null;
-			
-			while(files.hasMoreElements()) {
-				String name = files.nextElement();
-				if(multipartRequest.getFilesystemName(name) != null) {				
-					saveFiles.add(multipartRequest.getFilesystemName(name));
-					originFiles.add(multipartRequest.getOriginalFileName(name));
-				} else {
-					// 보드 아이디 이용해서 파일 값 불러오고 저장하기 
-					list = new BoardService().selectThumbnail(Integer.parseInt(multipartRequest.getParameter("bId")));
-					
-					if(!list.isEmpty()) {
-						for(int i = 0; i < list.size(); i++) {
-							saveFiles.add(list.get(i).getChangeName());
-							originFiles.add(list.get(i).getOriginName());
-							
-						}
-					} 
-				}
-				
-			}
-			int bId = Integer.parseInt(multipartRequest.getParameter("bId"));
-			String title = multipartRequest.getParameter("title");
-			String content = multipartRequest.getParameter("content");
+			int bId = Integer.parseInt(request.getParameter("bId"));
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
 			String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 			
 			
@@ -96,61 +58,15 @@ public class BoardOTOUpdateServlet extends HttpServlet {
 			b.setWriter(userId);
 			b.setIsFirst("N");
 			
-			
-			ArrayList<BoardAttachment> fileList  = new ArrayList<BoardAttachment>();
-			int titleImgFileId = 0;
-			int contentImg1FileId = 0;
-			
-			System.out.println(titleImgFileId);
-			if(!list.isEmpty()) {
-				titleImgFileId = Integer.parseInt(multipartRequest.getParameter("titleImgFileId"));
-				System.out.println(titleImgFileId);
-			}
-			
-			if(!saveFiles.isEmpty() || !originFiles.isEmpty()) {
-				for(int i = originFiles.size()-1; i >= 0; i--) {	
-					BoardAttachment ba = new BoardAttachment();
-					ba.setFilePath(savePath);
-					ba.setOriginName(originFiles.get(i));	
-					ba.setChangeName(saveFiles.get(i));
-					
-					if(i == originFiles.size()-1) {
-						ba.setFileLevel(0);
-						ba.setFileId(titleImgFileId);
-					} else {
-						ba.setFileLevel(1); 		
-						ba.setFileId(contentImg1FileId);
-					}
-					
-					fileList.add(ba);
-				}
-				int result = new BoardService().updateOTOThumbnail(b, fileList);
-				System.out.println("여기");
-				if(result > 0) {
-					response.sendRedirect("boardOTODetail.bo?bId=" + bId);
-				} else {	
-					for(int i = 0; i < saveFiles.size(); i++) {
-						File fail = new File(savePath + saveFiles.get(i));
-						fail.delete();
-					}
-					
-					request.setAttribute("msg", "1대1 게시글 수정에 실패하였습니다.");
-					request.getRequestDispatcher("WEB-INF/views/common/errorPage.jsp").forward(request, response);
-				}	
-			} else {
-				int result = new BoardService().updateBoard(b);
-				System.out.println("저기");
-				if(result > 0) {	// 사진 없이 게시글만 수정했을 때도
-					response.sendRedirect("boardOTODetail.bo?bId=" + bId);
-				} else {	
-					request.setAttribute("msg", "1대1 게시글 수정에 실패하였습니다.");
-					request.getRequestDispatcher("WEB-INF/views/common/errorPage.jsp").forward(request, response);
-				}	
-			}
-			
-			
+			int result = new BoardService().updateBoard(b);
+			 if(result > 0) {
+				 response.sendRedirect("boardOTODetail.bo?bId=" + bId);
+			 } else {	
+				request.setAttribute("msg", "1대1 게시글 수정에 실패하였습니다.");
+				request.getRequestDispatcher("WEB-INF/views/common/errorPage.jsp").forward(request, response);
+			 }	
 		}
-	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

@@ -20,7 +20,7 @@ public class EncryptWrapper extends HttpServletRequestWrapper {
 		
 		String value = null;
 		
-		if(name != null && (name.equals("pwd") || name.equals("pass"))) {
+		if(name != null && (name.equals("pwd") || name.equals("pass") || name.equals("kakaoLoginPwd"))) {
 			try {
 				MessageDigest md = MessageDigest.getInstance("SHA-512");
 				

@@ -5,6 +5,62 @@
 	ArrayList<ProductAttachment> fList = (ArrayList<ProductAttachment>)request.getAttribute("fList");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	
+	// 검색 조건을 유지하기 위해 검색 조건항목들의 값을 가져오기
+	String[] roomSize = null;
+	int[] itemCategory = null;
+	int maxPrice = 0;
+	String index = (String)request.getAttribute("index");
+	
+	String sendRoom = "";
+	String sendCategory = "";
+	
+	if(request.getAttribute("roomSize") != null) {
+		roomSize = (String[])request.getAttribute("roomSize");
+		for(int i = 0 ; i < roomSize.length ; i++) {
+			sendRoom += roomSize[i] + ",";
+		}
+	}
+	
+	if(request.getAttribute("itemCategory") != null) {
+		itemCategory = (int[])request.getAttribute("itemCategory");
+		for(int i = 0 ; i < itemCategory.length ; i ++) {
+			sendCategory += itemCategory[i] + ",";
+		}
+	}
+	
+	if(request.getAttribute("maxPrice") != null) {
+		maxPrice = (int)request.getAttribute("maxPrice");
+	}
+
+	// 선택되었던 검색 조건들을 유지 시키기 위해 사용
+	String[] checkedRoomSize = new String[6];
+	if(roomSize != null) {
+		for(int i = 0 ; i < roomSize.length ; i ++) {
+			switch(roomSize[i]) {
+			case "6": checkedRoomSize[0] = "checked"; break;
+			case "8": checkedRoomSize[1] = "checked"; break;
+			case "10": checkedRoomSize[2] = "checked"; break;
+			case "12": checkedRoomSize[3] = "checked"; break;
+			case "14": checkedRoomSize[4] = "checked"; break;
+			case "16": checkedRoomSize[5] = "checked"; break;
+			}
+		}
+	}
+	
+	String[] checkedCategory = new String[6];
+	if(itemCategory != null) {
+		for(int i = 0 ; i < itemCategory.length ; i++) {
+			switch(itemCategory[i]) {
+			case 1: checkedCategory[0] = "checked"; break;
+			case 2: checkedCategory[1] = "checked"; break;
+			case 3: checkedCategory[2] = "checked"; break;
+			case 4: checkedCategory[3] = "checked"; break;
+			case 5: checkedCategory[4] = "checked"; break;
+			case 6: checkedCategory[5] = "checked"; break;
+			}
+		}
+	}
+	
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
 	int maxPage = pi.getMaxPage();
@@ -39,12 +95,8 @@
 
 .categories:hover {color: #FBA481; text-decoration: none;}
 
-
-/*페이지번호매기는거*/
-.pagination > li > a
-{
-    background-color: white;
-    color: #11bbff;
+.page-link{
+	color: #11bbff;
 }
 
 /* ---------카테고리----------- */
@@ -59,10 +111,15 @@
 .bottomNav.show {bottom: 0; }
 
 /* ------------따라다니는 오른쪽 네비게이션---------------------------------------------------------- */
-#followquick { position:absolute; top:200px; right:50%; margin-right:-850px; }
+#followquick {
+	position: absolute;
+	top: 200px;
+	right: 50%;
+	margin-top: 270px;
+	margin-right: -800px;
+}
 
 .place { width: 50px; height: 50px; background-color: #336699; }
-
 </style>
 </head>
 <body style="font-family: 'Nanum Gothic', sans-serif;">
@@ -71,7 +128,6 @@
 		<%@ include file="../common/top.jsp" %>
 
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단 끝!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-	<div id="first-container" class="container">
 		<div class="row" style="margin-top: 40px;">
 			<div class="col-12"
 				style="font-size: 25px; color: #11BBFF; text-align: center; font-weight: bold;">스토어</div>
@@ -80,6 +136,7 @@
 			<div class="row"
 				style="margin-top: 60px; margin-left: 80px; font-size: 20px; font-weight: bold; color: #11BBFF;">상세검색</div>
 			<!--테두리-->
+			<form action="boardStore.bo" id="storeForm" onsubmit="checkList();" method="post">
 			<div class="container"
 				style="left: 20px; margin-top: 20px; border: 3px solid #11bbff; width: 1000px; border-radius: 10px;">
 				<!--여백-->
@@ -94,54 +151,56 @@
 							<div class="row"
 								style="font-size: 15px; color: gray; font-weight: bold;">
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">6평</span>
+									<input type="checkbox" name="roomSize" value="6" <%= checkedRoomSize[0] %>><span style="margin-left: 10px;">6평</span>
 								</div>
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">8평</span>
+									<input type="checkbox" name="roomSize" value="8" <%= checkedRoomSize[1] %>><span style="margin-left: 10px;">8평</span>
 								</div>
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">10평</span>
+									<input type="checkbox" name="roomSize" value="10" <%= checkedRoomSize[2] %>><span style="margin-left: 10px;">10평</span>
 								</div>
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">12평</span>
+									<input type="checkbox" name="roomSize" value="12" <%= checkedRoomSize[3] %>><span style="margin-left: 10px;">12평</span>
 								</div>
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">14평</span>
+									<input type="checkbox" name="roomSize" value="14" <%= checkedRoomSize[4] %>><span style="margin-left: 10px;">14평</span>
 								</div>
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">16평</span>
+									<input type="checkbox" name="roomSize" value="16" <%= checkedRoomSize[5] %>><span style="margin-left: 10px;">16평</span>
 								</div>
 							</div>
+							<input type="hidden" name="checkedRoomSize" id="checkedRoomSize">
 						</div>
 						<div class="col-4"></div>
 					</div>
-					<!--브랜드-->
+					<!--카테고리-->
 					<div class="row"
-						style="font-size: 17px; color: #11BBFF; font-weight: bold; margin-bottom: 20px;">브랜드</div>
-					<!--브랜드 체크박스-->
+						style="font-size: 17px; color: #11BBFF; font-weight: bold; margin-bottom: 20px;">카테고리</div>
+					<!--카테고리체크박스-->
 					<div class="row" style="margin-bottom: 30px;">
 						<div class="col-8">
 							<div class="row"
 								style="font-size: 15px; color: gray; font-weight: bold;">
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">ㄱ</span>
+									<input type="checkbox" name="item" value="1" <%= checkedCategory[0] %>><span style="margin-left: 10px;">침대</span>
 								</div>
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">ㄴ</span>
+									<input type="checkbox" name="item" value="2" <%= checkedCategory[1] %>><span style="margin-left: 10px;">매트리스</span>
 								</div>
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">ㄷ</span>
+									<input type="checkbox" name="item" value="3" <%= checkedCategory[2] %>><span style="margin-left: 10px;">서랍장</span>
 								</div>
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">ㄹ</span>
+									<input type="checkbox" name="item" value="4" <%= checkedCategory[3] %>><span style="margin-left: 10px;">커튼</span>
 								</div>
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">ㅁ</span>
+									<input type="checkbox" name="item" value="5" <%= checkedCategory[4] %>><span style="margin-left: 10px;">조명</span>
 								</div>
 								<div class="col-2">
-									<input type="checkbox"><span style="margin-left: 10px;">ㅂ</span>
+									<input type="checkbox" name="item" value="6" <%= checkedCategory[5] %>><span style="margin-left: 10px;">행거</span>
 								</div>
 							</div>
+							<input type="hidden" name="checkedItemCategory" id="checkedItemCategory" >
 						</div>
 						<div class="col-4"></div>
 					</div>
@@ -153,7 +212,7 @@
 						<div class="col">
 							<div class="range-slider"
 								style="font-size: 17px; color: #11BBFF; font-weight: bold;">
-								<input class="range-slider__range" type="range" value="0"
+								<input class="range-slider__range" type="range" value="<%= maxPrice %>" name="maxPrice" id="maxPrice"
 									style="width: 300px;" min="0" max="1000000" step="30000">
 								~ <span class="range-slider__value">0</span>원
 							</div>
@@ -165,50 +224,36 @@
 				</div>
 			</div>
 
-			<!-- 인기,신상,낮은가격, 높은가격 순 -->
+			<!-- 할인율,신상,낮은가격, 높은가격 순 -->
 			<div class="row"
-				style="font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 30px; margin-bottom: 100px;">
-				<div class="col-8">
-					<div class="row">
-						<div class="col-2">
-							인기상품순<span style="margin-left: 22px;">|</span>
-						</div>
-						<div class="col-2">
-							신상품순<span style="margin-left: 30px;">|</span>
-						</div>
-						<div class="col-2">
-							낮은가격순<span style="margin-left: 22px;">|</span>
-						</div>
-						<div class="col-2">높은가격순</div>
+				style="font-size: 15px; font-weight: bold; color: #11bbff; cursor: pointer; margin-left: 10px; margin-top: 30px; text-align:center;">
+						<!-- <input type="hidden" name="index" value="0"> -->
+						<div class="col-2 sort" onclick=""<%-- "location.href='<%= request.getContextPath()%>/boardStore.bo?index=1'" --%>>할인율순</div>
+						<!-- <input type="hidden" name="discountRate" value="">할인율순</div> -->
+						<div class="col-2 sort" onclick="<%-- location.href='<%= request.getContextPath()%>/boardStore.bo?index=2' --%>">신상품순</div>
+						<!-- <input type="hidden" name="new" value="">신상품순</div> -->
+						<div class="col-2 sort" onclick="<%-- location.href='<%= request.getContextPath()%>/boardStore.bo?index=3' --%>">낮은 가격순</div>
+						<!-- <input type="hidden" name="low" value="">낮은 가격순</div> -->
+						<div class="col-2 sort" onclick="<%-- location.href='<%= request.getContextPath()%>/boardStore.bo?index=4' --%>">높은 가격순</div>
+						<!-- <input type="hidden" name="high" value="">높은 가격순</div> -->
+						<div class="col-4"></div>
 					</div>
-				</div>
-				<div class="col-4"></div>
-			</div>
-		</div>
+				<input type="hidden" name="index" id="index">
+					<hr>
+			
 		
-		<div class="row">
-				<!-- FAQ 카테고리 -->
-				<ul class="nav nav-tabs"
-					style="margin-left: 50px; font-size: 18px; color: #11BBFF; font-weight: bold;">
-					<li class="active"><a data-toggle="tab" class="categories" href="#home">침대</a></li>
-					<li><a data-toggle="tab" class="categories" href="#menu1">매트리스</a></li>
-					<li><a data-toggle="tab" class="categories" href="#menu2">서랍장</a></li>
-					<li><a data-toggle="tab" class="categories" href="#menu3">커튼</a></li>
-					<li><a data-toggle="tab" class="categories" href="#menu4">조명</a></li>
-					<li><a data-toggle="tab" class="categories" href="#menu5">행거</a></li>
-				</ul>
-				<!-- FAQ 카테고리에 해당하는 질문들 -->
-				<div class="tab-content">
-				<!-- 침대 -->
-					<div id="home" class="tab-pane fade in active">
+		<!-- </div> -->
+		<!-- 침대 -->
 		<div class="container">
+		<div class="row">
+		</form>
+			
 			<% if(pList.isEmpty() || fList.isEmpty()) { %>
 			등록된 사진이 없습니다.
 			<% } else { %>
 				<% for(int i = 0; i < pList.size(); i++) { %>
 					<% Product p = pList.get(i); %>
 					<input type="hidden" name="cId" value="<%= p.getProductCategoryId() %>">
-					<% if(p.getProductCategoryId() == 1) { %>
 					<div class="col-3 thumb-list" style="display:inline-block; margin-top: 30px; margin-left:30px; margin-right:30px; margin-bottom:50px; vertical-align:middle;">
 						<div style="cursor:pointer;">
 							<% for(int j = 0; j < fList.size(); j++) { %>
@@ -226,17 +271,21 @@
 						<input type="hidden" name="pId" value="<%= p.getProductId() %>">
 					</div>
 				<% } %>
-				<% } %>
 			<% } %>
 		</div>
-		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 40px;"></div>
+		
+		</div>
+
+	<!-- 행 사이 빈공간-->
+		<div class="row" style="margin-top: 40px;">
+		<div class="col">
 		<!-- 페이징 -->
-		<nav aria-label="Page navigation example" class="pagination justify-content-center page-item">
+		<!-- 페이징 버튼 클릭시 검색 조건 값을 넘겨줌 -->
+		<nav aria-label="Page navigation example" class="pagination justify-content-center page-item" style="display:flex;">
 		<!-- 맨 처음으로 -->
-			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?cId=1&currentPage=1'" id="bebeforeBtn"> &lt;&lt; </button>
+			<button class="page-link paging" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?currentPage=1&checkedRoomSize=<%= sendRoom %>&checkedItemCategory=<%= sendCategory %>&maxPrice=<%= maxPrice %>&index=<%= index %>'" id="bebeforeBtn"> &lt;&lt; </button>
 			<!-- 이전 페이지로 -->
-			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?cId=1&currentPage=<%= currentPage -1 %>'" id="beforeBtn"> &lt; </button>
+			<button class="page-link paging" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?currentPage=<%= currentPage -1 %>&checkedRoomSize=<%= sendRoom %>&checkedItemCategory=<%= sendCategory %>&maxPrice=<%= maxPrice %>&index=<%= index %>'" id="beforeBtn"> &lt; </button>
 			<script>
 				if(<%= currentPage %> <= 1){
 					$('#bebeforeBtn').attr('disabled', 'true');
@@ -248,13 +297,13 @@
 			<%		 if(p== currentPage) { %>
 						<button class="page-link" id="chosen" disabled> <%= p %> </button>
 			<%			} else { %>
-						<button class="page-link" id="numBtn" onclick="location.href='<%= request.getContextPath()%>/boardStore.bo?cId=1&currentPage=<%= p %>'"><%= p %></button>
+						<button class="page-link" id="numBtn" onclick="location.href='<%= request.getContextPath()%>/boardStore.bo?currentPage=<%= p %>&checkedRoomSize=<%= sendRoom %>&checkedItemCategory=<%= sendCategory %>&maxPrice=<%= maxPrice %>&index=<%= index %>'"><%= p %></button>
 			<% 				} %>	
 			<% }%>		
 			<!-- 다음 페이지로 -->
-			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?cId=1&currentPage=<%= currentPage + 1%>'" id="afterBtn"> &gt; </button>
+			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?currentPage=<%= currentPage + 1%>&checkedRoomSize=<%= sendRoom %>&checkedItemCategory=<%= sendCategory %>&maxPrice=<%= maxPrice %>&index=<%= index %>'" id="afterBtn"> &gt; </button>
 			<!-- 맨 끝으로 -->
-			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?cId=1&currentPage=<%= maxPage %>'" id="afafterBtn"> &gt;&gt;</button>
+			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?currentPage=<%= maxPage %>&checkedRoomSize=<%= sendRoom %>&checkedItemCategory=<%= sendCategory %>&maxPrice=<%= maxPrice %>&index=<%= index %>'" id="afafterBtn"> &gt;&gt;</button>
 			<script>
 				if(<%= currentPage %> >= <%=maxPage %>){
 					$('#afterBtn').prop('disabled', true);
@@ -263,204 +312,7 @@
 			</script>
 		</nav>
 		</div>
-		
-		
-		<!-- 매트리스 -->
-			<div id="menu1" class="tab-pane fade">
-		<div class="container">
-			<% if(pList.isEmpty() || fList.isEmpty()) { %>
-			등록된 사진이 없습니다.
-			<% } else { %>
-				<% for(int i = 0; i < pList.size(); i++) { %>
-					<% Product p = pList.get(i); %>
-					<% if(p.getProductCategoryId() == 2) { %>
-					<div class="col-3 thumb-list" style="display:inline-block; margin-top: 30px; margin-left:30px; margin-right:30px; margin-bottom:50px; vertical-align:middle;">
-						<div style="cursor:pointer;">
-							<% for(int j = 0; j < fList.size(); j++) { %>
-								<% ProductAttachment pa = fList.get(j); %>
-								<% if(p.getProductId() == pa.getProductId() && pa.getProductFileLevel() == 0) { %>
-									<span><img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= pa.getProductChangeName() %>" width="300px" height="300px"></span><br><br>
-								<% } %>
-							<% } %>
-						</div>
-						<% int rate =  (int)(Math.ceil(p.getProductDiscountRate()*100)); %>
-						<span style="font-size:20px; font-weight:bold; color:#11bbff; margin-left:20px;  margin-right: 80px;"><%= rate %>%</span>
-						<span style="font-size:20px; font-weight:bold;"><%= p.getProductPrice() %>원</span><br><br>
-						<span style="font-size:17px; font-weight:bold; margin-top:10px;"><%= p.getProductName() %></span><br>
-						<span style="font-size:15px;"><%= p.getProductBrand() %></span>
-						<input type="hidden" name="pId" value="<%= p.getProductId() %>">
-					</div>
-				<% } %>
-				<% } %>
-			<% } %>
 		</div>
-		</div>
-		
-		<!-- 서랍장 -->
-			<div id="menu2" class="tab-pane fade">
-		<div class="container">
-			<% if(pList.isEmpty() || fList.isEmpty()) { %>
-			등록된 사진이 없습니다.
-			<% } else { %>
-				<% for(int i = 0; i < pList.size(); i++) { %>
-					<% Product p = pList.get(i); %>
-					<% if(p.getProductCategoryId() == 3) { %>
-					<div class="col-3 thumb-list" style="display:inline-block; margin-top: 30px; margin-left:30px; margin-right:30px; margin-bottom:50px; vertical-align:middle;">
-						<div style="cursor:pointer;">
-							<% for(int j = 0; j < fList.size(); j++) { %>
-								<% ProductAttachment pa = fList.get(j); %>
-								<% if(p.getProductId() == pa.getProductId() && pa.getProductFileLevel() == 0) { %>
-									<span><img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= pa.getProductChangeName() %>" width="300px" height="300px"></span><br><br>
-								<% } %>
-							<% } %>
-						</div>
-						<% int rate =  (int)(Math.ceil(p.getProductDiscountRate()*100)); %>
-						<span style="font-size:20px; font-weight:bold; color:#11bbff; margin-left:20px;  margin-right: 80px;"><%= rate %>%</span>
-						<span style="font-size:20px; font-weight:bold;"><%= p.getProductPrice() %>원</span><br><br>
-						<span style="font-size:17px; font-weight:bold; margin-top:10px;"><%= p.getProductName() %></span><br>
-						<span style="font-size:15px;"><%= p.getProductBrand() %></span>
-						<input type="hidden" name="pId" value="<%= p.getProductId() %>">
-					</div>
-				<% } %>
-				<% } %>
-			<% } %>
-		</div>
-		</div>
-		
-		
-		<!-- 커튼 -->
-			<div id="menu3" class="tab-pane fade">
-		<div class="container">
-			<% if(pList.isEmpty() || fList.isEmpty()) { %>
-			등록된 사진이 없습니다.
-			<% } else { %>
-				<% for(int i = 0; i < pList.size(); i++) { %>
-					<% Product p = pList.get(i); %>
-					<% if(p.getProductCategoryId() == 4) { %>
-					<div class="col-3 thumb-list" style="display:inline-block; margin-top: 30px; margin-left:30px; margin-right:30px; margin-bottom:50px; vertical-align:middle;">
-						<div style="cursor:pointer;">
-							<% for(int j = 0; j < fList.size(); j++) { %>
-								<% ProductAttachment pa = fList.get(j); %>
-								<% if(p.getProductId() == pa.getProductId() && pa.getProductFileLevel() == 0) { %>
-									<span><img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= pa.getProductChangeName() %>" width="300px" height="300px"></span><br><br>
-								<% } %>
-							<% } %>
-						</div>
-						<% int rate =  (int)(Math.ceil(p.getProductDiscountRate()*100)); %>
-						<span style="font-size:20px; font-weight:bold; color:#11bbff; margin-left:20px;  margin-right: 80px;"><%= rate %>%</span>
-						<span style="font-size:20px; font-weight:bold;"><%= p.getProductPrice() %>원</span><br><br>
-						<span style="font-size:17px; font-weight:bold; margin-top:10px;"><%= p.getProductName() %></span><br>
-						<span style="font-size:15px;"><%= p.getProductBrand() %></span>
-						<input type="hidden" name="pId" value="<%= p.getProductId() %>">
-					</div>
-				<% } %>
-				<% } %>
-			<% } %>
-		</div>
-		</div>
-		
-		
-		
-		<!-- 조명 -->
-			<div id="menu4" class="tab-pane fade">
-		<div class="container">
-			<% if(pList.isEmpty() || fList.isEmpty()) { %>
-			등록된 사진이 없습니다.
-			<% } else { %>
-				<% for(int i = 0; i < pList.size(); i++) { %>
-					<% Product p = pList.get(i); %>
-					<% if(p.getProductCategoryId() == 5) { %>
-					<div class="col-3 thumb-list" style="display:inline-block; margin-top: 30px; margin-left:30px; margin-right:30px; margin-bottom:50px; vertical-align:middle;">
-						<div style="cursor:pointer;">
-							<% for(int j = 0; j < fList.size(); j++) { %>
-								<% ProductAttachment pa = fList.get(j); %>
-								<% if(p.getProductId() == pa.getProductId() && pa.getProductFileLevel() == 0) { %>
-									<span><img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= pa.getProductChangeName() %>" width="300px" height="300px"></span><br><br>
-								<% } %>
-							<% } %>
-						</div>
-						<% int rate =  (int)(Math.ceil(p.getProductDiscountRate()*100)); %>
-						<span style="font-size:20px; font-weight:bold; color:#11bbff; margin-left:20px;  margin-right: 80px;"><%= rate %>%</span>
-						<span style="font-size:20px; font-weight:bold;"><%= p.getProductPrice() %>원</span><br><br>
-						<span style="font-size:17px; font-weight:bold; margin-top:10px;"><%= p.getProductName() %></span><br>
-						<span style="font-size:15px;"><%= p.getProductBrand() %></span>
-						<input type="hidden" name="pId" value="<%= p.getProductId() %>">
-					</div>
-				<% } %>
-				<% } %>
-			<% } %>
-		</div>
-		</div>
-		
-		
-		<!-- 행거 -->
-			<div id="menu5" class="tab-pane fade">
-		<div class="container">
-			<% if(pList.isEmpty() || fList.isEmpty()) { %>
-			등록된 사진이 없습니다.
-			<% } else { %>
-				<% for(int i = 0; i < pList.size(); i++) { %>
-					<% Product p = pList.get(i); %>
-					<% if(p.getProductCategoryId() == 6) { %>
-					<div class="col-3 thumb-list" style="display:inline-block; margin-top: 30px; margin-left:30px; margin-right:30px; margin-bottom:50px; vertical-align:middle;">
-						<div style="cursor:pointer;">
-							<% for(int j = 0; j < fList.size(); j++) { %>
-								<% ProductAttachment pa = fList.get(j); %>
-								<% if(p.getProductId() == pa.getProductId() && pa.getProductFileLevel() == 0) { %>
-									<span><img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= pa.getProductChangeName() %>" width="300px" height="300px"></span><br><br>
-								<% } %>
-							<% } %>
-						</div>
-						<% int rate =  (int)(Math.ceil(p.getProductDiscountRate()*100)); %>
-						<span style="font-size:20px; font-weight:bold; color:#11bbff; margin-left:20px;  margin-right: 80px;"><%= rate %>%</span>
-						<span style="font-size:20px; font-weight:bold;"><%= p.getProductPrice() %>원</span><br><br>
-						<span style="font-size:17px; font-weight:bold; margin-top:10px;"><%= p.getProductName() %></span><br>
-						<span style="font-size:15px;"><%= p.getProductBrand() %></span>
-						<input type="hidden" name="pId" value="<%= p.getProductId() %>">
-					</div>
-				<% } %>
-				<% } %>
-			<% } %>
-		</div>
-		</div>
-		</div>	
-		</div>
-		<%-- <!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 40px;"></div>
-		<!-- 페이징 -->
-		<nav aria-label="Page navigation example" class="pagination justify-content-center page-item">
-		<!-- 맨 처음으로 -->
-			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?currentPage=1'" id="bebeforeBtn"> &lt;&lt; </button>
-			<!-- 이전 페이지로 -->
-			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?currentPage=<%= currentPage -1 %>'" id="beforeBtn"> &lt; </button>
-			<script>
-				if(<%= currentPage %> <= 1){
-					$('#bebeforeBtn').attr('disabled', 'true');
-					$('#beforeBtn').attr('disabled', 'true');
-				}
-			</script>
-			<!-- 숫자 버튼 -->
-			<% for(int p = startPage; p <=endPage; p++) { %>
-			<%		 if(p== currentPage) { %>
-						<button class="page-link" id="chosen" disabled> <%= p %> </button>
-			<%			} else { %>
-						<button class="page-link" id="numBtn" onclick="location.href='<%= request.getContextPath()%>/boardStore.bo?currentPage=<%= p %>'"><%= p %></button>
-			<% 				} %>	
-			<% }%>		
-			<!-- 다음 페이지로 -->
-			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?currentPage=<%= currentPage + 1%>'" id="afterBtn"> &gt; </button>
-			<!-- 맨 끝으로 -->
-			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?currentPage=<%= maxPage %>'" id="afafterBtn"> &gt;&gt;</button>
-			<script>
-				if(<%= currentPage %> >= <%=maxPage %>){
-					$('#afterBtn').prop('disabled', true);
-					$('#afafterBtn').prop('disabled', true);
-				}
-			</script>
-		</nav> --%>
-	 	
-	 	
-	 	
 	 	<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 120px;"></div>
 
@@ -473,40 +325,36 @@
 
 	<div id="followquick" style="width: 7%;">
 		<div class="row"
-			style="height: 280px; background: #11BBFF; border-radius: 3px;">
-			<div class="col" style="margin-top: -10px;">
-				<br> <i class="bi bi-house"
-					style="font-size: 50px; margin-left: 5px; color: #fff"></i> <span
-					style="font-size: 18px; font-weight: bold; color: #fff">다나와방</span>
-				<div class="row" style="margin-top: 110px;"></div>
-
+			style="height: 200px; background: #11BBFF; color: #fff; border-radius: 10px;">
+			<div class="col"
+				style="margin-top: -10px; text-align: center; cursor: pointer;"
+				onclick="location.href='<%= request.getContextPath() %>/boardFaq.bo';">
 				<div>
-					<a href="" class="side-nav"
-						style="font-size: 20px; font-weight: bold; text-decoration: none">
-						<i class="bi bi-whatsapp i-side"
-						style="font-size: 23px; text-align: center;"></i>&nbsp;&nbsp;고객센터
-					</a>
+					<div class="side-nav"
+						style="font-size: 19px; font-weight: bold; margin-top: 15px;">
+						<i class="bi bi-house" style="font-size: 45px; color: #fff"></i><br>
+						<div style="color: #fff;">
+							다나와방<br>고객센터
+						</div>
+						<br>
+						<div
+							style="font-size: 23px; font-weight: bold; color: #fff; margin-top: -10px;">1555-5551</div>
+					</div>
 				</div>
-
-				<span style="font-size: 15px; font-weight: bold; color: #fff">1555-5551</span>
-
 				<div
-					style="margin-top: 10px; width: 100%; border-bottom: 2px solid #fff"></div>
+					style="margin-top: 5px; width: 100%; border-bottom: 2px solid #fff"></div>
 			</div>
 		</div>
 	</div>
-	<!-- 탭 하면 맨위로 올라가는 버튼 -->				 
+	<!-- 탭 하면 맨위로 올라가는 버튼 -->
 	<div class="row">
 		<div class="col-10"></div>
-		<div class="col-1" style="float-right">
-			<i class="bi bi-arrow-up-circle-fill bottomNav i-plain" 
-			style="cursor:pointer;" onclick="window.scrollTo(0,0);" ></i>
+		<div class="col-1" style="">
+			<i class="bi bi-arrow-up-circle-fill bottomNav i-plain"
+				style="cursor: pointer;" onclick="window.scrollTo(0,0);"></i>
 		</div>
-		<div class="col-1">
-			<i class="bi bi-whatsapp bottomNav i-plain" style="cursor:pointer;" ></i>
-		
-		</div>
-	</div>	
+	</div>
+	
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	
 
@@ -550,7 +398,7 @@
 	
 	</script>
 	<!-- --------------------따라오는 오른쪽 네비게이션 ------------------------------- -->
-	
+
 	<script>
 	//follow quick menu
 	$(window).scroll(function(){
@@ -561,28 +409,58 @@
 	$("#followquick").stop();
 	$("#followquick").animate( { "top" : scrollTop });
 	});
-	</script>
-	<!-- 가격 표시 -->
-	<script type="text/javascript">
-		var rangeSlider = function() {
-			var slider = $('.range-slider'),
-			
-			range = $('.range-slider__range'),
-			value = $('.range-slider__value');
-			slider.each(function() {
-				value.each(function() {
-					var value = $(this).prev().attr('value');
-					$(this).html(value);
-				});
-				range.on('input', function() {
-					
-					$(this).next(value).html(this.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-				});
-			});
-		};
 
-		rangeSlider();
+	$(function(){
+		$('#followquick').children().hover(function(){
+			$(this).css({'background-color':'#FBA481', 'color' : '#fff'});
+	}, function(){
+		$(this).css({'background-color':'#11BBFF', 'color' : '#fff'});
+	});
+	});
+</script>
+
+	
+	<script>
+	/* 정렬 조건을 클릭 했을 때 정렬 조건에 맞는 index값 넘기기 */
+	$(function() {
+		$('.sort').click(function() {
+			switch($(this).text()) {
+			case "할인율순": $('#index').val(1); break;
+			case "신상품순": $('#index').val(2); break;
+			case "낮은 가격순": $('#index').val(3); break;
+			case "높은 가격순": $('#index').val(4); break;
+			}
+
+			$('#storeForm').submit();
+		});
+	});
+
+	/* 선택된 검색 항목들 데이터 넘겨주기 위한 준비 */
+		function checkList() {
+			var size = document.getElementsByName('roomSize');
+			
+			for(var i = 0 ; i < size.length ; i++) {
+				if(size[i].checked) {
+					document.getElementById("checkedRoomSize").value += size[i].value + ",";
+				}
+			}
+			
+			var itemCategory = document.getElementsByName("item");
+			var checkedItemCategory = "";
+			
+			for(var j = 0 ; j < itemCategory.length ; j++) {
+				if(itemCategory[j].checked) {
+					checkedItemCategory += itemCategory[j].value + ",";
+				}
+			}
+			
+			if(checkedItemCategory.length != 0) {
+				document.getElementById("checkedItemCategory").value = checkedItemCategory;				
+			} 
+		};
+	
 	</script>
+	
 	<script>
 		$(function(){
 			$('.thumb-list').click(function(){

@@ -102,12 +102,6 @@
 			<!-- 검색창  -->
 			<div class="col-3" style="left: 20%;">
 				<div class="input-group mb-3">
-					<input type="text" class="form-control form-control-research"
-						placeholder="검색어를 입력해주세요" aria-label="Recipient's username"
-						aria-describedby="button-addon2"
-						style="font-size: 13px; border-color: #11BBFF;">
-					<button class="btn btn-outline-secondary" type="submit"
-						id="main-search" style="font-size: 13px;">검색</button>
 				</div>
 			</div>
 			
@@ -158,10 +152,8 @@
          </script>
       </nav>
 		
-		
-		
 		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 160px;"></div>
+		<div class="row" style="margin-top: 120px;"></div>
 
 <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
@@ -169,19 +161,6 @@
 
 	<!-- 상단 스크립트 -->
 	<script>
-	
-		
-	/* 	// 삭제 버튼
-		$(function(){
-			$('#delete').click(function(){
-				if(prompt('정말 삭제하시겠습니까? 삭제하시려면 관리자 코드를 입력하십시오')){
-					// 데이터 삭제 서블릿 + 목록 서블릿 요청 후 화면 뿌리기
-				} else {
-					// 옥록으로 돌아가기
-				}
-			});
-		});	 */
-		
 		/* 체크박스 선택방식 메소드 */
 		function selectAll() {
 			var check = document.getElementsByName("check");

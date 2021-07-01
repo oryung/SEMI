@@ -245,16 +245,42 @@ private Properties prop = new Properties();
 		return m;
 	}
 	
-	
-	public int kakaoInsertMember(Connection conn, Member member) {
+	// 비밀번호 변경
+	public int changePwd(Connection conn, String memberId, String changedPwd) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		System.out.println(member.getEmail());
+		
+		String query = prop.getProperty("changePwd");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, changedPwd);
+			pstmt.setString(2, memberId);
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	public int kakaoInsertMember(Connection conn, Member kakaoMember) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		System.out.println("dao : " + kakaoMember.getEmail());
+		System.out.println("dao : " + kakaoMember.getName());
+		
 		String query = prop.getProperty("kakaoInsertMember"); 
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, member.getEmail());
+			pstmt.setString(1, kakaoMember.getName());
+			pstmt.setString(2, kakaoMember.getEmail());
 			
 			result = pstmt.executeUpdate();
 			
@@ -267,6 +293,9 @@ private Properties prop = new Properties();
 		return result;
 	}
 	
-	
+
+
+
+
 	
 }

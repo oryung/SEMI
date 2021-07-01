@@ -1,23 +1,28 @@
 package board.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
+import board.model.service.BoardService;
+
 /**
- * Servlet implementation class AdminNoticeWriteFormServlet
+ * Servlet implementation class ReplyDeleteServlet
  */
-@WebServlet("/adminSelfGuideEnroll.bo")
-public class AdminSelfGuideWriteFormServlet extends HttpServlet {
+@WebServlet("/deleteReply.bo")
+public class BoardOTOReplyDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminSelfGuideWriteFormServlet() {
+    public BoardOTOReplyDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,7 +31,17 @@ public class AdminSelfGuideWriteFormServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("WEB-INF/views/board/adminSelfGuideEnroll.jsp").forward(request, response);
+		int replyId = Integer.parseInt(request.getParameter("replyId"));
+		
+		int result = new BoardService().deleteReply(replyId);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		Gson gson = new Gson();
+		gson.toJson(result, response.getWriter());
+		
+		
+		
+	
 	}
 
 	/**

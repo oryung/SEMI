@@ -2,8 +2,7 @@
     pageEncoding="UTF-8" import="board.model.vo.*, java.util.ArrayList"%>
 <% 
 	Board board = (Board)request.getAttribute("board"); 
-	ArrayList<BoardAttachment> fileList = (ArrayList) request.getAttribute("fileList");
-	System.out.println(fileList);
+	
 	
 %>  
  
@@ -79,31 +78,14 @@ table {
 
 
 		<div class="row">
-			<form action="<%= request.getContextPath() %>/boardOTOUpdate.bo" id="detailForm" method="post" encType="multipart/form-data" onsubmit="return enroll();" >
+			<form action="<%= request.getContextPath() %>/boardOTOUpdate.bo" id="detailForm" method="post"  onsubmit="return enroll();" >
 				<table class="table"
 					style="margin-left: 230px; width: 720px; text-align: center;">
 					<tbody>
 						<tr>
 							<th scope="col">제목<input type="hidden" name="bId" value="<%= board.getBoardId() %>"></th>
 							<td><input type="text" id="title" name="title" value="<%= board.getBoardTitle() %>" size="35px" class="form-control"></td>
-							<th scope="col">
-							<div id="titleImgArea">
-							<% for(int i = 0; i < fileList.size(); i++){ %>
-						  	<input type="hidden" id="titleImgFileId" name="titleImgFileId" value="<%= fileList.get(i).getFileId() %>">
-						  	
-						  	<img id="titleImg"  width="200" height="150" src="<%=request.getContextPath()%>/thumbnail_uploadFiles/<%= fileList.get(i).getChangeName() %>">
-							<% } %>
-							</div>
-							<div class="dropdown" id="fileArea">
-							  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"> 사진 첨부</button>
-							  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-							    <li><a class="dropdown-item"><input type="file" id="thumbnailImg1" multiple="multiple" name="thumbnailImg1" onchange="LoadImg(this,1)" style="margin-top: 7px; width: 250px;"></a></li>
-							    <li><a class="dropdown-item"><input type="file" id="thumbnailImg2" multiple="multiple" name="thumbnailImg2" onchange="Loadlmg(this,2)" style="margin-top: 7px; width: 250px;"></a></li>
-							    <li><a class="dropdown-item"><input type="file" id="thumbnailImg3" multiple="multiple" name="thumbnailImg3" onchange="Loadlmg(this,3)" style="margin-top: 7px; width: 250px;"></a></li>
-							    <li><a class="dropdown-item"><input type="file" id="thumbnailImg4" multiple="multiple" name="thumbnailImg4" onchange="Loadlmg(this,4)" style="margin-top: 7px; width: 250px;"></a></li>
-							  </ul>
-							</div>
-							</th>
+							
 						</tr>
 						<tr>
 							<th scope="col" id="ie">내용</th>
@@ -170,27 +152,7 @@ table {
 			}
 		}
 		
-		// 파일 업로드 ---------------------------------
-	
-
-		function LoadImg(value, num) {
-			if (value.files && value.files[0]) {
-				var reader = new FileReader();
-
-				reader.onload = function(e) {
-					switch (num) {
-					case 1:
-						$("#titleImg").attr("src", e.target.result);
-						break;
-					case 2:
-						$("#contentImg1").attr("src", e.target.result);
-						break;
-					}
-				}
-
-				reader.readAsDataURL(value.files[0]);
-			}
-		} 
+		
 	</script>
 
 	

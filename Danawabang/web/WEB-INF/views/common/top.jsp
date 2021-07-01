@@ -10,7 +10,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>메인페이지</title>
-
 <!-- --------------------- -->
 <style>
 /*상단 관련 스타일*/
@@ -111,9 +110,9 @@
 		<!-- 1행 -->
 		<div class="row" id="top-bar">
 			<!-- 상단 광고 -->
-			<div class="col-12" onclick="location.href='<%= request.getContextPath()%>/boardPromotionDetail.bo?bId=151'"
-            style="background: #11BBFF; text-align: center; cursor: pointer; line-height: 30px; font-size: 14px; font-weight: bold; color: white;">
-          	  정리정돈의 달인이 될 수 있는 기회, 수납/정리 프로모션으로 함께 떠나요!</div>
+			<div class="col-12" onclick="location.href='<%= request.getContextPath()%>/boardPromotionDetail.bo?bId=204'"
+				style="background: #11BBFF; text-align: center; cursor: pointer; line-height: 30px; font-size: 14px; font-weight: bold; color: white;">
+				정리정돈의 달인이 될 수 있는 기회, 수납/정리 프로모션으로 함께 떠나요!</div>
 		</div>
 
 		<!-- 2행 -->
@@ -191,34 +190,33 @@
 					<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"
 						style="text-align: center; font-weight: bold;">
 						<li class="dropdown-item" style="font-weight: bold;">6평<a
-							class="dropdown-item" href="스토어페이지.html"><img
+							class="dropdown-item" href="<%=request.getContextPath() %>/boardStore.bo?currentPage=1&checkedRoomSize=6"><img
 								src="images/6평.png"></a></li>
 						<li class="dropdown-item" style="font-weight: bold;">8평<a
-							class="dropdown-item" href="스토어페이지.html"><img
+							class="dropdown-item" href="<%=request.getContextPath() %>/boardStore.bo?currentPage=1&checkedRoomSize=8"><img
 								src="images/8평.png"></a></li>
 						<li class="dropdown-item" style="font-weight: bold;">10평<a
-							class="dropdown-item" href="스토어페이지.html"><img
+							class="dropdown-item" href="<%=request.getContextPath() %>/boardStore.bo?currentPage=1&checkedRoomSize=10"><img
 								src="images/10평.png"></a></li>
 						<li class="dropdown-item" style="font-weight: bold;">12평<a
-							class="dropdown-item" href="스토어페이지.html"><img
+							class="dropdown-item" href="<%=request.getContextPath() %>/boardStore.bo?currentPage=1&checkedRoomSize=12"><img
 								src="images/12평.png"></a></li>
 						<li class="dropdown-item" style="font-weight: bold;">14평<a
-							class="dropdown-item" href="스토어페이지.html"><img
+							class="dropdown-item" href="<%=request.getContextPath() %>/boardStore.bo?currentPage=1&checkedRoomSize=14"><img
 								src="images/14평.png"></a></li>
 					</ul>
 				</div>
 			</div>
 			<!-- 스토어 카테고리 -->
 			<div class="col-2" onclick="location.href='<%= request.getContextPath() %>/boardStore.bo';"
-            style="font-size: 23px; color: #11BBFF; font-weight: bold; cursor: pointer">스토어</div>
-      
+				style="font-size: 23px; color: #11BBFF; font-weight: bold; cursor: pointer">스토어</div>
 			<!-- 셀프가이드 카테고리 -->
 			<div class="col-2" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuide.bo';"
 				style="text-align: center; font-size: 23px; color: #11BBFF; font-weight: bold; cursor: pointer">셀프가이드</div>
-			 <!-- 프로모션 카테고리 -->
-	         <div class="col-2" onclick="location.href='<%= request.getContextPath() %>/boardPromotion.bo'"
-	            style="text-align: center; font-size: 23px; color: #11BBFF; font-weight: bold; cursor: pointer">프로모션</div>
-	         <div class="col-5"></div>
+			<!-- 프로모션 카테고리 -->
+			<div class="col-2" onclick="location.href='<%= request.getContextPath() %>/boardPromotion.bo'"
+				style="text-align: center; font-size: 23px; color: #11BBFF; font-weight: bold; cursor: pointer">프로모션</div>
+			<div class="col-5"></div>
 		</div>
 
 		<!-- 구분선 -->

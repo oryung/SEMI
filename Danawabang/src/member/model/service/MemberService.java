@@ -43,10 +43,12 @@ public class MemberService {
 		
 		return result;
 	}
+	
 	public Member selectMember(String userId) {
 		Connection conn = getConnection();
 		
 		Member loginUser = new MemberDAO().selectMember(conn, userId);
+		
 		close(conn);
 		
 		return loginUser;
@@ -123,10 +125,28 @@ public class MemberService {
 			return m;
 		}	
 		
-		public int kakaoInsertMember(Member member) {
+		// 비밀번호 변경하기
+				public int changePwd(String memberId, String changedPwd) {
+					Connection conn = getConnection();
+					
+					int result = new MemberDAO().changePwd(conn, memberId, changedPwd);
+					
+					if(result > 0 ) {
+						commit(conn);
+					} else {
+						rollback(conn);
+					}
+					
+					close(conn);
+					
+					return result;
+				}	
+			
+		
+		public int kakaoInsertMember(Member kakaoMember) {
 			Connection conn = getConnection();
 			
-			int result = new MemberDAO().kakaoInsertMember(conn, member);
+			int result = new MemberDAO().kakaoInsertMember(conn, kakaoMember);
 			
 			if(result > 0) {
 				commit(conn);

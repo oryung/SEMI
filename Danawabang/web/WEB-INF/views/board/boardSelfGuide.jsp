@@ -222,7 +222,7 @@
 									<% if(b.getBoardId() == a.getBoardId()) { %>
 										<% if(b.getBoardCategoryId() == 2422) { %>
 			                     			<div class="swiper-slide">
-												<div style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
+												<div class="thumb-list" style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
 						                        	<img width="310px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
 				                       	    		<%= b.getBoardTitle() %>
 				                       	    	</div>
@@ -262,7 +262,7 @@
 									<% if(b.getBoardId() == a.getBoardId()) { %>
 										<% if(b.getBoardCategoryId() == 2423) { %>
 			                     			<div class="swiper-slide">
-												<div style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
+												<div class="thumb-list" style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
 						                        	<img width="310px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
 				                       	    		<%= b.getBoardTitle() %>
 				                       	    	</div>
@@ -302,7 +302,7 @@
 									<% if(b.getBoardId() == a.getBoardId()) { %>
 										<% if(b.getBoardCategoryId() == 2424) { %>
 			                     			<div class="swiper-slide">
-												<div style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
+												<div class="thumb-list" style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
 						                        	<img width="310px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
 				                       	    		<%= b.getBoardTitle() %>
 				                       	    	</div>
@@ -342,7 +342,7 @@
 									<% if(b.getBoardId() == a.getBoardId()) { %>
 										<% if(b.getBoardCategoryId() == 2425) { %>
 			                     			<div class="swiper-slide">
-												<div style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
+												<div class="thumb-list" style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
 						                        	<img width="310px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
 				                       	    		<%= b.getBoardTitle() %>
 				                       	    	</div>

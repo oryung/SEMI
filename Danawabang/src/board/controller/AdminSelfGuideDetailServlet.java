@@ -17,13 +17,13 @@ import board.model.vo.BoardAttachment;
  * Servlet implementation class AdminSelfGuideDetail
  */
 @WebServlet("/adminSelfGuideDetail.bo")
-public class AdminSelfGuideDetail extends HttpServlet {
+public class AdminSelfGuideDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminSelfGuideDetail() {
+    public AdminSelfGuideDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

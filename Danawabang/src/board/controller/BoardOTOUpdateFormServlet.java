@@ -40,15 +40,9 @@ public class BoardOTOUpdateFormServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 			
-			int titleImgFileId = 0;
-			if(request.getParameter("titleImgFileId") != null) {
-				titleImgFileId = Integer.parseInt(request.getParameter("titleImgFileId"));
-			}
-				
 			int bId = Integer.parseInt(request.getParameter("bId"));
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
-			String titleImgChangeName = request.getParameter("titleImgChangeName");
 			
 			Board b = new Board();
 			b.setBoardId(bId);
@@ -56,20 +50,8 @@ public class BoardOTOUpdateFormServlet extends HttpServlet {
 			b.setBoardContent(content);
 			b.setBoardType(2);
 			
-			System.out.println(b);
-			ArrayList<BoardAttachment> fileList = new ArrayList<BoardAttachment>();
-			
-			BoardAttachment ba = new BoardAttachment();
-			ba.setChangeName(titleImgChangeName);	
-			ba.setFileId(titleImgFileId);
-			if(request.getParameter("titleImgFileId") != null) {
-				ba.setFileId(titleImgFileId);
-			}
-			
-			fileList.add(ba);
 			
 			request.setAttribute("board", b);
-			request.setAttribute("fileList", fileList);
 			request.getRequestDispatcher("WEB-INF/views/board/boardOTOUpdateForm.jsp").forward(request, response);
 		}
 	
