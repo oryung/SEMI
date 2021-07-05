@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -238,15 +238,6 @@
 			} else if (email == '' || email.length == 0) {
 				alert('이메일을 입력해주세요.');
 				document.getElementById('email').focus();
-				return false;
-			} else if(phone == '' || phone.length == 0) {
-				alert('전화번호를 입력해주세요.');
-				document.getElementById('phone').focus();
-				return false;
-			} else if(!phoneRegExp.test(phone)) {
-				alert('전화번호 양식에 맞지 않습니다.');				
-				document.getElementById('phone').value = '';
-				document.getElementById('phone').focus();
 				return false;
 			} else if(post == '' || post.length == 0) {
 				alert('우편번호를 입력해주세요.');

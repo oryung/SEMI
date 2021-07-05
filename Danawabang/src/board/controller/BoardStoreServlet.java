@@ -100,11 +100,7 @@ public class BoardStoreServlet extends HttpServlet {
 		
 		pageLimit = 5;
 		boardLimit = 9;
-		
-		if(listCount == 0) {
-			listCount = 1;
-		}
-		
+		 
 		maxPage = (int) Math.ceil((double)listCount / boardLimit);
 		
 		if(pageLimit > maxPage) {

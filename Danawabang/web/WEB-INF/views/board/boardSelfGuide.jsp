@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>셀프가이드</title>
+<title>다나와방</title>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -166,7 +166,7 @@
             <div class="col-8" >
                <div class="swiper-container mySwiper">
               	 <% if(boardList.isEmpty() || fileList.isEmpty()) { %>
-              	 	<div class="swiper-wrapper" style="height: 1000px; font-weight: bold; font-size: 20px;">
+              	 	<div class="swiper-wrapper" style="font-weight: bold; font-size: 20px;">
               	 		<div class="swiper-slide">
               	 		조회된 리스트가 없습니다.
               	 		</div>
@@ -183,7 +183,7 @@
 										<% if(b.getBoardCategoryId() == 2421) { %>
 			                     			<div class="swiper-slide">
 												<div class="thumb-list" style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
-						                        	<img width="310px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
+						                        	<img width="310px" height= "220px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
 				                       	    		<%= b.getBoardTitle() %>
 				                       	    	</div>
 			                   				</div>
@@ -223,7 +223,7 @@
 										<% if(b.getBoardCategoryId() == 2422) { %>
 			                     			<div class="swiper-slide">
 												<div class="thumb-list" style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
-						                        	<img width="310px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
+						                        	<img width="310px" height= "220px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
 				                       	    		<%= b.getBoardTitle() %>
 				                       	    	</div>
 			                   				</div>
@@ -263,7 +263,7 @@
 										<% if(b.getBoardCategoryId() == 2423) { %>
 			                     			<div class="swiper-slide">
 												<div class="thumb-list" style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
-						                        	<img width="310px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
+						                        	<img width="310px" height= "220px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
 				                       	    		<%= b.getBoardTitle() %>
 				                       	    	</div>
 			                   				</div>
@@ -303,7 +303,7 @@
 										<% if(b.getBoardCategoryId() == 2424) { %>
 			                     			<div class="swiper-slide">
 												<div class="thumb-list" style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
-						                        	<img width="310px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
+						                        	<img width="310px" height= "220px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
 				                       	    		<%= b.getBoardTitle() %>
 				                       	    	</div>
 			                   				</div>
@@ -343,7 +343,7 @@
 										<% if(b.getBoardCategoryId() == 2425) { %>
 			                     			<div class="swiper-slide">
 												<div class="thumb-list" style="width:310px;" onclick="location.href='<%= request.getContextPath() %>/boardSelfGuideDetail.bo?bId='+ <%= bId %>">
-						                        	<img width="310px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
+						                        	<img width="310px" height= "220px" src="<%= request.getContextPath() %>/selfGuide_uploadFiles/<%= a.getChangeName() %>" class="img-rounded">
 				                       	    		<%= b.getBoardTitle() %>
 				                       	    	</div>
 			                   				</div>

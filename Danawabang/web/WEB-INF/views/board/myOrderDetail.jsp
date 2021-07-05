@@ -1,10 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="board.model.vo.*, java.util.ArrayList"%>
+<%
+	Orders o = (Orders)request.getAttribute("order");
+	ArrayList<ProductAttachment> fileList = (ArrayList<ProductAttachment>)request.getAttribute("fileList");
+	
+	String[] add = o.getOrdererAddress().split("/");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원_나의쇼핑상세</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -85,50 +92,45 @@ table{
 				<tbody>
 				<tr>
 					<th scope="col">주문번호</th>
-					<td>1000000</td>
+					<td><%= o.getOrderId() %></td>
 					<th scope="col">주문일자</th>
-					<td>2021-05-30</td>
+					<td><%= o.getOrderDate() %></td>
 				</tr>
 			</table>
 			<table class="table"
 				style="width: 720px; text-align: center; margin-top: -18px;">
 				<tr>
-					<th scope="col" style="width:100px;">상품번호</th>
-					<th scope="col" style="width:150px;">상품이미지</th>
-					<th scope="col" style="width:300px;">상품명</th>
-					<th scope="col" style="width:60px;">수량</th>
-					<th scope="col" style="width:110px;">가격</th>
+					<th scope="col" colspan="3" style="width:100px;">대표이미지</th>
+					<th scope="col" colspan="1" style="width:400px;">주문명</th>
 				</tr>
 				<tr>
-					<th style="vertical-align:middle;">11</th>
-					<th style="vertical-align:middle;"><img src="images/테스트.png"></th>
-					<th style="vertical-align:middle;">맛이난다맛이나캔디</th>
-					<th style="vertical-align:middle;">1</th>
-					<th style="vertical-align:middle;">32,000</th>
+					<%-- <th style="vertical-align:middle;"><%= o.getProductId() %></th> --%>
+					<th colspan="3" style="vertical-align:middle; width: 150px;"><img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= fileList.get(1).getProductChangeName() %>" style="width: 150px; height: 150px;"></th>
+					<th colspan="1" style="vertical-align:middle;"><%= o.getOrderProductName() %></th>
 				</tr>
 				<tr>
 					<th scope="col" style="width:150px;">총금액</th>
-					<td colspan="5"><b>32,000</b></td>
+					<td colspan="3"><b><%= o.getOrderPrice() %>원</b></td>
 				</tr>
 				<tr>
-					<th scope="col">주문상태</th>
-					<td colspan="5">배송중</td>
+					<th scope="col">받는 사람</th>
+					<td colspan="3"><%= o.getOrdererName() %></td>
 				</tr>
 				<tr>
 					<th scope="col">연락처</th>
-					<td colspan="5">01047534667</td>
+					<td colspan="3"><%= o.getOrdererPhone() %></td>
 				</tr>
 				<tr>
-					<th scope="col">배송지</th>
-					<td colspan="5">06234 서울 강남구 테헤란로 14길 6 3층(역삼동)</td>
+					<th scope="col">이메일</th>
+					<td colspan="3"><%= o.getOrdererEmail() %></td>
+				</tr>
+				<tr>
+					<th scope="col" style="vertical-align:middle;">배송지</th>
+					<td colspan="3">(<%= add[0] %>)<%= add[1] %> <%= add[2] %></td>
 				</tr>
 				<tr>
 					<th scope="col">요청사항</th>
-					<td colspan="5">문 앞에 놔주세요</td>
-				</tr>
-				<tr>
-					<th scope="col">운송장번호</th>
-					<td colspan="5">1023941102341123</td>
+					<td colspan="3"><%= o.getOrdererRequest() %></td>
 				</tr>
 				</tbody>
 			</table>
@@ -136,33 +138,18 @@ table{
 		
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 20px;"></div>
+		
 			<!-- 버튼 -->
 			<div class="row">
 			<!-- 여백 -->
-			<div class="col-3"></div>
-			<!-- 돌아가기버튼 -->
-			<div class="col-2"><button class="button1" onclick="location.href='마이페이지-나의 쇼핑.html';">돌아가기</button></div>
-			<!-- 여백 -->
-			<div class="col-1"></div>
-			<!-- 등록 버튼 -->	
-			<div class="col-2">								
-					<select class="form-control" name="주문상태" style="width: 160px;">
-						<option selected disabled>-- 상태 변경 --</option>
-						<option value="교환 요청">교환 요청</option>
-						<option value="반품 요청">반품 요청</option>
-						<option value="주문 취소">주문 취소</option>
-						<option value="구매 확정">구매 확정</option>
-					</select>				
+				<div class="col-8"></div>
+				<!-- 돌아가기버튼 -->
+				<div class="col"><button class="button1" onclick="return history.back();" style="margin-left: 60px;">돌아가기</button></div>
 			</div>
-			<!-- 변경 -->
-			<div class=col-1>
-					<button class="button1" id="change">변경</button></div>	
-					<div class="col-3"></div>		
-			</div>
+	
 			<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 40px;"></div>
+		<div class="row" style="margin-top: 60px;"></div>
 		
-			
 			
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
@@ -180,16 +167,6 @@ table{
 				$(this).css('color', 'black');
 			});
 		});
-		// 변경 버튼
-		$(function(){
-			$('#change').click(function(){
-				if(confirm('정말 변경하시겠습니까?')){
-					// 데이터 변경 서블릿 + 목록 서블릿 요청 후 화면 뿌리기
-				} else {
-					// 옥록으로 돌아가기
-				}
-			});
-		});	
 	</script>
 	
 </body>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 게시글 상세보기</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -82,14 +82,13 @@ table{
 						<button type="button" class="button1" onclick="location.href='<%= request.getContextPath() %>/adminNotice.bo'">돌아가기</button>
 					</div>
 					<div class="col" style="left: 26%;">
-				
-				<% if(loginUser != null && loginUser.getId().contains("admin")) { %>
-				<!-- 수정 버튼 -->
-				<button type="submit" class="button1">수정</button>
-				<!-- 삭제 버튼 -->
-				<button type="button" id="delete" class="button1">삭제</button>
-				<% } %>
-			</div>	
+						<% if(loginUser != null && loginUser.getIsAdmin().contains("ADMIN")) { %>
+						<!-- 수정 버튼 -->
+						<button type="submit" class="button1">수정</button>
+						<!-- 삭제 버튼 -->
+						<button type="button" id="delete" class="button1">삭제</button>
+						<% } %>
+					</div>	
 				</div>
 			</form>
 		</div>
@@ -105,16 +104,19 @@ table{
 
 	<!-- 상단 스크립트 -->
 	<script>
-		
 		// 삭제 버튼
 		$(function(){
 			$('#delete').click(function(){
 				var bool = prompt('정말 삭제하시겠습니까? 삭제하시려면 관리자 코드를 입력하십시오')
 				if(bool == "realadmin"){
-					$('#detailForm').attr('action', 'adminNoticeDelete.bo');
+					$('#detailForm').attr('action', 'delete.bo');
 					$('#detailForm').submit();
-				} else{
-					alert("관리자 코드를 잘못입력하셨습니다.");
+				}  else {
+					if(bool == null) {
+						
+					} else {
+						alert("값을 제대로 입력해주세요.");	
+					}
 				}
 			});	
 		});	

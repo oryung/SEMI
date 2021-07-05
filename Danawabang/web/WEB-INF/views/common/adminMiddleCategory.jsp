@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>다나와방</title>
 </head>
 <body>
 	<div class="row" id="middleCategories">
@@ -19,7 +18,7 @@
 			<div onclick="location.href='<%= request.getContextPath() %>/adminProduct.bo';" class="col"
 				style="text-align: center; vertical-align: middle; text-decoration: none; cursor: pointer; font-size: 20px; font-weight: bold;">
 				상품 관리</div>
-			<div onclick="location.href='관리자_주문관리(AdminOrderManage).html'" class="col"
+			<div onclick="location.href='<%= request.getContextPath() %>/adminOrder.bo'" class="col"
 				style="text-align: center; vertical-align: middle; text-decoration: none; cursor: pointer; font-size: 20px; font-weight: bold;">
 				주문 관리</div>
 			<div  class="col">

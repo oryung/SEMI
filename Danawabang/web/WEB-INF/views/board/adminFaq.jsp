@@ -16,7 +16,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 게시판 관리</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -75,7 +75,7 @@
 					</thead>
 					<% if (list.isEmpty()) { %>
 						<tr>
-							<td>조회된 리스트가 없습니다.</td>
+						<td colspan="5">조회된 리스트가 없습니다.</td>
 					</tr>
 					<% } else { %>
 					<tbody>
@@ -112,7 +112,7 @@
 			</div>		
 			
 			<!-- 버튼 -->
-			<% if(loginUser != null){ %>
+			<% if(loginUser.getIsAdmin().equals("ADMIN")){ %>
 			<div class="col" style="margin-left: 150px;">
 				<!-- 등록 버튼 -->
 				<button class="button1" type="button" onclick="location.href='<%=request.getContextPath() %>/adminFaqEnrollForm.me';">등록</button>
@@ -226,15 +226,15 @@
 			if(result == 'realadmin'){
 				alert("삭제 완료했습니다.");
 				$('#adminFaqForm').attr('action', '<%= request.getContextPath() %>/deleteFaqs.me');
-				$('#adminFaqForm').submit();
-				
-			} else if(result == null){
+				$('#adminFaqForm').submit();			
+			} else {
+				if(result == null) {
 					
-			} else{
-				alert("잘못 입력하셨습니다.");				
+				} else {
+					alert("값을 제대로 입력해주세요.");	
+				}
 			}
 		} 
-		
 	</script>
 </body>
 </html>

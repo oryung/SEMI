@@ -32,8 +32,9 @@ public class MyReplySelectDeleteServlet extends HttpServlet {
 		String[] rId = request.getParameter("checkReplys").split(",");
 		
 		int result = new BoardService().deleteReplys(rId);
+		int stroeResult = new BoardService().deleteStoreReplys(rId);
 		
-		if(result == rId.length) {
+		if(result == rId.length || stroeResult == rId.length) {
 			response.sendRedirect("myReply.bo");
 		} else {
 			request.setAttribute("msg", "댓글 삭제에 실패했습니다");

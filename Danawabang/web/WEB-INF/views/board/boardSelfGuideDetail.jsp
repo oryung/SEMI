@@ -4,13 +4,17 @@
 	Board b = (Board) request.getAttribute("board");
 	ArrayList<BoardAttachment> fileList = (ArrayList) request.getAttribute("fileList");
 	BoardAttachment titleImg = fileList.get(0); 
-	BoardAttachment detailImg = fileList.get(1); 
+	BoardAttachment contentImg1 = fileList.get(1); 
+	BoardAttachment contentImg2 = fileList.get(2); 
+	BoardAttachment contentImg3 = fileList.get(3); 
+	BoardAttachment contentImg4 = fileList.get(4); 
+	BoardAttachment contentImg5 = fileList.get(5); 
 %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>셀프가이드_상세</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -45,7 +49,7 @@ div {
 </head>
 <body style="font-family: 'Nanum Gothic', sans-serif;">
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-	<div id="main-container" class="container" style="height:10000px;">
+	<div id="main-container" class="container">
 		<%@ include file="../common/top.jsp" %>
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단 끝!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 
@@ -55,7 +59,7 @@ div {
 		<!-- ------------------------------------------가이드 내용------------------------- -->	
 		<div class="row" style="text-align: center; font-size: 25px; text-decoration: none; color: #11BBFF; font-weight: bold;">
 			<div class="col-4"></div>
-			<div class="col-4">셀프인테리어 가이드</div>
+			<div class="col-4">셀프 인테리어 가이드</div>
 			<div class="col-4"></div>
 		</div>
 	
@@ -71,14 +75,26 @@ div {
 		<div class="row" style="margin-top: 40px;"></div>
 		<div class="row">
 			<div class="col-1"></div>
-			<div class="col-3" style=" font-size: 17px; text-decoration: none; font-weight: bold;">작성자 : 관리자</div>
+			<div class="col-3" style=" font-size: 17px; text-decoration: none; font-weight: bold;">조회수 : <%= b.getBoardCount() %></div>
 			<div class="col-4"></div>
 			<div class="col-3" style=" font-size: 17px; text-decoration: none; font-weight: bold;">작성일자 : <%= b.getEnrollDate() %></div>
 		</div>
 		<div class="row">
-			<div class="col-12">
+			<div class="col-12" style="text-align:center;">
 				<div style="margin-top: 10px; ">
-					<img id="contentImg1" width="1000" height="10000" src="<%=request.getContextPath()%>/selfGuide_uploadFiles/<%=detailImg.getChangeName()%>">
+					<img id="contentImg1" width="800"  src="<%=request.getContextPath()%>/selfGuide_uploadFiles/<%=contentImg1.getChangeName()%>">
+				</div>
+				<div style="margin-top: 10px; ">
+					<img id="contentImg2" width="800"  src="<%=request.getContextPath()%>/selfGuide_uploadFiles/<%=contentImg2.getChangeName()%>">
+				</div>
+				<div style="margin-top: 10px; ">
+					<img id="contentImg3" width="800"  src="<%=request.getContextPath()%>/selfGuide_uploadFiles/<%=contentImg3.getChangeName()%>">
+				</div>
+				<div style="margin-top: 10px; ">
+					<img id="contentImg4" width="800"  src="<%=request.getContextPath()%>/selfGuide_uploadFiles/<%=contentImg4.getChangeName()%>">
+				</div>
+				<div style="margin-top: 10px; ">
+					<img id="contentImg5" width="800"  src="<%=request.getContextPath()%>/selfGuide_uploadFiles/<%=contentImg5.getChangeName()%>">
 				</div>
 			</div>
 		</div>

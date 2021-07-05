@@ -55,14 +55,12 @@ public class BoardPromotionServlet extends HttpServlet {
 		}
 		
 		pageLimit = 5;
-		boardLimit = 3;
+		boardLimit = 10;
 		
 		maxPage = (int) Math.ceil((double)listCount / boardLimit);
 		
-		if(pageLimit > maxPage) {
-			pageLimit = maxPage;
-		}
 		startPage = ((currentPage - 1)/pageLimit)* pageLimit + 1;
+		
 		endPage = startPage + pageLimit - 1;
 		
 		if(endPage > maxPage) {

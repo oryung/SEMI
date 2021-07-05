@@ -11,13 +11,15 @@
 	
 	ArrayList<ProductOption> optionList = (ArrayList) request.getAttribute("optionList");
 	
-	ArrayList<Reply> replyList = (ArrayList)request.getAttribute("replyList");
+	ArrayList<ProductReply> productReplyList = (ArrayList)request.getAttribute("productReplyList");
+	
+	System.out.println("productReplyList : "+productReplyList);
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>스토어_상세</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -54,6 +56,27 @@ div {
 	border: none;
 	color: white;
 	border-radius: 4px;
+}
+
+
+/*댓글 색변경-----------------*/
+.repBtnB {
+	color: #11BBFF;
+	margin-left:10px;
+}
+
+.repBtnB:hover {
+	color: #FBA481;
+	cursor:pointer;
+}
+.repBtnF {
+	color: #11BBFF;
+	margin-left:20px;
+}
+
+.repBtnF:hover {
+	color: #FBA481;
+	cursor:pointer;
 }
 
 /* ----------스크롤시 하단아이콘  보이기 --------------------------------------------------------------------- */
@@ -127,12 +150,12 @@ div {
 						int links = 0;
 					%>
 					<% switch(p.getProductCategoryId()){ 
-						case 1 : tips = "침구의 종류와 침구를 선책하는 간단한 팁은?"; links= 176; break; // 침대
-						case 2 : tips = "메트리스 종류와 선택하는 팁은?"; links= 142; break; // 매트리스
-						case 3 : tips = "공간에 따른 효율적인 수납 팁은?"; links= 169; break; // 서랍장
-						case 4 : tips = "커튼마다 종류와 기능이 달라요!"; links= 171; break; // 커튼
-						case 5 : tips = "조명 하나로 원하는 분위기를 연출할 수 있어요!"; links= 156; break; // 조명
-						case 6 : tips = "가구를 효율적으로 배치할 수 있는 팁은?"; links= 164; break; // 행거
+						case 1 : tips = "침구의 종류와 침구를 선책하는 간단한 팁은?"; links= 89; break; // 침대
+						case 2 : tips = "메트리스 종류와 선택하는 팁은?"; links= 86; break; // 매트리스
+						case 3 : tips = "공간에 따른 효율적인 수납 팁은?"; links= 119; break; // 서랍장
+						case 4 : tips = "커튼마다 종류와 기능이 달라요!"; links= 88; break; // 커튼
+						case 5 : tips = "조명 하나로 원하는 분위기를 연출할 수 있어요!"; links= 91; break; // 조명
+						case 6 : tips = "가구를 효율적으로 배치할 수 있는 팁은?"; links= 90; break; // 행거
 					 } %>
 					<div class="row">
 						<div class="col-12">
@@ -212,14 +235,6 @@ div {
 							</b>
 						</div>
 					</div>
-<%-- 					<% if (loginUser != null && loginUser.getIsAdmin().equals("USER")) {%> --%>
-<!-- 					<div class="row" style="margin-top: 5px; margin-bottom: 10px;"> -->
-<!-- 						<div class="col-12"> -->
-<!-- 							<input type="button" class="pay" id="cart" value="장바구니 담기"> &nbsp;&nbsp; -->
-<!-- 							<input type="submit" class="pay" id="cartPayment" value="결제하기"> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<%-- 					<% } %> --%>
 						<div class="row" style="margin-top: 5px; margin-bottom: 10px;">
 						<div class="col-12">
 							<input type="button" class="pay" id="cart" value="장바구니 담기"> &nbsp;&nbsp;
@@ -232,26 +247,26 @@ div {
 	
 		<script>
 				$(function() {
-					<% if (loginUser != null && loginUser.getIsAdmin().equals("USER")) {%> 
-						$('#cart').click(function() {							
-							var bool = confirm('상품이 담겼습니다.\n장바구니로 이동하시겠습니까?');
-							if (bool) {
-								$('#detailForm').attr('action', 'cart.bo');
-								$('#detailForm').submit();
-							} else {
-								$('#detailForm').attr('action', 'cartInsert.bo');
-								$('#detailForm').submit();
-							}
-						
-							});
-						$('#cartPayment').click(function() {
-							var bool = confirm('결제창으로 이동하시겠습니까?');
-							if (bool == true) {
-								$('#detailForm').attr('action', 'cartPayment.bo');
-								$('#detailForm').submit();
-							}	
+					$('#cart').click(function() {							
+						var bool = confirm('상품이 담겼습니다.\n장바구니로 이동하시겠습니까?');
+						if (bool) {
+							$('#detailForm').attr('action', 'storeCart.bo');
+							$('#detailForm').submit();
+						} else {
+							$('#detailForm').attr('action', 'storeCartInsert.bo');
+							$('#detailForm').submit();
+						}
+					
 						});
-					<% } %> 	
+					$('#cartPayment').click(function() {
+						var bool = confirm('결제창으로 이동하시겠습니까?');
+						if (bool == true) {
+							$('#detailForm').attr('action', 'cartPayment.bo');
+							$('#detailForm').submit();
+						} else {
+							return false;
+						}	
+					});
 				});
 		</script>
 		
@@ -297,93 +312,76 @@ div {
 							<div class="col"></div>
 
 							<div class="col-11">
-									<!-- 가이드 작성 내용-->
-	<%-- <form action="<%= request.getContextPath() %>/boardOTOUpdateForm.bo" id="detailForm" method="post" >
-
-		<!-- 댓글 -->
-		<div class="row">
-			<div class="col"></div>
-			<div class="col-10">
-				<span style="font-weight: bold; font-size: 18px;">댓글</span>
-				<div style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray;">
-					<div class="row" style="margin: 5px;">
-						<div class="col" id="replySelectArea">
-							<div id="replySelectTable">
-								<% if(replyList.isEmpty()){ %>
-									<div>
-										<span >댓글이 없습니다.</span>
+								<!-- 댓글 -->
+								<div class="row">
+									<div class="col-12">
+										<span style="font-weight: bold; font-size: 18px;">댓글</span>
+										<div style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray;">
+											<div class="row" style="margin: 5px;">
+												<div class="col" id="replySelectArea">
+													<div id="replySelectTable">
+														<% if(productReplyList.isEmpty()){ %>
+															<div>
+																<span >댓글이 없습니다.</span>
+															</div>
+														<% } else {%>
+															<% for(int i = 0; i < productReplyList.size(); i++){ %>
+																<div id="rep<%= i%>">
+																	<input type="hidden" class="replyId" id="replyId<%= i%>"value="<%= productReplyList.get(i).getProductReplyId() %>">
+																	<span style="font-size: 18px; font-weight: bold;"><%= productReplyList.get(i).getMemberId() %></span>
+																	<span style="margin-left: 10px"><%= productReplyList.get(i).getProductReplyEnrollDate() %></span>
+																	
+																	<% ProductReply pr = productReplyList.get(i); %>
+																	<%if(loginUser != null && loginUser.getId().contains("admin")) { %>
+																		
+																	&nbsp;&nbsp;<span class="repBtnB repDelete" id="repDelete">삭제</span>
+																	<% } %>
+																	<% if(loginUser != null && loginUser.getId().equals(pr.getMemberId()))  { %>
+																	
+																	&nbsp;&nbsp;&nbsp;&nbsp;<span class="repBtnF repUpdate" id="repUpdate">수정</span>
+																	&nbsp;&nbsp;<span class="repBtnB repDelete" id="repDelete">삭제</span>
+																	
+																	<% } %>
+																	
+																	<br>
+																	<span><%= productReplyList.get(i).getProductReplyContent() %></span>
+																</div>
+																<div style="display: none; width: 760px; height: 120px" id="repUpdateForm<%= i%>">
+																<% if(loginUser != null && loginUser.getId().equals(pr.getMemberId()))  { %>
+																	<span style="font-weight: bold; font-size: 18px;"></span>
+																	<span class="repBtnF update" id="update<%= i%>">등록</span>
+																	<span class="repBtnB cancle" id="cancle<%= i%>">취소</span>
+																<% } %>
+																	<textarea rows="3" cols="107" class="form-control" id="updateContent<%= i%>" style="resize: none; border-color: lightgray;"></textarea>
+																</div>
+																
+															<% } %>
+														<% } %>
+														
+													</div>
+												</div> 
+											</div>
+										</div>
 									</div>
-								<% } else {%>
-									<% for(int i = 0; i < replyList.size(); i++){ %>
-										<div id="rep<%= i%>">
-											<input type="hidden" class="replyId" id="replyId<%= i%>"value="<%= replyList.get(i).getReplyId() %>">
-											<span style="font-size: 18px; font-weight: bold;"><%= replyList.get(i).getMemberId() %></span>
-											<span style="margin-left: 10px"><%= replyList.get(i).getEnrollDate() %></span>
-											
-											<% if(loginUser != null && loginUser.getId().equals(replyList.get(i).getMemberId()) && !loginUser.getId().contains("admin") ) { %>
-											<span class="repBtnF repUpdate" id="repUpdate">수정</span>
-											<span class="repBtnB repDelete" id="repDelete">삭제</span>
-											<% } %>
-											
-											<br>
-											<span><%= replyList.get(i).getReplyContent() %></span>
+								</div>
+		<!-- ----------------------------------------------------------------------------------------- -->	
+								<br>
+								<div class="row">
+									<div class="col"></div>
+									<div class="col-10">
+										<div class="row">
+										<% if(loginUser != null && !loginUser.getId().contains("admin"))  { %>
+											<div class="col-10" style="margin-left:10px;">
+											<textarea rows="3" cols="107" class="form-control" id="replyContent" style="resize: none; border-color: lightgray;" placeholder="댓글을 입력하세요."></textarea>
+											</div>
+											<div class="col">
+												<button id="addReply" type="button" class="button1" style="margin-top: 20px;">댓글달기</button>
+											</div>
+										<% } %>
 										</div>
-										<div style="display: none; width: 760px; height: 120px" id="repUpdateForm<%= i%>">
-											<span style="font-weight: bold; font-size: 18px;"><%= loginUser.getId() %></span><span class="repBtnF update" id="update<%= i%>">등록</span><span class="repBtnB cancle" id="cancle<%= i%>">취소</span>
-											<textarea rows="3" cols="107" class="form-control" id="updateContent<%= i%>" style="resize: none; border-color: lightgray;"></textarea>
-										</div>
-										
-									<% } %>
-								<% } %>
-								
-							</div>
-						</div> 
-					</div>
-				</div>
-			</div>
-			<div class="col"></div>
-		</div>
-		
-		<br>
-
-		<div class="row">
-			<div class="col"></div>
-			<div class="col-10">
-				<div class="row">
-					<div class="col-10" style="margin-left:10px;">
-					<textarea rows="3" cols="107" class="form-control" id="replyContent" style="resize: none; border-color: lightgray;" placeholder="댓글을 입력하세요."></textarea>
-					</div>
-					<div class="col">
-						<button id="addReply" type="button" class="button1" style="margin-top: 20px;">댓글달기</button>
-					</div>
-				</div>
-			</div>
-			<div class="col"></div>
-		</div>
-		
-		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 40px;"></div>
-
-		<!-- 버튼 -->
-			<div class='row'>
-				<div class="col"></div>
-				<div class='col'>
-					<button type="button" class="button1" onclick="location.href='<%= request.getContextPath() %>/boardOTO.bo';">돌아가기</button>
-				</div>
-				<div class='col-5'></div>
-				<div class='col'>
-			<% if(loginUser != null && loginUser.getId().equals(board.getWriter())) { %>
-					<input type="submit" class="button1" value="수정">					
-			<% } %>
-				</div>
-				<div class='col'>
-			<% if(loginUser != null && loginUser.getId().equals(board.getWriter())) { %>
-					<button type="button" style="margin-left: 50px;"class="button1" id="delete">삭제</button>
-			<% } %>
-				</div>
-				<div class='col'></div>
-			</div>
-	</form> --%>
+									</div>
+									<div class="col"></div>
+								</div>
 							</div>
 							<div class="col"></div>
 						</div>
@@ -508,6 +506,207 @@ div {
 				"top" : scrollTop
 			});
 		});
+	</script>
+	
+	<script>
+	/* -----댓글등록------------------------------------------------------------------- */
+	
+	
+	<% if(loginUser != null)  { %>
+	 $('#addReply').on('click', function(){
+		
+		var memberId = '<%= loginUser.getId() %>';
+		var pId = '<%= p.getProductId() %>';
+		var content = $('#replyContent').val();
+		
+		$.ajax({
+			url: 'storeReplyInsert.bo',
+			data: {memberId:memberId, content:content, pId:pId},
+			success: function(data){
+				
+				$replyTable = $('#replySelectTable');
+				$replyTableCT = $('#replySelectTable');
+				$replyTable.html('');
+				$replyTableCT.html('');
+				console.log(data);
+				
+				for(var i in data){
+					
+					var $div = $('<div id="rep' + i +'">');
+					var $writerTd = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
+					var $dateTd = $('<span> ').text(data[i].productReplyEnrollDate).css({"margin-left":"12px"});
+					var $updateTd = $('<span class="repBtnF repUpdate">').text('수정').css({"margin-left":"24px"});
+					var $deleteCT = $('<span class="repBtnB repDelete">').text('삭제').css({"margin-left":"14px"});
+					var $br = $('<br>');
+					var $contentTd = $('<span>').text(data[i].productReplyContent);
+					var $input = $('<input type="hidden" id="replyId'+ i +'" value="'+ data[i].productReplyId +'">');
+					var $div2 = $('<div id="repUpdateForm' + i + '">').css({"display":"none", "width":"760px", "height":"120px"});
+					var $writer = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
+					var $update = $('<span class="repBtnF update" id="update'+i+'">').text("등록");
+					var $cancle = $('<span class="repBtnB cancle" id="delete'+i+'">').text("취소");
+					var $content = $('<textarea rows="3" cols="107" class="form-control" id="updateContent'+i+'">').css({"resize":"none", "border-color":"lightgray"});
+					
+					// 로그인 o -> 아이디 , 로그인 x -> 'null'
+					var $userId = '<%= loginUser != null ?  loginUser.getId() : null %>';
+					$div.append($input);
+					$div.append($writerTd);
+					$div.append($dateTd);
+					
+					
+					if($userId == data[i].memberId){
+						$div.append($updateTd);
+						$div.append($deleteCT);
+					}
+					
+					$div.append($br);
+					$div.append($contentTd);
+					$replyTable.append($div);
+					$div2.append($writer);
+					$div2.append($update);
+					$div2.append($cancle);
+					$div2.append($content);
+					
+	                $replyTable.append($div2);
+					
+				}
+				
+				$('#replyContent').val('');
+				}
+			});
+		}); 
+	 <% } %>
+ 	/* 댓글 삭제 --------------------------------------------------------------------- */
+		
+	
+		$(document).on('click', ".repDelete", function(){
+			if (!confirm("삭제하시겠습니까?")) {
+				return;
+			}
+			console.log(this);
+			
+			var divId = $(this).parent().attr('id');
+			console.log("divId :" + divId);
+			
+			var replyId = $(this).parent().children().attr('value');
+			console.log("replyId"+replyId);
+			$.ajax({
+				url : "storeDeleteReply.bo",
+				data : {
+					replyId : replyId,
+					divId : divId
+				},
+				success : function(data) {
+					alert("댓글 삭제 성공 했습니다.");
+						$('#' + divId).remove();
+					
+				}
+			});
+		});
+ 
+		//--------댓글 수정--------------------------------------------------------
+		$(document).on('click', ".repUpdate", function(){
+			if (!confirm("수정하시겠습니까?")) {
+				return;
+			}
+			var divId = $(this).parent().attr('id');
+			var repUpdateForm = $(this).parent().next();
+			
+			$('#'+divId).hide();
+			$(repUpdateForm).show();
+					
+		});
+			// 댓글 수정 버튼 누른후 등록버튼 누를 때
+			$(document).on('click', ".update", function() {
+				
+		 		var replyId = $(this).parent().prev().children().first().val();
+				var content = $(this).next().next().val();
+				var pId = '<%= p.getProductId() %>';
+				
+				console.log(replyId);
+				console.log(content);
+				console.log(pId);
+				if(content == '') {
+					$(this).next().next().attr("placeholder", "댓글을 입력해주세요");
+					return 0;
+				}
+				
+				
+			$.ajax({
+				url : "storeUpdateReply.bo",
+				data : {
+					replyId : replyId,
+					content : content,
+					pId : pId
+				},
+				 success : function(data) {
+					 
+					 $replyTable = $('#replySelectTable');
+						$replyTableCT = $('#replySelectTable');
+						$replyTable.html('');
+						$replyTableCT.html('');
+						
+						
+						for(var i in data){
+							
+							
+							var $div = $('<div id="rep' + i +'">');
+							var $writerTd = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
+							var $dateTd = $('<span> ').text(data[i].productReplyEnrollDate).css({"margin-left":"15px"});
+							var $updateTd = $('<span class="repBtnF repUpdate">').text('수정').css({"margin-left":"24px"});
+							var $deleteCT = $('<span class="repBtnB repDelete">').text('삭제').css({"margin-left":"14px"});
+							var $br = $('<br>');
+							var $contentTd = $('<span>').text(data[i].productReplyContent);
+							var $input = $('<input type="hidden" id="replyId'+ i +'" value="'+ data[i].productReplyId +'">');
+							var $div2 = $('<div id="repUpdateForm' + i + '">').css({"display":"none", "width":"760px", "height":"120px"});
+							var $writer = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
+							var $update = $('<span class="repBtnF update" id="update'+i+'">').text("등록");
+							var $cancle = $('<span class="repBtnB cancle" id="delete'+i+'">').text("취소");
+							var $content = $('<textarea rows="3" cols="107" class="form-control" id="updateContent'+i+'">').css({"resize":"none", "border-color":"lightgray"});
+							
+							// 로그인 o -> 아이디 , 로그인 x -> 'null'
+							var $userId = '<%= loginUser != null ?  loginUser.getId() : null %>';
+							
+							$div.append($input);
+							$div.append($writerTd);
+							$div.append($dateTd);
+							
+							
+						
+						if($userId == data[i].memberId){
+							$div.append($updateTd);
+							$div.append($deleteCT);
+						}
+									
+							
+							$div.append($br);
+							$div.append($contentTd);
+							$replyTable.append($div);
+							$div2.append($writer);
+							$div2.append($update);
+							$div2.append($cancle);
+							$div2.append($content);
+							
+			                $replyTable.append($div2);
+			               
+						}
+				 }
+			});  
+		});			
+			// 댓글 수정 버튼 누른 후 취소버튼 누를 때
+			$(document).on('click', ".cancle", function() {
+				
+				var divId = $(this).parent().prev().attr('id');
+				console.log(divId);
+				var repUpdateForm = $(this).parent();
+				console.log(repUpdateForm);
+				
+				$('#'+divId).show();
+				$(repUpdateForm).hide();
+				
+			});
+ 	
+ 	
+ 
 	</script>
 
 </body>

@@ -43,7 +43,8 @@ public class AdminSelfGuideInsertServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if(ServletFileUpload.isMultipartContent(request)) {
-			int maxSize = 1500*20000*20;
+			int maxSize = 2000*2000*10; 
+			
 			String root = request.getSession().getServletContext().getRealPath("/");
 			String savePath = root + "selfGuide_uploadFiles/";
 			
@@ -52,8 +53,7 @@ public class AdminSelfGuideInsertServlet extends HttpServlet {
 				f.mkdirs();
 			}
 			
-			MultipartRequest multipartRequest
-			= new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
+			MultipartRequest multipartRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 			
 			ArrayList<String> saveFiles = new ArrayList<String>();		
 			ArrayList<String> originFiles = new ArrayList<String>();
@@ -72,7 +72,6 @@ public class AdminSelfGuideInsertServlet extends HttpServlet {
 			
 			String title = multipartRequest.getParameter("title");
 			String category = multipartRequest.getParameter("selfGuideCategory");
-			String content = multipartRequest.getParameter("content");
 			String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 			
 			Board b = new Board();

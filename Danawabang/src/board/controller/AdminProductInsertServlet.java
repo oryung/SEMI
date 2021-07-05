@@ -89,15 +89,13 @@ public class AdminProductInsertServlet extends HttpServlet {
 		
 			ArrayList<ProductOption> optionList = new ArrayList<ProductOption>();
 			String[] options = multipartRequest.getParameterValues("options");
-			String[] optionsExtraPrice = multipartRequest.getParameterValues("optionsExtraPrice");
 			String[] optionsAmount = multipartRequest.getParameterValues("optionsAmount");
 			
 			int productAmount = 0;
 			for(int i = 0; i < options.length; i++) {
 				ProductOption po = new ProductOption();
-				if(!options[i].trim().equals("") && !optionsExtraPrice[i].trim().equals("") && !optionsAmount[i].trim().equals("")) {
+				if(!options[i].trim().equals("") && !optionsAmount[i].trim().equals("")) {
 					po.setProductOptionValue(options[i]);
-					po.setProductOptionOriginPrice(Integer.parseInt(optionsExtraPrice[i]));
 					po.setProductOptionAmount(Integer.parseInt(optionsAmount[i]));
 					productAmount += Integer.parseInt(optionsAmount[i]);
 					optionList.add(po);

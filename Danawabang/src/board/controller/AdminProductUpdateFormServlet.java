@@ -38,7 +38,16 @@ public class AdminProductUpdateFormServlet extends HttpServlet {
 		Product p = new Product();
 		p.setProductId(Integer.parseInt(request.getParameter("pId")));
 		p.setProductName(request.getParameter("name"));
-		p.setProductCategoryId(Integer.parseInt(request.getParameter("category"))); 
+		
+		String category = request.getParameter("category"); 
+		switch(category) {
+		case "침대" : p.setProductCategoryId(1); break;
+		case "매트리스" : p.setProductCategoryId(2); break;
+		case "서랍장" : p.setProductCategoryId(3); break;
+		case "커튼" : p.setProductCategoryId(4); break;
+		case "조명" : p.setProductCategoryId(5); break;
+		case "행거" : p.setProductCategoryId(6); break;
+		}
 		p.setProductBrand(request.getParameter("brand"));
 		p.setProductPrice(Integer.parseInt(request.getParameter("price")));
 
@@ -51,16 +60,14 @@ public class AdminProductUpdateFormServlet extends HttpServlet {
 	
 		ArrayList<ProductOption> optionList = new ArrayList<ProductOption>();
 		String[] options = request.getParameterValues("options");
-		String[] optionsExtraPrice = request.getParameterValues("optionsExtraPrice");
 		String[] optionsAmount = request.getParameterValues("optionsAmount");
 		String[] pOId =  request.getParameterValues("pOId");
 		
 		int productAmount = 0;
 		for(int i = 0; i < options.length; i++) {
 			ProductOption po = new ProductOption();
-			if(!options[i].trim().equals("") && !optionsExtraPrice[i].trim().equals("") && !optionsAmount[i].trim().equals("")) {
+			if(!options[i].trim().equals("") && !optionsAmount[i].trim().equals("")) {
 				po.setProductOptionValue(options[i]);
-				po.setProductOptionOriginPrice(Integer.parseInt(optionsExtraPrice[i]));
 				po.setProductOptionAmount(Integer.parseInt(optionsAmount[i]));
 				productAmount += Integer.parseInt(optionsAmount[i]);
 				po.setProductOptionId(Integer.parseInt(pOId[i]));
@@ -101,7 +108,7 @@ public class AdminProductUpdateFormServlet extends HttpServlet {
 		request.setAttribute("p", p);
 		request.setAttribute("fileList", fileList);
 		request.setAttribute("optionList", optionList);
-		request.getRequestDispatcher("WEB-INF/views/board/adminProductUpdate.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/views/board/adminProductUpdateForm.jsp").forward(request, response);
 }
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

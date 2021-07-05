@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자_상품관리_상세</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -72,9 +72,9 @@ table{
 						<tr>
 							<th scope="col" style="vertical-align: middle;">상품명<input type="hidden" name="pId" value="<%= p.getProductId()%>"></th>
 							<td><input type="text"  id="name" name="name" class="form-control" value="<%= p.getProductName() %>" readonly><input type="hidden" name="status" class="form-control" <%= p.getProductStatus().equals("SALES") ? "checked" : "" %>></td>
-							<th scope="col" style="vertical-align: middle;"><input type="hidden" name="category" value=<%= p.getProductCategoryId() %>>카테고리</th>
+							<th scope="col" style="vertical-align: middle;">카테고리</th>
 							<td>
-								<select name="category" id="category" class="form-control" disabled style="vertical-align: middle;">
+								<select name="category" id="category" class="form-control" style="vertical-align: middle;" readonly>
 									<option value="침대" <%= p.getProductCategoryId() == 1 ? "selected" : "" %>>침대</option>
 									<option value="매트리스" <%= p.getProductCategoryId() == 2 ? "selected" : "" %>>매트리스</option>
 									<option value="서랍장" <%= p.getProductCategoryId() == 3 ? "selected" : "" %>>서랍장</option>
@@ -96,43 +96,35 @@ table{
 								<tr>
 									<th scope="col" style="vertical-align: middle;">옵션<%= i + 1 %><input type="hidden" name="pOId" value="<%= optionList.get(i).getProductOptionId() %>"></th>
 									<td><input type="text"  id="option<%= i + 1 %>"  name="options" value="<%= optionList.get(i).getProductOptionValue() %>" class="form-control" readonly></td>
-									<th scope="col" style="vertical-align: middle;">옵션<%= i + 1 %> 추가 가격</th>
-									<td><input type="text"  id="option<%= i + 1 %>ExtraPrice" name="optionsExtraPrice" value="<%= optionList.get(i).getProductOptionOriginPrice() %>" class="form-control" readonly></td>
+									<th scope="col" style="vertical-align: middle;">옵션<%= i + 1 %>  수량</th>
+									<td><input type="text"  id="option<%= i + 1 %>Amount" name="optionsAmount" value="<%= optionList.get(0).getProductOptionAmount() %>" class="form-control" readonly></td>
 								</tr>
 							 <% } %>
 							 	<tr>
 									<th scope="col" style="vertical-align: middle;">옵션3 </th>
 									<td><input type="text"  id="option3"  name="options" class="form-control" value="" readonly></td>
-									<th scope="col" style="vertical-align: middle;">옵션3 추가 가격</th>
-									<td><input type="text"  id="option3ExtraPrice" name="optionsExtraPrice" value=0 class="form-control" readonly></td>
+									<th scope="col" style="vertical-align: middle;">옵션3 수량</th>
+									<td><input type="text"  id="option3Amount" name="optionsAmount" value="<%= optionList.size() == 2 ? "" : optionList.get(2).getProductOptionAmount() %>" class="form-control" readonly></td>
 								</tr>
 						<% } else { %>
 						 	<% for(int i = 0; i < 3; i++) {%>
 								<tr>
 									<th scope="col" style="vertical-align: middle;">옵션<%= i + 1 %><input type="hidden" name="pOId" value="<%= optionList.get(i).getProductOptionId() %>"></th>
 									<td><input type="text"  id="option<%= i + 1 %>"  name="options" value="<%= optionList.get(i).getProductOptionValue() %>" class="form-control" readonly></td>
-									<th scope="col" style="vertical-align: middle;">옵션<%= i + 1 %> 추가 가격</th>
-									<td><input type="text"  id="option<%= i + 1 %>ExtraPrice" name="optionsExtraPrice" value="<%= optionList.get(i).getProductOptionOriginPrice() %>" class="form-control" readonly></td>
+									<th scope="col" style="vertical-align: middle;">옵션<%= i + 1 %> 수량</th>
+									<td><input type="text"  id="option<%= i + 1 %>Amount" name="optionsAmount" value="<%= optionList.get(0).getProductOptionAmount() %>" class="form-control" readonly></td>
 								</tr>
 							 <% } %>
 						<% } %>
 						<tr>
-							<th scope="col" style="vertical-align: middle;">옵션1 수량</th>
-							<td><input type="text"  id="option1Amount" name="optionsAmount" value="<%= optionList.get(0).getProductOptionAmount() %>" class="form-control" readonly></td>
 							<th scope="col" style="vertical-align: middle;">배송비</th>
 							<td><input type="text"  id="deliveryFee" name="deliveryFee" value="<%= p.getProductDeliveryFee() %>" class="form-control" readonly></td>
-						</tr>
-						<tr>
-							<th scope="col" style="vertical-align: middle;">옵션2 수량</th>
-							<td><input type="text"  id="option2Amount" name="optionsAmount" value="<%= optionList.get(1).getProductOptionAmount() %>" class="form-control"  readonly></td>
 							<th scope="col" style="vertical-align: middle;">사이즈</th>
 							<td><input type="text"  id="size" name="size" value="<%= p.getProductSize() %>" class="form-control" readonly></td>
 						</tr>
 						<tr>
-							<th scope="col" style="vertical-align: middle;">옵션3 수량</th>
-							<td><input type="text"  id="option3Amount" name="optionsAmount" value="<%= optionList.size() == 2 ? "0" : optionList.get(2).getProductOptionAmount() %>" class="form-control" readonly></td>
 							<th scope="col" style="vertical-align: middle;">할인율</th>
-							<td><input type="text"  id="discount" name="discount" class="form-control" value="<%= p.getProductDiscountRate() %>" readonly></td>
+							<td colspan="3"><input type="text"  id="discount" name="discount" class="form-control" value="<%= p.getProductDiscountRate() %>" readonly></td>
 						</tr>
 
 						<tr>

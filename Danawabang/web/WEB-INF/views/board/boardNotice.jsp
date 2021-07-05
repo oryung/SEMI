@@ -16,7 +16,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 게시판 관리</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -90,8 +90,8 @@ td>p {
 			<div class="col-3"></div>
 			<div onclick="location.href='<%= request.getContextPath() %>/boardNotice.bo';" class="col">
 				공지사항</div>
-			<div onclick="location.href='부트1대1 게시판2.html';"
-				class="col">1:1 게시판</div>
+			<div onclick="location.href='<%= request.getContextPath() %>/boardOTO.bo';" class="col">
+			1:1 게시판</div>
 			<div onclick="location.href='<%= request.getContextPath() %>/boardFaq.bo';" class="col">
 				FAQ</div>
 			<div class="col-3"></div>

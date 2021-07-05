@@ -1,11 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+    pageEncoding="UTF-8" import="board.model.vo.*, java.util.ArrayList"%>
 
+<%
+	ArrayList<Orders> list = (ArrayList<Orders>)request.getAttribute("list");
+	PageInfo pi = (PageInfo) request.getAttribute("pi");
+	
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자_주문관리</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -53,106 +63,29 @@
             <table class="table" style="width: 720px; margin-left: 220px; margin-top: 10px; text-align: center;">
 				<thead>
 					<tr>
-						<th scope="col"><input type="checkbox" id="all" name="agree" onclick="selectAll();"></th>
-						<th scope="col">주문번호</th>
-						<th scope="col">주문일자</th>
-						<th scope="col">구매자ID</th>
-						<th scope="col">구매자명</th>
-						<th scope="col">주문상태</th>
-						<th scope="col">상세보기</th>
+						<th scope="col" style="width: 110px;">주문번호</th>
+						<th scope="col" style="width: 320px;">주문명</th>
+						<th scope="col" style="width: 100px;">구매자ID</th>
+						<th scope="col" style="width: 150px;">주문일</th>
+						<th scope="col" style="width: 100px;">상세보기</th>
 					</tr>
 				</thead>
+				<% if(list.isEmpty()) { %>
+					<tr>
+						<td colspan="5">조회된 리스트가 없습니다.</td>
+					</tr>
+					<% } else { %>
 				<tbody>
+						<% for(Orders o : list) { %>
 					<tr>
-						<th scope="row"><input type="checkbox" class="check" name="agree" onclick="selectOne();"></th>
-						<td>10101010</td>
-						<td>2021-05-19</td>
-						<td>healthy1</td>
-						<td>강건강</td>
-						<td>결제완료</td>
-						<td onclick="location.href='주문 관리_상세 정보.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
+						<td><%= o.getOrderId() %></td>
+						<td style="text-align: left;"><%= o.getOrderProductName() %></td>
+						<td><%= o.getMemberId() %></td>
+						<td><%= o.getOrderDate() %></td>
+						<td onclick="location.href='<%=request.getContextPath() %>/adminOrderDetail.bo?orderId=<%= o.getOrderId() %>';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
 					</tr>
-					<tr>
-						<th scope="row"><input type="checkbox" class="check" name="agree" onclick="selectOne();"></th>
-						<td>9999999</td>
-						<td>2021-05-19</td>
-						<td>healthy1</td>
-						<td>강건강</td>
-						<td>배송 완료</td>
-						<td onclick="location.href='주문 관리_상세 정보.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-					</tr>
-					<tr>
-						<th scope="row"><input type="checkbox" class="check" name="agree" onclick="selectOne();"></th>
-						<td>8888888</td>
-						<td>2021-05-19</td>
-						<td>healthy1</td>
-						<td>강건강</td>
-						<td>결제완료</td>
-						<td onclick="location.href='주문 관리_상세 정보.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-					</tr>
-					<tr>
-						<th scope="row"><input type="checkbox" class="check" name="agree" onclick="selectOne();"></th>
-						<td>7777777</td>
-						<td>2021-05-19</td>
-						<td>healthy1</td>
-						<td>강건강</td>
-						<td>결제완료</td>
-						<td onclick="location.href='주문 관리_상세 정보.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-					</tr>
-					<tr>
-						<th scope="row"><input type="checkbox" class="check" name="agree" onclick="selectOne();"></th>
-						<td>6666666</td>
-						<td>2021-05-19</td>
-						<td>healthy1</td>
-						<td>강건강</td>
-						<td>결제완료</td>
-						<td onclick="location.href='주문 관리_상세 정보.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-					</tr>
-					<tr>
-						<th scope="row"><input type="checkbox" class="check" name="agree" onclick="selectOne();"></th>
-						<td>5555555</td>
-						<td>2021-05-19</td>
-						<td>healthy1</td>
-						<td>강건강</td>
-						<td>결제완료</td>
-						<td onclick="location.href='주문 관리_상세 정보.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-					</tr>
-					<tr>
-						<th scope="row"><input type="checkbox" class="check" name="agree" onclick="selectOne();"></th>
-						<td>4444444</td>
-						<td>2021-05-19</td>
-						<td>healthy1</td>
-						<td>강건강</td>
-						<td>결제완료</td>
-						<td onclick="location.href='주문 관리_상세 정보.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-					</tr>
-					<tr>
-						<th scope="row"><input type="checkbox" class="check" name="agree" onclick="selectOne();"></th>
-						<td>3333333</td>
-						<td>2021-05-19</td>
-						<td>healthy1</td>
-						<td>강건강</td>
-						<td>결제완료</td>
-						<td onclick="location.href='주문 관리_상세 정보.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-					</tr>
-					<tr>
-						<th scope="row"><input type="checkbox" class="check" name="agree" onclick="selectOne();"></th>
-						<td>2222222</td>
-						<td>2021-05-19</td>
-						<td>healthy1</td>
-						<td>강건강</td>
-						<td>결제완료</td>
-						<td onclick="location.href='주문 관리_상세 정보.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-					</tr>
-					<tr>
-						<th scope="row"><input type="checkbox" class="check" name="agree" onclick="selectOne();"></th>
-						<td>1111111</td>
-						<td>2021-05-19</td>
-						<td>healthy1</td>
-						<td>강건강</td>
-						<td>결제완료</td>
-						<td onclick="location.href='주문 관리_상세 정보.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-					</tr>
+						<% } %>
+					<% } %>
 				</tbody>
 			</table>
 			</form>
@@ -162,59 +95,38 @@
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 30px;"></div>
 		
-		<div class="row" style="height: 50px;">
-			<!-- 검색창  -->
-			<div class="col-3" style="left: 20%;">
-				<div class="input-group mb-3">
-					<input type="text" class="form-control form-control-research"
-						placeholder="검색어를 입력해주세요" aria-label="Recipient's username"
-						aria-describedby="button-addon2"
-						style="font-size: 13px; border-color: #11BBFF;">
-					<button class="btn btn-outline-secondary" type="submit"
-						id="main-search" style="font-size: 13px;">검색</button>
-				</div>
-			</div> 
-			
-			<!-- 버튼 -->
-			<div class="col" style="left: 30%; width: 70%;">
-				<select class="form-control" name="주문상태" style="width: 160px;">
-					<option selected disabled>-- 상태 변경 --</option>
-					<option value="교환 요청">교환 요청</option>
-					<option value="교환 반려">교환 반려</option>
-					<option value="반품 요청">반품 요청</option>
-					<option value="반품 반려">반품 반려</option>
-					<option value="결제 완료">결제 완료</option>
-					<option value="주문 완료">주문 완료</option>
-					<option value="주문 취소">주문 취소</option>
-					<option value="배송 중">배송 중</option>
-					<option value="배송 완료">배송 완료</option>
-					<option value="구매 확정">구매 확정</option>
-				</select>
-			</div>
-			<div class="col" style="left: 9%; width: 70%;">
-				<!-- 삭제 버튼 -->
-				<button class="button1" id="delete">삭제</button>
-			</div>
-		</div>
-
-		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 40px;"></div>
-
-		<!-- 페이지수 표시 -->
-		<nav aria-label="Page navigation example">
-			<ul class="pagination justify-content-center" style="fill: pink;">
-				<li class="page-item"><a class="page-link" href="#"><span
-						aria-hidden="true">&laquo;</span></a></li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">4</a></li>
-				<li class="page-item"><a class="page-link" href="#">5</a></li>
-
-				<li class="page-item"><a class="page-link" href="#"><span
-						aria-hidden="true">&raquo;</span></a></li>
-			</ul>
-		</nav>
+			<!-- 페이지수 표시 -->
+		<nav aria-label="Page navigation example" class="pagination justify-content-center page-item">
+         <!-- 맨 처음으로 -->
+         <button class="page-link" onclick="location.href='<%=request.getContextPath() %>/adminOrder.bo?currentPage=1'" id="bebeforeBtn"> &lt;&lt; </button>
+         <!-- 이전 페이지로 -->
+         <button class="page-link" onclick="location.href='<%=request.getContextPath() %>/adminOrder.bo?currentPage=<%= currentPage -1 %>'" id="beforeBtn"> &lt; </button>
+         <script>
+            if(<%= currentPage %> <= 1){
+               $('#bebeforeBtn').attr('disabled', 'true');
+               $('#beforeBtn').attr('disabled', 'true');
+            }
+         </script>
+         <!-- 숫자 버튼 -->
+         <% for(int p = startPage; p <=endPage; p++) { %>
+         <%       if(p== currentPage) { %>
+                  <button class="page-link" id="chosen" disabled> <%= p %> </button>
+         <%         } else { %>
+                  <button class="page-link" id="numBtn" onclick="location.href='<%= request.getContextPath()%>/adminOrder.bo?currentPage=<%= p %>'"><%= p %></button>
+         <%             } %>   
+         <% }%>
+         
+         <!-- 다음 페이지로 -->
+         <button class="page-link" onclick="location.href='<%=request.getContextPath() %>/adminOrder.bo?currentPage=<%= currentPage + 1%>'" id="afterBtn"> &gt; </button>
+         <!-- 맨 끝으로 -->
+         <button class="page-link" onclick="location.href='<%=request.getContextPath() %>/adminOrder.bo?currentPage=<%= maxPage %>'" id="afafterBtn"> &gt;&gt;</button>
+         <script>
+            if(<%= currentPage %> >= <%= maxPage %>){
+               $('#afafterBtn').prop('disabled', true);
+               $('#afterBtn').prop('disabled', true);
+            }
+         </script>
+      </nav>
 		
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 160px;"></div>
@@ -222,55 +134,5 @@
 <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
-
-	<!-- 상단 스크립트 -->
-	<script>
-
-		// 삭제 버튼
-		$(function(){
-			$('#delete').click(function(){
-				if(prompt('정말 삭제하시겠습니까? 삭제하시려면 관리자 코드를 입력하십시오')){
-					// 데이터 삭제 서블릿 + 목록 서블릿 요청 후 화면 뿌리기
-				} else {
-					// 옥록으로 돌아가기
-				}
-			});
-		});	
-		/* 체크박스 선택방식 메소드 */
-		function selectAll() {
-			var agree = document.getElementsByName("agree");
-			var all = document.getElementById("all");
-			
-			if(document.getElementById("all").checked) {
-				for(var i = 0 ; i < agree.length ; i++ ) {
-					agree[i].checked = true;
-				}
-			} else {
-				for(var i = 0 ; i < agree.length ; i++ ) {
-					agree[i].checked = false;
-				}
-			}
-		}
-		
-		function selectOne() {
-			var agree = document.getElementsByName("agree");
-			var all = document.getElementById("all");
-			
-			var count = 0;
-				
-			for(var i = 1 ; i < agree.length ; i++) {
-				if(agree[i].checked) {
-					count++;		
-				}
-			}
-				
-			if(count != 10)  {
-				all.checked = false;
-			} else {
-				all.checked = true;
-			}		
-		}
-	</script>
-	
 </body>
 </html>

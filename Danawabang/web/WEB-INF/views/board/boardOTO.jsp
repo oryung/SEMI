@@ -4,8 +4,6 @@
 	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("list");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	
-	
-	
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
 	int maxPage = pi.getMaxPage();
@@ -102,23 +100,30 @@
 								<th scope="col" style="width: 80px;">글번호</th>
 								<th scope="col" style="width: 500px;">제목</th>
 								<th scope="col" style="width: 120px;">작성자ID</th>
-								<th scope="col" style="width: 120px;">작성일</th>
+								<th scope="col" style="width: 140px;">작성일</th>
 							</tr>
 						</thead>
 						<tbody>
 						<% if (list.isEmpty()) { %>
 						<tr>
-							<td>조회된 리스트가 없습니다.</td>
+							<td colspan="4" style="cursor:default;">조회된 리스트가 없습니다.</td>
 						</tr>
 						<% } else { %>
 						<tbody>
 						<% if(loginUser != null){ %>
 						<% for(Board b : list) { %>
 						<% int bId = b.getBoardId(); %>
+						<% String id = b.getWriter(); %>
+						<% int length = id.length(); %>
+						<% length = length -3; %>
+						<% String maskId = id.substring(0, length); %>
+						<% maskId = maskId + "***"; %>
+						
 							<tr>
 								<td><%= b.getBoardId() %></td>
 								<td><%= b.getBoardTitle() %><span style="font-weight:bolder; color:#11BBFF">(<%=b.getReplyCount() %>)</span></td>
-								<td><%= b.getWriter() %></td>
+								<td style="display:none;"><%= b.getWriter() %></td>
+								<td><%= maskId %></td>
 								<td><%= b.getEnrollDate() %></td>
 							</tr>
 							<% checkBoardCount++; %>
@@ -142,19 +147,12 @@
 		<div class="row" style="margin-top: 20px;"></div>
 		<!-- 버튼 -->
 	<form action="<%= request.getContextPath() %>/boardOTO.bo" id="listForm" method="post" >
+					
 		<div class="row" style="height: 50px;">
-			<!-- 검색창  -->
-				<div class="col-1"> </div>
-				<div class="col-3" style="margin-left: 60px;">
-					<!-- 검색 아이콘  -->
-					<div>
-					</div>
-				</div>
-				<div class="col-1">
-				</div>
+			
 			<% if(loginUser != null){ %>
 			<div class="col-2"></div>
-			<div class="col"><button type="button" class="button1" onclick="location.href='<%= request.getContextPath() %>/boardOTOEnroll.bo';" style="margin-left: 90px;">등록</button></div>
+			<div class="col"><button type="button" class="button1" onclick="location.href='<%= request.getContextPath() %>/boardOTOEnroll.bo';" style="margin-left: 600px;">등록</button></div>
 			<% } %>
 		</div>
 	</form>
@@ -163,6 +161,7 @@
 		<div class="row" style="margin-top: 50px;"></div>
 		
 		<!-- 페이징 -->
+		<% if(loginUser != null){ %>
 		<nav aria-label="Page navigation example" class="pagination justify-content-center page-item">
 		<!-- 맨 처음으로 -->
 			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/boardOTO.bo?currentPage=1'" id="bebeforeBtn"> &lt;&lt; </button>
@@ -179,7 +178,7 @@
 			<%		 if(p== currentPage) { %>
 						<button class="page-link" id="chosen" disabled> <%= p %> </button>
 			<%			} else { %>
-						<button class="page-link" id="numBtn" onclick="location.href='<%= request.getContextPath()%>/boardOTO.bo?currentPage=<%= p %>'"><%= p %></button>
+						<button class="page-link" id="numBtn" onclick="location.href='<%= request.getContextPath()%>/boardOTO.bo?currentPage=<%= p %> '"><%= p %></button>
 			<% 				} %>	
 			<% }%>		
 			<!-- 다음 페이지로 -->
@@ -193,7 +192,7 @@
 				}
 			</script>
 		</nav>
-
+		<% } %>
 
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
@@ -202,6 +201,7 @@
 
 	<!-- 상단 스크립트 -->
 	<script>
+		
 		
 		//중단 카테고리 색변환
 		$(function() {
@@ -218,8 +218,11 @@
 				$('tr').eq(i).children().eq(1).css('text-align', 'left');
 			}
 		});
+		// 조회 리스트 없을때
 		
-	 	//게시글 호버 상세조회
+		$('#empty').on('click', function(){
+			
+		});
 	 	<% if(loginUser != null){ %>
 	       $(function(){
 	         $('#listArea td').mouseenter(function(){   
@@ -229,17 +232,24 @@
 	         }).click(function(){
 	            var writer = $(this).parent().children().eq(2).text();
 	            
-	            if(writer == "<%= loginUser.getId() %>" || "<%= loginUser.getIsAdmin() %>" == "ADMIN") {
-	               var bId = $(this).parent().children().eq(0).text();   
-	               location.href='<%= request.getContextPath() %>/boardOTODetail.bo?bId='+ bId;      
-	            } else {
-	               alert("글 작성자만 내용을 볼 수 있습니다.")
+	            if(	writer == "<%= loginUser.getId() %>" || "<%= loginUser.getIsAdmin() %>" == "ADMIN") {
+	            	var bId = $(this).parent().children().eq(0).text();
+	            	console.log(bId);
+	               if(bId != null){
+		               location.href='<%= request.getContextPath() %>/boardOTODetail.bo?bId='+ bId;      
+	               } 
+               
+	            } else{
+	            	alert("글 작성자만 내용을 볼 수 있습니다.")
 	            }
+	           
 	         });   
 	      });   
 	      <% }%>
 		
+		
 	</script>
+	
 	
 </body>
 </html>

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 내용</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -58,7 +58,7 @@ table {
 		<div class="row" style="margin-top: 20px;"></div>
 
 		<div class="row">
-			<form action="<%= request.getContextPath() %>/adminNoticeInsert.bo" method="post">
+			<form action="<%= request.getContextPath() %>/adminNoticeInsert.bo" onsubmit="return enroll();" method="post">
 				<table class="table"
 					style="margin-left: 220px; width: 720px; text-align: center;">
 					<tbody>
@@ -69,7 +69,7 @@ table {
 							<td><input type="checkbox" id="isFirst" name="isFirst" class="form-control"></td>		
 						</tr>
 						<tr>
-							<th scope="col" id="ie" style="vertical-align: middle;">내용</th>
+							<th scope="col" style="vertical-align: middle;">내용</th>
 							<td colspan="3"><textarea name="content" id="content" class="form-control" style="height: 500px; resize: none;"></textarea></td>
 						</tr>
 					</tbody>
@@ -83,7 +83,9 @@ table {
 					</div>
 					<div class="col" style="left: 36%; width: 70%;">
 						<!-- 등록 버튼 -->
+						<% if(loginUser.getIsAdmin().equals("ADMIN")){ %>
 						<button type="submit" class="button1">등록</button>
+						<% } %>
 					</div>
 				</div>
 			</form>
@@ -96,7 +98,26 @@ table {
 		<%@ include file="../common/bottom.jsp" %>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	</div>
-
-
+	<script>
+	function enroll(){
+		if($('#title').val().trim() == ""){
+			alert("제목을 입력해주세요");
+			$('#title').focus();
+			return false;
+		} else if($('#content').val().trim() == ""){
+			alert("내용을 입력해주세요");
+			$('#content').focus();
+			return false;
+		} else {
+			var bool = confirm('정말 등록하시겠습니까?');
+			if (bool) {
+				alert('등록되었습니다.');
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+</script>
 </body>
 </html>

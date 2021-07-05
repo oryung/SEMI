@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 게시글 상세보기</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -59,13 +59,13 @@ table{
 		
 		<!-- 테이블 -->
 		<div class="row">
-			<form action="<%= request.getContextPath() %>/adminNoticeUpdate.bo" id="detailForm" method="post">
+			<form action="<%= request.getContextPath() %>/adminNoticeUpdate.bo" onsubmit="return validate();" id="detailForm" method="post">
 					<table class="table"
 						style="margin-left: 220px; width: 720px; text-align: center;">
 						<tbody>
 							<tr>
 								<th scope="col" style="vertical-align: middle;">제목<input type="hidden" name="bId" value="<%= board.getBoardId() %>"></th>
-								<td> <input type="text" name="title" value="<%= board.getBoardTitle() %>" size="20px" class="form-control"></td>
+								<td> <input type="text" id="title" name="title" value="<%= board.getBoardTitle() %>" size="20px" class="form-control"></td>
 								<th scope="col" style="vertical-align: middle;">중요</th>
 								
 								<td><input type="checkbox" id="isFirst" name="isFirst" class="form-control" <%= board.getIsFirst().equals("Y") ? "checked" : "" %>></td>
@@ -74,7 +74,7 @@ table{
 							<tr>
 								<th scope="col" id="ie" style="vertical-align: middle;">내용</th>
 								<td colspan="3">
-								<textarea name="content" class="form-control" style="height: 500px; resize: none; "><%= board.getBoardContent() %></textarea>
+								<textarea name="content" id="content" class="form-control" style="height: 500px; resize: none; "><%= board.getBoardContent() %></textarea>
 								</td>
 							</tr>
 						</tbody>
@@ -89,7 +89,9 @@ table{
 					</div>
 					<div class="col" style="left: 36%;">
 						<!-- 수정 버튼 -->
+						<% if(loginUser != null && loginUser.getIsAdmin().contains("ADMIN")) { %>
 						<button type="submit" class="button1">수정</button>
+						<% } %>
 					</div>
 				</div>
 			</form>
@@ -104,5 +106,27 @@ table{
 	</div>
 
 
+	<!-- 상단 스크립트 -->
+	<script>
+	function validate(){
+		if($('#title').val().trim() == ""){
+			alert("제목을 입력해주세요");
+			$('#title').focus();
+			return false;
+		} else if($('#content').val().trim() == ""){
+			alert("내용을 입력해주세요");
+			$('#content').focus();
+			return false;
+		} else {
+			var bool = confirm('정말 등록하시겠습니까?');
+			if (bool) {
+				alert('등록되었습니다.');
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	</script>
 </body>
 </html>

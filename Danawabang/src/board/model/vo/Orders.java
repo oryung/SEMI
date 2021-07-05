@@ -14,14 +14,14 @@ public class Orders {
 	private int orderPrice;
 	private Date orderDate;
 	private String impUid;
+	private String memberId;
+	private String applyNum;
 	
 	public Orders() {}
 
-	
-
 	public Orders(String orderId, String ordererName, String ordererPhone, String ordererEmail, String ordererAddress,
 			String ordererRequest, String orderProductName, int productId, int orderPrice, Date orderDate,
-			String impUid) {
+			String impUid, String memberId, String applyNum) {
 		super();
 		this.orderId = orderId;
 		this.ordererName = ordererName;
@@ -34,217 +34,121 @@ public class Orders {
 		this.orderPrice = orderPrice;
 		this.orderDate = orderDate;
 		this.impUid = impUid;
+		this.memberId = memberId;
+		this.applyNum = applyNum;
 	}
 
-
-
-	/**
-	 * @return the orderId
-	 */
 	public String getOrderId() {
 		return orderId;
 	}
 
-
-
-	/**
-	 * @param orderId the orderId to set
-	 */
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
 
-
-
-	/**
-	 * @return the ordererName
-	 */
 	public String getOrdererName() {
 		return ordererName;
 	}
 
-
-
-	/**
-	 * @param ordererName the ordererName to set
-	 */
 	public void setOrdererName(String ordererName) {
 		this.ordererName = ordererName;
 	}
 
-
-
-	/**
-	 * @return the ordererPhone
-	 */
 	public String getOrdererPhone() {
 		return ordererPhone;
 	}
 
-
-
-	/**
-	 * @param ordererPhone the ordererPhone to set
-	 */
 	public void setOrdererPhone(String ordererPhone) {
 		this.ordererPhone = ordererPhone;
 	}
 
-
-
-	/**
-	 * @return the ordererEmail
-	 */
 	public String getOrdererEmail() {
 		return ordererEmail;
 	}
 
-
-
-	/**
-	 * @param ordererEmail the ordererEmail to set
-	 */
 	public void setOrdererEmail(String ordererEmail) {
 		this.ordererEmail = ordererEmail;
 	}
 
-
-
-	/**
-	 * @return the ordererAddress
-	 */
 	public String getOrdererAddress() {
 		return ordererAddress;
 	}
 
-
-
-	/**
-	 * @param ordererAddress the ordererAddress to set
-	 */
 	public void setOrdererAddress(String ordererAddress) {
 		this.ordererAddress = ordererAddress;
 	}
 
-
-
-	/**
-	 * @return the ordererRequest
-	 */
 	public String getOrdererRequest() {
 		return ordererRequest;
 	}
 
-
-
-	/**
-	 * @param ordererRequest the ordererRequest to set
-	 */
 	public void setOrdererRequest(String ordererRequest) {
 		this.ordererRequest = ordererRequest;
 	}
 
-
-
-	/**
-	 * @return the orderProductName
-	 */
 	public String getOrderProductName() {
 		return orderProductName;
 	}
 
-
-
-	/**
-	 * @param orderProductName the orderProductName to set
-	 */
 	public void setOrderProductName(String orderProductName) {
 		this.orderProductName = orderProductName;
 	}
 
-
-
-	/**
-	 * @return the productId
-	 */
 	public int getProductId() {
 		return productId;
 	}
 
-
-
-	/**
-	 * @param productId the productId to set
-	 */
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
 
-
-
-	/**
-	 * @return the orderPrice
-	 */
 	public int getOrderPrice() {
 		return orderPrice;
 	}
 
-
-
-	/**
-	 * @param orderPrice the orderPrice to set
-	 */
 	public void setOrderPrice(int orderPrice) {
 		this.orderPrice = orderPrice;
 	}
 
-
-
-	/**
-	 * @return the orderDate
-	 */
 	public Date getOrderDate() {
 		return orderDate;
 	}
 
-
-
-	/**
-	 * @param orderDate the orderDate to set
-	 */
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
 
-
-
-	/**
-	 * @return the impUid
-	 */
 	public String getImpUid() {
 		return impUid;
 	}
 
-
-
-	/**
-	 * @param impUid the impUid to set
-	 */
 	public void setImpUid(String impUid) {
 		this.impUid = impUid;
 	}
 
+	public String getMemberId() {
+		return memberId;
+	}
 
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+
+	public String getApplyNum() {
+		return applyNum;
+	}
+
+	public void setApplyNum(String applyNum) {
+		this.applyNum = applyNum;
+	}
 
 	@Override
 	public String toString() {
 		return "Orders [orderId=" + orderId + ", ordererName=" + ordererName + ", ordererPhone=" + ordererPhone
 				+ ", ordererEmail=" + ordererEmail + ", ordererAddress=" + ordererAddress + ", ordererRequest="
 				+ ordererRequest + ", orderProductName=" + orderProductName + ", productId=" + productId
-				+ ", orderPrice=" + orderPrice + ", orderDate=" + orderDate + ", impUid=" + impUid + "]";
+				+ ", orderPrice=" + orderPrice + ", orderDate=" + orderDate + ", impUid=" + impUid + ", memberId="
+				+ memberId + ", applyNum=" + applyNum + "]";
 	}
-
-
-
 	
 }

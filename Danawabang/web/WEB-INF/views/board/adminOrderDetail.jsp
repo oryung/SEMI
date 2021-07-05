@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+    pageEncoding="UTF-8" import="board.model.vo.*, java.util.ArrayList"%>
+<%
+	Orders o = (Orders)request.getAttribute("order");
+	ArrayList<ProductAttachment> fileList = (ArrayList<ProductAttachment>)request.getAttribute("fileList");
+	
+	String[] add = o.getOrdererAddress().split("/");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자_주문관리_상세</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -16,7 +21,7 @@
 <style>
 
 
-table{
+.table{
 	border: 1px solid #DEEAF4;
 }
 
@@ -51,119 +56,87 @@ table{
 					style="font-weight: bold; font-size: 25px; text-align: center; color: rgb(17, 187, 255);"
 					class="">주문 정보</div>
 			</div>
-		</div>
+		</div>	
 		
 		<!-- 테이블 -->
-		<div class="row" style="height: 660px;">
-			<form>
-            <table class="table" style="width: 720px; margin-left: 220px; margin-top: 10px; text-align: center;">
-				<tbody>	
-					<tr>
-						<th scope="col">주문번호</th>
-						<td><input type="text" class="form-control"></td>
-						<th scope="col">주문일자</th>
-						<td><input type="text" class="form-control"></td>
-					</tr>
-				</tbody>
-				</table>
-			<table class="table" style="width: 720px; margin-left: 220px; margin-top: -19px; text-align: center;">
+		<div class="row" style="margin-left:200px;">
+			<table class="table"
+				style="text-align: center; width: 720px;">
+				
 				<tbody>
-					<tr>
-						<th scope="col">상품번호</th>
-						<th scope="col">상품이미지</th>
-						<th scope="col">상품명</th>
-						<th scope="col">가격</th>
-						<th scope="col">수량</th>
-					</tr>
-					<tr>
-						<th>301</th>
-						<th><input type="file" style="height: 40px;"></th>
-						<th></th>
-						<th></th>
-						<th>1</th>
-					</tr>
-					<tr>
-						<th scope="col">총금액</th>
-						<td colspan="4" style="text-align: right; padding-right: 55px;"><b>32,000</b></td>
-					</tr>
-					<tr>
-						<th scope="col">수령일</th>
-						<td colspan="4">도대담</td>
-					</tr>
-					<tr>
-						<th scope="col">연락처</th>
-						<td colspan="4">01047534667</td>
-					</tr>
-					<tr>
-						<th scope="col">이메일</th>
-						<td colspan="4">swklm723@gmail.com</td>
-					</tr>
-					<tr>
-						<th scope="col">배송지</th>
-						<td colspan="4">06234 서울 강남구 테헤란로 14길 6 3층(역삼동)</td>
-					</tr>
-					<tr>
-						<th scope="col">요청사항</th>
-						<td colspan="4">문 앞에 놔주세요</td>
-					</tr>
-					<tr>
-						<th scope="col">운송장번호</th>
-						<td colspan="4">1023941102341123</td>
-					</tr>
-					<tr>
-						<th scope="col">주문상태</th>
-						<td colspan="4"></td>
-					</tr>
-					<tr>
-						<th scope="col">주문상태정보</th>
-						<td colspan="4"></td>
-					</tr>
+				<tr>
+					<th scope="col">주문번호</th>
+					<td><%= o.getOrderId() %></td>
+					<th scope="col">주문일자</th>
+					<td><%= o.getOrderDate() %></td>
+				</tr>
+			</table>
+			<table class="table"
+				style="width: 720px; text-align: center; margin-top: -18px;">
+				<tr>
+					<th scope="col" colspan="2" style="width:100px;">대표이미지</th>
+					<th scope="col" colspan="2" style="width:350px;">주문명</th>
+				</tr>
+				<tr>
+					<th colspan="2" style="vertical-align:middle;"><img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= fileList.get(1).getProductChangeName() %>" style="width: 150px; height: 150px;"></th>
+					<th colspan="2" style="vertical-align:middle;"><%= o.getOrderProductName() %></th>
+				</tr>
+				<tr>
+					<th scope="col" style="width:150px;">총금액</th>
+					<td colspan="3"><b><%= o.getOrderPrice() %>원</b></td>
+				</tr>
+				<tr>
+					<th scope="col">받는 사람</th>
+					<td style="width: 210px;"><%= o.getOrdererName() %></td>
+					<th scope="col" style="width:150px;">주문 ID</th>
+					<td><%= o.getMemberId() %></td>
+				</tr>
+				<tr>
+					<th scope="col">연락처</th>
+					<td colspan="3"><%= o.getOrdererPhone() %></td>
+				</tr>
+				<tr>
+					<th scope="col">이메일</th>
+					<td colspan="3"><%= o.getOrdererEmail() %></td>
+				</tr>
+				<tr>
+					<th scope="col" style="vertical-align:middle;">배송지</th>
+					<td colspan="3">(<%= add[0] %>)<%= add[1] %> <%= add[2] %></td>
+				</tr>
+				<tr>
+					<th scope="col">요청사항</th>
+					<td colspan="3"><%= o.getOrdererRequest() %></td>
+				</tr>
+				<tr>
+					<th scope="col">IMP_UID</th>
+					<td colspan="3"><%= o.getImpUid() %></td>
+				</tr>
+				<tr>
+					<th scope="col">카드번호</th>
+					<td colspan="3"><%= o.getApplyNum() %></td>
+				</tr>
 				</tbody>
 			</table>
-			</form>
 		</div>
+		
 		
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 40px;"></div>
 		
-		<!-- 버튼 -->
-		<div class="row" style="height: 50px;">
-			<!-- 돌아가기 버튼 -->
-			<div class="col"
-				style="left: 18%; width: 70%;">
-			<a href="주문 관리.html"><button class="button1">돌아가기</button></a>
+	<!-- 버튼 -->
+			<div class="row">
+			<!-- 여백 -->
+				<div class="col-8"></div>
+				<!-- 돌아가기버튼 -->
+				<div class="col"><button class="button1" onclick="return history.back();" style="margin-left: 60px;">돌아가기</button></div>
 			</div>
-			<div class="col"
-				style="left: 13%; width: 70%;">
-			<!-- 수정 버튼 -->
-				<button class="button1">수정</button>
-			<!-- 삭제 버튼 -->
-				<button class="button1" id="delete">삭제</button>
-			</div>	
-		</div>
 		
 		
 		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 160px;"></div>
+		<div class="row" style="margin-top: 100px;"></div>
 			
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
-
-	<!-- 상단 스크립트 -->
-	<script>
-		// 삭제 버튼
-		$(function(){
-			$('#delete').click(function(){
-				if(prompt('정말 삭제하시겠습니까? 삭제하시려면 관리자 코드를 입력하십시오')){
-					// 데이터 삭제 서블릿 + 목록 서블릿 요청 후 화면 뿌리기
-				} else {
-					// 옥록으로 돌아가기
-				}
-			});	
-			
-		});	
-	</script>
-	
 </body>
 </html>

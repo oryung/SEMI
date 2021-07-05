@@ -5,7 +5,6 @@ import java.sql.Date;
 public class ProductOption {
 	private int productOptionId;
 	private String productOptionValue;
-	private int productOptionOriginPrice;
 	private String productOptionStatus;
 	private String productOptionDelete;
 	private int productId;
@@ -13,12 +12,11 @@ public class ProductOption {
 	
 	public ProductOption() {}
 
-	public ProductOption(int productOptionId, String productOptionValue, int productOptionOriginPrice,
+	public ProductOption(int productOptionId, String productOptionValue,
 			String productOptionStatus, String productOptionDelete, int productId, int productOptionAmount) {
 		super();
 		this.productOptionId = productOptionId;
 		this.productOptionValue = productOptionValue;
-		this.productOptionOriginPrice = productOptionOriginPrice;
 		this.productOptionStatus = productOptionStatus;
 		this.productOptionDelete = productOptionDelete;
 		this.productId = productId;
@@ -39,14 +37,6 @@ public class ProductOption {
 
 	public void setProductOptionValue(String productOptionValue) {
 		this.productOptionValue = productOptionValue;
-	}
-
-	public int getProductOptionOriginPrice() {
-		return productOptionOriginPrice;
-	}
-
-	public void setProductOptionOriginPrice(int productOptionOriginPrice) {
-		this.productOptionOriginPrice = productOptionOriginPrice;
 	}
 
 	public String getProductOptionStatus() {
@@ -83,8 +73,7 @@ public class ProductOption {
 
 	@Override
 	public String toString() {
-		return "ProductOption [productOptionId=" + productOptionId + ", productOptionValue=" + productOptionValue
-				+ ", productOptionOriginPrice=" + productOptionOriginPrice + ", productOptionStatus="
+		return "ProductOption [productOptionId=" + productOptionId + ", productOptionValue=" + productOptionValue + ", productOptionStatus="
 				+ productOptionStatus + ", productOptionDelete=" + productOptionDelete + ", productId=" + productId
 				+ ", productOptionAmount=" + productOptionAmount + "]";
 	}

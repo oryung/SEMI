@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자_게시판관리_FAQ상세</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -59,15 +59,15 @@ table {
 		</div>
 		<!-- 테이블 -->
 		<div class="row">
-			<form action="<%= request.getContextPath() %>/adminFaqUpdate.me" method="post">
+			<form action="<%= request.getContextPath() %>/adminFaqUpdate.me" onsubmit="return validate();" method="post">
 				<table class="table"
 					style="width: 720px; margin-left: 220px; margin-top: 10px; text-align: center;">
 					<tr>
 						<th scope="col" style="vertical-align: middle;">제목</th>
 						<td>
 						<input type="hidden" name="id" value="<%= board.getBoardId()%>">
-						<input type="text" size="35px" name="title"
-							class="form-control" value=<%=board.getBoardTitle()%>></td>
+						<input type="text" size="35px" id="title" name="title"
+							class="form-control" value="<%=board.getBoardTitle()%>"></td>
 						<th scope="col" style="vertical-align: middle;">카테고리</th>
 						<td width="30%">
 							<select name="faqCategory" id="category" class="form-control" style="vertical-align: middle;">
@@ -81,7 +81,7 @@ table {
 					</tr>
 					<tr>
 						<th scope="col" id="ie" style="vertical-align: middle;">내용</th>
-						<td colspan="3"><textarea class="form-control" name="content"
+						<td colspan="3"><textarea class="form-control" id="content" name="content"
 								style="height: 500px; resize: none;"><%=board.getBoardContent()%></textarea>							
 								</td>
 					</tr>
@@ -89,9 +89,11 @@ table {
 				<br>
 				<div class="col">
 					<input type="button" class="button1"
-						onclick="location.href='<%=request.getContextPath()%>/adminFaq.me'"
+						onclick="history.back();"
 						value="돌아가기" style="margin-left: 210px; margin-right: 500px;">
+						<% if(loginUser != null && loginUser.getIsAdmin().contains("ADMIN")) { %>
 					<input type="submit" class="button1" id="update" value="등록">
+					<% } %>
 				</div>
 			</form>
 		</div>
@@ -104,18 +106,26 @@ table {
 		<%@ include file="../common/bottom.jsp"%>
 	</div>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-
-	<!-- 상단 스크립트 -->
+	</body>
 	<script>
-	<!-- 중단 스크립트 -->
-		// 중단 카테고리
-		$(function() {
-			$('#middleCategories').children().hover(function() {
-				$(this).css('color', '#11BBFF');
-			}, function() {
-				$(this).css('color', 'black');
-			});
-		});
+	function validate(){
+		if($('#title').val().trim() == ""){
+			alert("제목을 입력해주세요");
+			$('#title').focus();
+			return false;
+		} else if($('#content').val().trim() == ""){
+			alert("내용을 입력해주세요");
+			$('#content').focus();
+			return false;
+		} else {
+			var bool = confirm('정말 등록하시겠습니까?');
+			if (bool) {
+				alert('등록되었습니다.');
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 	</script>
-</body>
 </html>

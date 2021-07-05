@@ -17,7 +17,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 게시판 관리</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -110,7 +110,7 @@
 			</div>
 			
 			<!-- 버튼 -->
-			<% if(loginUser != null){ %>
+			<% if(loginUser != null && loginUser.getIsAdmin().equals("ADMIN")){ %>
 			<div class="col" style="left: 38%; width: 70%;">
 				<!-- 등록 버튼 -->
 				<button type="button" class="button1" onclick="location.href='<%=request.getContextPath() %>/adminNoticeEnroll.bo'">등록</button>
@@ -202,16 +202,7 @@
 				all.checked = true;
 			}		
 		}
-		
-		// 중요 공지 표시
-// 		$(function(){
-<%-- 			<% if(currentPage == 1) { %> --%>
-<%-- 			for(var i = 1; i <= <%= fNListCount %>; i++){ --%>
-// 				$('#listArea td').parent().children().eq(6 * i - 4).css({'font-weight' : 'bold'});
-// 			}
-<%-- 			<% } %> --%>
-// 		});	
-		
+		//중요공지표시
 		$(function(){
 			<% if(currentPage == 1) { %>
 			for(var i = 1; i <= <%= fNListCount %>; i++){
@@ -244,15 +235,15 @@
 			if(result == 'realadmin'){
 				alert("삭제 완료했습니다.");
 				$('#adminNoticeForm').attr('action', '<%= request.getContextPath() %>/deleteNotices.bo');
-				$('#adminNoticeForm').submit();
-				
-			} else if(result == null){
+				$('#adminNoticeForm').submit();			
+			} else {
+				if(result == null) {
 					
-			} else{
-				alert("잘못 입력하셨습니다.");				
+				} else {
+					alert("값을 제대로 입력해주세요.");	
+				}
 			}
 		} 
-		
 	</script>
 </body>
 </html>

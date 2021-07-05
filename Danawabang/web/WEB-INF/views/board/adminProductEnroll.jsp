@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자_상품관리_등록</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -61,14 +61,16 @@ table{
 							<th scope="col" style="vertical-align: middle;">*상품명</th>
 							<td><input type="text"  id="name" name="name" class="form-control" required></td>
 							<th scope="col" style="vertical-align: middle;">*카테고리</th>
-							<td><select name="category" id="category" class="form-control" style="vertical-align: middle;" required>
+							<td>
+								<select name="category" id="category" class="form-control" style="vertical-align: middle;" required>
 									<option value="침대">침대</option>
 									<option value="매트리스">매트리스</option>
 									<option value="서랍장">서랍장</option>
 									<option value="커튼">커튼</option>
 									<option value="조명">조명</option>
 									<option value="행거">행거</option>
-							</select></td>
+								</select>
+							</td>
 						</tr>
 						<tr>
 							<th scope="col" style="vertical-align: middle;">*브랜드</th>
@@ -79,38 +81,32 @@ table{
 						<tr>
 							<th scope="col" style="vertical-align: middle;">*옵션1</th>
 							<td><input type="text"  id="option1"  name="options" class="form-control" required></td>
-							<th scope="col" style="vertical-align: middle;">*옵션1 추가 가격</th>
-							<td><input type="text"  id="option1ExtraPrice" name="optionsExtraPrice" class="form-control" required></td>
+							<th scope="col" style="vertical-align: middle;">*옵션1 수량</th>
+							<td><input type="text"  id="option1Amount" name="optionsAmount" class="form-control" required></td>
 						</tr>
 						<tr>
 							<th scope="col" style="vertical-align: middle;">*옵션2</th>
 							<td><input type="text"  id="option2"  name="options" class="form-control" required></td>
-							<th scope="col" style="vertical-align: middle;">*옵션2 추가 가격</th>
-							<td><input type="text"  id="option2ExtraPrice" name="optionsExtraPrice" class="form-control" required></td>
+							<th scope="col" style="vertical-align: middle;">*옵션2 수량</th>
+							<td><input type="text"  id="option2Amount" name="optionsAmount" class="form-control" required></td>
 						</tr>
 						<tr>
 							<th scope="col" style="vertical-align: middle;">옵션3</th>
 							<td><input type="text"  id="option3"  name="options" class="form-control"></td>
-							<th scope="col" style="vertical-align: middle;">옵션3 추가가격</th>
-							<td><input type="text"  id="option3ExtraPrice" name="optionsExtraPrice" class="form-control" ></td>
+							<th scope="col" style="vertical-align: middle;">옵션3 수량</th>
+							<td><input type="text"  id="option3Amount" name="optionsAmount" class="form-control"></td>
 						</tr>
 						<tr>
-							<th scope="col" style="vertical-align: middle;">*옵션1 수량</th>
-							<td><input type="text"  id="option1Amount" name="optionsAmount" class="form-control" required></td>
 							<th scope="col" style="vertical-align: middle;">*배송비</th>
 							<td><input type="text"  id="deliveryFee" name="deliveryFee" class="form-control" required></td>
-						</tr>
-						<tr>
-							<th scope="col" style="vertical-align: middle;">*옵션2 수량</th>
-							<td><input type="text"  id="option2Amount" name="optionsAmount" class="form-control" required></td>
 							<th scope="col" style="vertical-align: middle;">*사이즈</th>
 							<td><input type="text"  id="size" name="size" class="form-control" required></td>
 						</tr>
 						<tr>
-							<th scope="col" style="vertical-align: middle;">옵션3 수량</th>
-							<td><input type="text"  id="option3Amount" name="optionsAmount" class="form-control"></td>
+						</tr>
+						<tr>
 							<th scope="col" style="vertical-align: middle;">*할인율</th>
-							<td><input type="text"  id="discount" name="discount" class="form-control" required></td>
+							<td colspan="3"><input type="text"  id="discount" name="discount" class="form-control" required></td>
 						</tr>
 						<tr>
 							<th scope="col" style="vertical-align: middle;">상품 대표이미지 등록</th>

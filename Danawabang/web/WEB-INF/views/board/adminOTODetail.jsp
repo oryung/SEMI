@@ -143,14 +143,16 @@ button.firstBtn:focus{
 											<input type="hidden" class="replyId" id="replyId<%= i%>"value="<%= replyList.get(i).getReplyId() %>">
 											<span style="font-size: 18px; font-weight: bold;"><%= replyList.get(i).getMemberId() %></span>
 											<span style="margin-left: 10px"><%= replyList.get(i).getEnrollDate() %></span>
-												
-												<% if(loginUser != null && loginUser.getId().contains("admin")) { %>
-												<span class="repBtnF repUpdate" id="repUpdate">수정</span>
-												<span class="repBtnB repDelete" id="repDelete">삭제</span>
+												<% Reply r = replyList.get(i); %>
+												<% if(loginUser != null && loginUser.getId().equals(r.getMemberId()))  { %>					
+													<span class="repBtnF repUpdate" id="repUpdate">수정</span>
+													<span class="repBtnB repDelete" id="repDelete">삭제</span>
+												<% } else {%>
+													<span class="repBtnB repDelete" id="repDelete">삭제</span>
 												<% } %>
-											
+
 											<br>
-											<span><%= replyList.get(i).getReplyContent() %></span>
+											<pre><%= replyList.get(i).getReplyContent() %></pre>
 										</div>
 										<div style="display: none; width: 760px; height: 120px" id="repUpdateForm<%= i%>">
 											<span style="font-weight: bold; font-size: 18px;"><%= loginUser.getId() %></span><span class="repBtnF update" id="update<%= i%>">등록</span><span class="repBtnB cancle" id="cancle<%= i%>">취소</span>
@@ -174,7 +176,7 @@ button.firstBtn:focus{
 			<div class="col"></div>
 			<div class="col-10">
 				<div class="row">
-				<% if(loginUser != null && loginUser.getId().contains("admin")) { %>
+				<% if(loginUser != null && loginUser.getAdminCode() != null) { %>
 					<div class="col-10" style="margin-left:10px;">
 					<textarea rows="3" cols="107" class="form-control" id="replyContent" style="resize: none; border-color: lightgray;" placeholder="댓글을 입력하세요."></textarea>
 					</div>
@@ -203,7 +205,7 @@ button.firstBtn:focus{
 			<% } %>
 				</div>
 				<div class='col'>
-			<% if(loginUser != null && loginUser.getId().equals(board.getWriter()) || loginUser.getId().contains("admin")) { %>
+			<% if(loginUser != null && loginUser.getId().equals(board.getWriter()) || loginUser.getAdminCode() != null) { %>
 					<button type="button" style="margin-left: 50px;"class="button1" id="delete">삭제</button>
 			<% } %>
 				</div>
@@ -258,19 +260,23 @@ button.firstBtn:focus{
 						var $updateTd = $('<span class="repBtnF repUpdate">').text('수정').css({"margin-left":"24px"});
 						var $deleteCT = $('<span class="repBtnB repDelete">').text('삭제').css({"margin-left":"14px"});
 						var $br = $('<br>');
-						var $contentTd = $('<span>').text(data[i].replyContent);
+						var $contentTd = $('<pre>').text(data[i].replyContent);
 						var $input = $('<input type="hidden" id="replyId'+ i +'" value="'+ data[i].replyId +'">');
 						var $div2 = $('<div id="repUpdateForm' + i + '">').css({"display":"none", "width":"760px", "height":"120px"});
 						var $writer = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
 						var $update = $('<span class="repBtnF update" id="update'+i+'">').text("등록");
 						var $cancle = $('<span class="repBtnB cancle" id="delete'+i+'">').text("취소");
 						var $content = $('<textarea rows="3" cols="107" class="form-control" id="updateContent'+i+'">').css({"resize":"none", "border-color":"lightgray"});
-						
+						var $userId = '<%= loginUser != null ?  loginUser.getId() : null %>';
 						
 						$div.append($input);
 						$div.append($writerTd);
 						$div.append($dateTd);
-						$div.append($updateTd);
+						
+						if($userId == data[i].memberId){
+							$div.append($updateTd);
+							$div.append($deleteCT);
+						}
 						$div.append($deleteCT);
 						$div.append($br);
 						$div.append($contentTd);
@@ -386,7 +392,7 @@ button.firstBtn:focus{
 							var $updateTd = $('<span class="repBtnF repUpdate">').text('수정').css({"margin-left":"24px"});
 							var $deleteCT = $('<span class="repBtnB repDelete">').text('삭제').css({"margin-left":"14px"});
 							var $br = $('<br>');
-							var $contentTd = $('<span>').text(data[i].replyContent);
+							var $contentTd = $('<pre>').text(data[i].replyContent);
 							var $input = $('<input type="hidden" id="replyId'+ i +'" value="'+ data[i].replyId +'">');
 							var $div2 = $('<div id="repUpdateForm' + i + '">').css({"display":"none", "width":"760px", "height":"120px"});
 							var $writer = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
@@ -394,13 +400,18 @@ button.firstBtn:focus{
 							var $cancle = $('<span class="repBtnB cancle" id="delete'+i+'">').text("취소");
 							var $content = $('<textarea rows="3" cols="107" class="form-control" id="updateContent'+i+'">').css({"resize":"none", "border-color":"lightgray"});
 							
-							console.log("i : " + i);
+							var $userId = '<%= loginUser != null ?  loginUser.getId() : null %>';
 							
 							$div.append($input);
 							$div.append($writerTd);
 							$div.append($dateTd);
-							$div.append($updateTd);
+							
+							if($userId == data[i].memberId){
+								$div.append($updateTd);
+								$div.append($deleteCT);
+							}
 							$div.append($deleteCT);
+							
 							$div.append($br);
 							$div.append($contentTd);
 							

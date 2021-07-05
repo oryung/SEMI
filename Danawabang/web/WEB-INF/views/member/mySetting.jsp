@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원_설정</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -42,18 +42,22 @@
          <!-- 중단 카테고리 여백 -->
          <div class="col-3"></div>
          <!-- 나의쇼핑, 나의활동, 설정 중단카테고리 -->
-         <div onclick="location.href='마이페이지-나의 쇼핑.html';"
-               class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold; padding-right:10px;">
-               나의 쇼핑</div>
-         <div onclick="location.href='마이페이지-나의 활동.html';"
+         <div onclick="location.href='<%= request.getContextPath() %>/myOrder.me'"
+					class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold; padding-right:10px;">
+					나의 쇼핑</div>
+		<div onclick="location.href='<%= request.getContextPath() %>/myReply.bo'"
                class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold; padding-right:20px;">
                나의 활동</div>
-         <div onclick="location.href='마이페이지-설정-회원정보수정.html';"
-               class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold;">
-               설정</div>
+			<div onclick="location.href='<%= request.getContextPath() %>/mySettingForm.me';"
+					class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold;">
+					설정</div>
          <!-- 상단 카테고리 여백 -->
          <div class="col-3"></div>
       </div>
+      
+      
+      
+      
       
       <!-- 행 사이 빈공간-->
       <div class="row" style="margin-top: 40px;"></div>
@@ -85,7 +89,7 @@
                   style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 60%;"><br>
                <label class="form-label">아이디</label><br> <input
                   class="form-control" type="text" id="id" name="id" 
-                  value="<%=userId%>"
+                  value="<%=userId%>" readonly
                   style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 60%;"><br>
                <label class="form-label">비밀번호</label><br> <input
                   class="form-control" type="password" id="pw1" name="pwd"
@@ -138,7 +142,6 @@
       /* 회원가입시 빠진 항목 확인 메소드 */
       function enroll() {
           var userName = document.getElementById('name').value;
-          var userId = document.getElementById('id').value;
     	  var userPw1 = document.getElementById('pw1').value;
           var email = document.getElementById('email').value;
           var post = document.getElementById('post').value;
@@ -154,11 +157,6 @@
             alert('이름을 입력해주세요.');
              document.getElementById('name').focus();
              return false;
-          } else if(userId != '<%= userId %>') {
-        	  alert('아이디는 수정하실 수 없습니다.');
-        	  document.getElementById('id').value = '<%= userId %>';
-        	  document.getElementById('id').focus();
-          	  return false;
           } else if (userPw1 == '' || userPw1.length == 0) {
              alert('비밀번호를 입력해주세요.');
              document.getElementById('pw1').focus();
@@ -177,16 +175,7 @@
         	document.getElementById('email').value = '';
         	document.getElementById('email').focus();
             return false; 
-          } else if (phone == '' || phone.length == 0) {
-              alert('연락처를 입력해주세요.');
-              document.getElementById('email').focus();
-              return false;
-           } else if (!regExpPhone.test(phone)){
-          		alert('연락처가 조건에 맞지 않습니다.\n(000-0000-0000)');
-          		document.getElementById('phone').value = '';
-    				document.getElementById('phone').focus();
-    				return false;
-  		 } else if (post == '' || post.length == 0) {
+          }  else if (post == '' || post.length == 0) {
              alert('우편번호를 입력해주세요.');
              document.getElementById('post').focus();
              return false;
@@ -219,49 +208,6 @@
              return true;
           }
        }
-      <%-- function enroll() {
-    	  var post = document.getElementById('post').value;
-          var add1 = document.getElementById('add1').value;
-          var add2 = document.getElementById('add2').value;
-          var phone = document.getElementById('phone').value;
-          var bool = confirm('이전 비밀번호와 다릅니다. 이대로 진행하시겠습니까?');
-          var regExp = /^[A-Za-z0-9]{8,15}$/;
-           var regExp2 = /^01(?:0|1[6-9])\-(?:d{3}|d{4})\-d{4}/$;
-          var regExp3 = /^[0-9a-zA-Z_\-]+@[.0-9a-zA-Z_\-]+/$;
-          
-
-          if (userName == '' || userName.length == 0) {
-           	 alert('이름을 입력해주세요.');
-           	document.getElementById('name').focus();
-           	return false;
-          } else if(userId != '<%= userId %>') {
-        	  alert('아이디는 수정하실 수 없습니다.');
-        	  document.getElementById('id').value = '<%= userId %>';
-        	  document.getElementById('id').focus();
-          	return false;
-          }	else if (userPw1 == '' || userPw1.length == 0) {
-             alert('비밀번호를 입력해주세요.');
-             document.getElementById('pw1').focus();
-             return false;
-          } else if (!regExp.test(userPw1)) {
-				alert('비밀번호가 조건에 맞지 않습니다');
-				document.getElementById('pw1').focus();
-				return false;
-		} else if (email == '' || email.length == 0) {
-             alert('이메일을 입력해주세요.');
-             document.getElementById('email').focus();
-             return false;
-          } else if(userPw1 != '<%= userPwd %>') {
-          // 회원정보수정 버튼 눌렀을 때, 비밀번호가 이전 비밀번호와 일치하지 않으면 뜨는 경고창
-			if(bool){
-               alert(userName + "님, 정보 수정이 성공적으로 완료되었습니다.");
-               return true;
-            } 
-          } else {
-             alert(userName + "님, 정보 수정이 성공적으로 완료되었습니다.");
-             return true;
-          }
-       } --%>
    </script>
    
    

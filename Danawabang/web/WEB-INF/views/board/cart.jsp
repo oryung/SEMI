@@ -1,10 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.ArrayList, board.model.vo.*"%>
+<%
+ArrayList<CartWhole> cartList = (ArrayList) request.getAttribute("cartList");
+ArrayList<ProductAttachment> fList = (ArrayList) request.getAttribute("fList");
+PageInfo pi = (PageInfo)request.getAttribute("pi");
+
+int listCount = pi.getListCount();
+int currentPage = pi.getCurrentPage();
+int maxPage = pi.getMaxPage();
+int startPage = pi.getStartPage(); 
+int endPage = pi.getEndPage();
+int checkBoardCount = 0;
+int checkPayCount = 0;
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>장바구니</title>
+<title>다나와방</title>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -29,8 +42,24 @@ body {
 .page-link {
   color: #11BBFF;
 }
-
-
+.water {
+	background: #11BBFF;
+	border-color: #11BBFF;
+	width: 80px;
+	height: 30px;
+	border: none;
+	color:  white;
+	border-radius: 4px;
+}
+.water3 {
+	background: #11BBFF;
+	border-color: #11BBFF;
+	width: 100px;
+	height: 30px;
+	border: none;
+	color:  white;
+	border-radius: 4px;
+}
 /* ----------스크롤시 하단아이콘  보이기 --------------------------------------------------------------------- */
 
 .bottomNav {position: fixed; font-size:50px; color: #11BBFF;}
@@ -56,375 +85,112 @@ body {
 
 
 	<!-- ------------------------------------------장바구니-------------------------------------------- -->
-	
+		<form action="" id="detailForm" method="post">
+		<!-- 체크된 게시글의 번호 저장 -->
+		<input type="hidden" id="checkBoards" name="checkBoards" value="">
+		<input type="hidden" id="checkPayment" name="checkPayment" value="">
+		<div class="row-12" style="font-size: 25px; color: #11BBFF; font-weight: bold; text-align: center; margin-bottom:30px;">
+		장바구니</div>
+		<div class="row-12" style="margin-left:218px; font-size:16px; margin-bottom:10px;"><input type="checkbox" id="all" name="agree" 
+								onclick="selectAll();" style="width: 30px;">전체선택</div>
 		
-		<div class="row-12" style="font-size: 25px; color: #11BBFF; font-weight: bold; text-align: center;">장바구니
-		
-		</div>
-		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 10px;"></div>
-		
-		<div class="row">
-			<div class="col-1"></div>
-			<div class="col-3" style="font-size:15px;font-weight:bold;background: #eee;">
-				<div class="row">
-					<div style="width:100%;text-align:center;"></div>				
-				</div>
-				<div class="row">
-					<img src="images\main_page_images\go_home\pic3_1.jpg" style="height:200px; margin:15px 10px;">				
-				</div>
-			</div>
-			<div class="col-7" style="font-weight:bold; background: #eee;">
-				<div class="row">
-
-				</div>
-				<br>
-				<div class="row" style="font-size:18px;">
-					브랜드명/상품명
-				</div>
-				<hr>
-				<div class="row" style="font-size:15px;">
-					수량
-				</div>
-				<div class="row">
-					<input type="number" class="form-control" name="amount" min="0" max="100" step="1" value="0" style="width:80px;height:30px;font-size:15px;">
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<span>옵션</span>
-				</div>
-				<div class="row">
-					<div>
-						<select class="form-select form-select-sm form-control"
-							aria-label=".form-select-sm example" style="width:200px;height:40px;font-size:14px;">
-							<option selected disabled>==옵션 선택==</option>
-							<option value="1">화이트</option>
-							<option value="2">핑크</option>
-							<option value="3">스카이블루</option>
-						</select>
+		<% if(cartList.isEmpty() || fList.isEmpty()) { %>
+			등록된 장바구니가 없습니다.
+		<% } else { %>
+		<% for(int i = 0; i < cartList.size(); i++) { %>
+					<% CartWhole cw = cartList.get(i); %>
+		<div class="row" style="margin-bottom:20px; margin-left: 210px; border:2px solid #11bbff; border-radius:10px; height: 300px; width:700px;">
+			<!-- 사진 -->
+					<div class="col-3" style="margin-top:10px;">
+					<input type="checkbox" class="check" name="check"
+								onclick="selectOne();" style="margin-right: 50px;" value="<%= cw.getProductDeliveryFee() + (cw.getProductPrice() * cw.getCartProductAmount()) %>">
+					<% for(int j = 0; j < fList.size(); j++) { %>
+								<% ProductAttachment pa = fList.get(j); %>
+								<% if(cw.getProductId() == pa.getProductId() && pa.getProductFileLevel() == 0) { %>
+									<span><img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= pa.getProductChangeName() %>"
+									style="width:200px; height:200px; margin-top:20px;"></span><br><br>
+									<% checkBoardCount++; %>
+									<% checkPayCount++; %>
+								<% } %>
+							<% } %>				
 					</div>
-				</div>
-				
-				<hr>
-				<div style="margin-top:-15px;font-size:20px;font-weight:bold; text-align:right ;">
-				<span >9,000원 </span>
-				</div>
-			</div>
-				
-			<div class="col-1" style="font-size:15px; align:right; font-weight:bold;">
-				
-			</div>
-		</div>
-		
-		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 10px;"></div>
-		
-		<div class="row">
-			<div class="col-1"></div>
-			<div class="col-3" style="font-size:15px;font-weight:bold;background: #eee;">
-				<div class="row">
-					<div style="width:100%;text-align:center;"></div>				
-				</div>
-				<div class="row">
-					<img src="images\main_page_images\go_home\pic3_1.jpg" style="height:200px; margin:15px 10px;">				
-				</div>
-			</div>
-			<div class="col-7" style="font-weight:bold; background: #eee;">
-				<div class="row">
-
-				</div>
-				<br>
-				<div class="row" style="font-size:18px;">
-					브랜드명/상품명
-				</div>
-				<hr>
-				<div class="row" style="font-size:15px;">
-					수량
-				</div>
-				<div class="row">
-					<input type="number" class="form-control" name="amount" min="0" max="100" step="1" value="0" style="width:80px;height:30px;font-size:15px;">
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<span>옵션</span>
-				</div>
-				<div class="row">
-					<div>
-						<select class="form-select form-select-sm form-control"
-							aria-label=".form-select-sm example" style="width:200px;height:40px;font-size:14px;">
-							<option selected disabled>==옵션 선택==</option>
-							<option value="1">화이트</option>
-							<option value="2">핑크</option>
-							<option value="3">스카이블루</option>
-						</select>
+					<div class="col-1"><input type="hidden" name="cId" value="<%= cw.getCartId()%>"></div>
+					<div class="col-8" style="margin-top: 7px;"><br>
+									<span style="font-size: 13px;"><%= cw.getProductBrand() %></span><br>
+									<span style="font-size: 18px; font-weight:bold;"><%= cw.getProductName() %></span>
+									<hr>
+							<div style="margin-bottom:10px;">
+									<span style="font-size: 14px; display:inline-block; margin-bottom: 10px;">옵션 : <%= cw.getProductOptionValue() %></span><br>
+									<span style="font-size: 14px; display:inline-block; margin-bottom: 10px;">수량 : <%= cw.getCartProductAmount() %></span>
+									<span style="font-size: 12px; display:inline-block; margin-bottom: 10px; margin-left: 270px; cursor:pointer;">
+									<input type="button" class="water3" onclick="location.href='<%=request.getContextPath()%>/cartUpdateForm.bo?cId=' + <%= cw.getCartId() %>" 
+									value="옵션 및 수량 변경" style="cursor: pointer;"></span>
+									</div>	
+								<div style="font-size: 14px; text-align: right;">
+									<span>배송비 + </span>
+									<span>상품가격 = </span>
+									<span style="font-size:18px; font-weight:bold;">총가격</span><br>
+								</div>
+								<div style="font-size: 14px; text-align: right;">
+								<% if (cw.getProductPrice() * cw.getCartProductAmount() > 100000) { %>
+									<span id="baesong">0 + </span>
+								<% } else { %>
+									<span id="baesong"><%= cw.getProductDeliveryFee() %> + </span>	
+								<% } %>
+									<span id="productPrice"><%= cw.getProductPrice() * cw.getCartProductAmount() %> = </span>
+									<span id="sumPrice" style="font-weight:bold; font-size:18px;"><%= cw.getProductDeliveryFee() + (cw.getProductPrice() * cw.getCartProductAmount()) %>원</span>	
+								</div>	
+							</div>
 					</div>
+					<% } %>
+					<% } %>
+					</form>
 				</div>
-				
-				<hr>
-				<div style="margin-top:-15px;font-size:20px;font-weight:bold; text-align:right ;">
-				<span >9,000원 </span>
-				</div>
-			</div>
-				
-			<div class="col-1" style="font-size:15px; align:right; font-weight:bold;">
-				
-			</div>
+		<div class="row" style="margin-top: 30px; margin-bottom:50px; margin-left: 320px;">
+		<div class="col-4"></div>
+		<div class="col-8" style="font-size:14px;">
+		<input type="button" id="delete" class="water" onclick="selectDeleteBoard();" value="삭제하기">
+		<input type="button" id="pay" class="water" onclick="selectPay();" value="결제하기">
 		</div>
-		
-		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 10px;"></div>
-		
-		<div class="row">
-			<div class="col-1"></div>
-			<div class="col-3" style="font-size:15px;font-weight:bold;background: #eee;">
-				<div class="row">
-					<div style="width:100%;text-align:center;"></div>				
-				</div>
-				<div class="row">
-					<img src="images\main_page_images\go_home\pic3_1.jpg" style="height:200px; margin:15px 10px;">				
-				</div>
-			</div>
-			<div class="col-7" style="font-weight:bold; background: #eee;">
-				<div class="row">
-
-				</div>
-				<br>
-				<div class="row" style="font-size:18px;">
-					브랜드명/상품명
-				</div>
-				<hr>
-				<div class="row" style="font-size:15px;">
-					수량
-				</div>
-				<div class="row">
-					<input type="number" class="form-control" name="amount" min="0" max="100" step="1" value="0" style="width:80px;height:30px;font-size:15px;">
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<span>옵션</span>
-				</div>
-				<div class="row">
-					<div>
-						<select class="form-select form-select-sm form-control"
-							aria-label=".form-select-sm example" style="width:200px;height:40px;font-size:14px;">
-							<option selected disabled>==옵션 선택==</option>
-							<option value="1">화이트</option>
-							<option value="2">핑크</option>
-							<option value="3">스카이블루</option>
-						</select>
-					</div>
-				</div>
-				
-				<hr>
-				<div style="margin-top:-15px;font-size:20px;font-weight:bold; text-align:right ;">
-				<span >9,000원 </span>
-				</div>
-			</div>
-				
-			<div class="col-1" style="font-size:15px; align:right; font-weight:bold;">
-				
-			</div>
 		</div>
-		
-		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 10px;"></div>
-		
-		<div class="row">
-			<div class="col-1"></div>
-			<div class="col-3" style="font-size:15px;font-weight:bold;background: #eee;">
-				<div class="row">
-					<div style="width:100%;text-align:center;"></div>				
-				</div>
-				<div class="row">
-					<img src="images\main_page_images\go_home\pic3_1.jpg" style="height:200px; margin:15px 10px;">				
-				</div>
-			</div>
-			<div class="col-7" style="font-weight:bold; background: #eee;">
-				<div class="row">
 
-				</div>
-				<br>
-				<div class="row" style="font-size:18px;">
-					브랜드명/상품명
-				</div>
-				<hr>
-				<div class="row" style="font-size:15px;">
-					수량
-				</div>
-				<div class="row">
-					<input type="number" class="form-control" name="amount" min="0" max="100" step="1" value="0" style="width:80px;height:30px;font-size:15px;">
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<span>옵션</span>
-				</div>
-				<div class="row">
-					<div>
-						<select class="form-select form-select-sm form-control"
-							aria-label=".form-select-sm example" style="width:200px;height:40px;font-size:14px;">
-							<option selected disabled>==옵션 선택==</option>
-							<option value="1">화이트</option>
-							<option value="2">핑크</option>
-							<option value="3">스카이블루</option>
-						</select>
-					</div>
-				</div>
-				
-				<hr>
-				<div style="margin-top:-15px;font-size:20px;font-weight:bold; text-align:right ;">
-				<span >9,000원 </span>
-				</div>
-			</div>
-				
-			<div class="col-1" style="font-size:15px; align:right; font-weight:bold;">
-				
-			</div>
-		</div>
-		
-		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 10px;"></div>
-		
-		<div class="row">
-			<div class="col-1"></div>
-			<div class="col-3" style="font-size:15px;font-weight:bold;background: #eee;">
-				<div class="row">
-					<div style="width:100%;text-align:center;"></div>				
-				</div>
-				<div class="row">
-					<img src="images\main_page_images\go_home\pic3_1.jpg" style="height:200px; margin:15px 10px;">				
-				</div>
-			</div>
-			<div class="col-7" style="font-weight:bold; background: #eee;">
-				<div class="row">
-
-				</div>
-				<br>
-				<div class="row" style="font-size:18px;">
-					브랜드명/상품명
-				</div>
-				<hr>
-				<div class="row" style="font-size:15px;">
-					수량
-				</div>
-				<div class="row">
-					<input type="number" class="form-control" name="amount" min="0" max="100" step="1" value="0" style="width:80px;height:30px;font-size:15px;">
-				</div>
-				<div class="row" style="margin-top:10px;">
-					<span>옵션</span>
-				</div>
-				<div class="row">
-					<div>
-						<select class="form-select form-select-sm form-control"
-							aria-label=".form-select-sm example" style="width:200px;height:40px;font-size:14px;">
-							<option selected disabled>==옵션 선택==</option>
-							<option value="1">화이트</option>
-							<option value="2">핑크</option>
-							<option value="3">스카이블루</option>
-						</select>
-					</div>
-				</div>
-				
-				<hr>
-				<div style="margin-top:-15px;font-size:20px;font-weight:bold; text-align:right ;">
-				<span >9,000원 </span>
-				</div>
-			</div>
-				
-			<div class="col-1" style="font-size:15px; align:right; font-weight:bold;">
-				
-			</div>
-		</div>
-		
-		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 40px;"></div>
-		
-		<!-- 페이지수 표시 -->
-		<nav aria-label="Page navigation example">
-			<ul class="pagination justify-content-center" style="fill: pink;">
-				<li class="page-item"><a class="page-link" href="#"><span
-						aria-hidden="true">&laquo;</span></a></li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">4</a></li>
-				<li class="page-item"><a class="page-link" href="#">5</a></li>
-
-				<li class="page-item"><a class="page-link" href="#"><span
-						aria-hidden="true">&raquo;</span></a></li>
-			</ul>
+		<!-- 페이징 -->
+		<nav aria-label="Page navigation example" class="pagination justify-content-center page-item" style="display:flex;">
+		<!-- 맨 처음으로 -->
+			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/cart.bo?currentPage=1'" id="bebeforeBtn"> &lt;&lt; </button>
+			<!-- 이전 페이지로 -->
+			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/cart.bo?currentPage=<%= currentPage -1 %>'" id="beforeBtn"> &lt; </button>
+			<script>
+				if(<%= currentPage %> <= 1){
+					$('#bebeforeBtn').attr('disabled', 'true');
+					$('#beforeBtn').attr('disabled', 'true');
+				}
+			</script>
+			<!-- 숫자 버튼 -->
+			<% for(int p = startPage; p <=endPage; p++) { %>
+			<%		 if(p== currentPage) { %>
+						<button class="page-link" id="chosen" disabled> <%= p %> </button>
+			<%			} else { %>
+						<button class="page-link" id="numBtn" onclick="location.href='<%= request.getContextPath()%>/cart.bo?currentPage=<%= p %>'"><%= p %></button>
+			<% 				} %>	
+			<% }%>		
+			<!-- 다음 페이지로 -->
+			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/cart.bo?currentPage=<%= currentPage + 1%>'" id="afterBtn"> &gt; </button>
+			<!-- 맨 끝으로 -->
+			<button class="page-link" onclick="location.href='<%=request.getContextPath() %>/cart.bo?currentPage=<%= maxPage %>'" id="afafterBtn"> &gt;&gt;</button>
+			<script>
+				if(<%= currentPage %> >= <%=maxPage %>){
+					$('#afterBtn').prop('disabled', true);
+					$('#afafterBtn').prop('disabled', true);
+				}
+			</script>
 		</nav>
+		<div class="row" style="margin-bottom: 120px;"></div>
 		
-		
-		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 5px;"></div>
-
-		
-
-		<div class="row" style="height:50px;border:1px solid white;">
-
-		</div>
-		<div class="row" style="font-weight:bold; ">
-				
-			<div class="col-1"></div>
-			<div class="col-5">
-				<div class="row" style="font-size:15px;color:gray; background:#eee;">
-					<div class="col-12">
-						<div style="">총 상품 금액</div>
-					</div>
-					
-					<div class="col-12">
-						<div style="">총 배송비</div>
-					</div>
-					
-					<div class="col-12" style="color:black; font-size:20px; margin-top:15px;">
-						<div style="">결제 금액</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-5" style="background:#eee;">
-				<div class="row" style="font-size:15px;color:gray;">
-					<div class="col-11">
-						<div style="text-align:right; left:20px;">9,000</div>
-					</div>
-					<div class="col-1">
-						<div style="text-align:right">원</div>
-					</div>					
-				</div>
-				<div class="row" style="font-size:15px;color:gray;">
-					<div class="col-11">
-						<div style="text-align:right">9,000</div>
-					</div>
-					<div class="col-1">
-						<div style="text-align:right">원</div>
-					</div>					
-				</div>
-				<div class="row" style=" font-size:20px; margin-top:15px;">
-					<div class="col-11">
-						<div style="text-align:right">9,000</div>
-					</div>
-					<div class="col-1">
-						<div style="text-align:right">원</div>
-					</div>					
-				</div>
-			<div class="col-1"></div>
-				
-			</div>
-		</div>
-		<div class="row" style="border:0px solid white;height:10px;">
-
-		</div>
-		<div class="row">
-			<div class="col-12" align="center">
-					<div class="row" style="width:200px; height: 50px;">
-						<div class="col"
-							style="position: absolute; left: 0%; top: 40%; width: 100%;">
-							<button class="button1" onclick="location.href='결제페이지(완).html'">주문 하기</button>
-
-						</div>
-					</div>
-				</div>
-		</div>
 		
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 
 		<%@ include file="../common/bottom.jsp" %>
-	</div>
 	
 	<!-- 오른쪽 따라 다니는 네비게이션 바 -->
 
@@ -460,8 +226,7 @@ body {
 			style="cursor:pointer;" onclick="window.scrollTo(0,0);" ></i>
 		</div>
 		<div class="col-1">
-			<i class="bi bi-whatsapp bottomNav i-plain" style="cursor:pointer;" ></i>
-		
+			<i class="bi bi-whatsapp bottomNav i-plain" style="cursor:pointer;" ></i>	
 		</div>
 	</div>	
 	
@@ -521,6 +286,101 @@ body {
 	$("#followquick").animate( { "top" : scrollTop });
 	});
 	</script>
-	
+	<script>			
+		/* 체크박스 선택방식 메소드 */
+		function selectAll() {
+			var check = document.getElementsByName("check");
+			var all = document.getElementById("all");
+			
+			if(document.getElementById("all").checked) {
+				for(var i = 0 ; i < check.length ; i++ ) {
+					check[i].checked = true;
+				}
+			} else {
+				for(var i = 0 ; i < check.length ; i++ ) {
+					check[i].checked = false;
+				}
+			}
+		}
+		
+		function selectOne() {
+			var check = document.getElementsByName("check");
+			var all = document.getElementById("all");
+			var count = 0;
+				
+			for(var i = 0 ; i < check.length-1; i++) {
+				if(check[i].checked) {
+					count++;	
+				} 
+			}
+				
+			if(count != 5)  {
+				all.checked = false;
+			} else {
+				all.checked = true;
+			}		
+		}
+		// 체크박스를 이용한 여러 게시글 한번에 삭제하기
+		 function selectDeleteBoard(){
+			var checkList = document.getElementsByName('check');
+			var checkBoardId = '';
+			
+			// 체크박스 선택된 게시글의 아이디 목록 저장하기 
+			for(var i = 0 ; i < <%= checkBoardCount %> ; i++) {
+				if(checkList[i].checked) {
+					checkBoardId += checkList[i].parentNode.nextSibling.nextSibling.firstChild.value + ",";
+					console.log(checkList[i]);
+					console.log(checkList[i].parentNode.nextSibling.nextSibling.firstChild.value);
+				}
+			}
+		
+			document.getElementById('checkBoards').value = checkBoardId;
+			console.log(document.getElementById('checkBoards').value);
+			if(checkBoardId == '' || checkBoardId.length == 0) {
+				alert("상품을 먼저 체크해주세요");
+				return 0;
+			}
+			
+			var bool = confirm("정말 삭제하시겠습니까?");
+			
+			if(bool){
+				alert("삭제 완료했습니다.");
+				$('#detailForm').attr('action', '<%= request.getContextPath() %>/deleteCarts.bo');
+				$('#detailForm').submit();
+				
+			}  else{
+				return false;				
+			}
+		} 
+		// 체크박스를 이용해 주문하기
+		 function selectPay(){
+			var checkList = document.getElementsByName('check');
+			var checkBoardId = '';
+			
+			// 체크박스 선택된 게시글의 아이디 목록 저장하기 
+			for(var i = 0 ; i < <%= checkPayCount %> ; i++) {
+				if(checkList[i].checked) {
+					checkBoardId += checkList[i].parentNode.nextSibling.nextSibling.firstChild.value + ",";
+				}
+			}
+		
+			document.getElementById('checkPayment').value = checkBoardId;
+			console.log(document.getElementById('checkPayment').value);
+			if(checkBoardId == '' || checkBoardId.length == 0) {
+				alert("상품을 먼저 체크해주세요");
+				return 0;
+			}
+			
+			var bool = confirm("결제정보 입력창으로 넘어가시겠습니까?");
+			
+			if(bool){
+				$('#detailForm').attr('action', '<%= request.getContextPath() %>/orderForm.bo');
+				$('#detailForm').submit();
+				
+			}  else{
+				return false;				
+			}
+		} 
+	</script>
 </body>
 </html> 

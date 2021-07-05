@@ -5,7 +5,6 @@
 	ArrayList<Reply> replyList = (ArrayList)request.getAttribute("replyList");
     
     
-   /*  System.out.println(replyList); */
 %>  
 
 <!DOCTYPE html>
@@ -151,13 +150,16 @@ button.firstBtn:focus{
 											<span style="font-size: 18px; font-weight: bold;"><%= replyList.get(i).getMemberId() %></span>
 											<span style="margin-left: 10px"><%= replyList.get(i).getEnrollDate() %></span>
 											
-											<% if(loginUser != null && loginUser.getId().equals(replyList.get(i).getMemberId()) && !loginUser.getId().contains("admin") ) { %>
+											
+											<% Reply r = replyList.get(i); %>
+											<% if(loginUser != null && loginUser.getId().equals(r.getMemberId()))  { %>
 											<span class="repBtnF repUpdate" id="repUpdate">수정</span>
 											<span class="repBtnB repDelete" id="repDelete">삭제</span>
+											
 											<% } %>
 											
 											<br>
-											<span><%= replyList.get(i).getReplyContent() %></span>
+											<pre><%= replyList.get(i).getReplyContent() %></pre>
 										</div>
 										<div style="display: none; width: 760px; height: 120px" id="repUpdateForm<%= i%>">
 											<span style="font-weight: bold; font-size: 18px;"><%= loginUser.getId() %></span><span class="repBtnF update" id="update<%= i%>">등록</span><span class="repBtnB cancle" id="cancle<%= i%>">취소</span>
@@ -181,7 +183,7 @@ button.firstBtn:focus{
 			<div class="col"></div>
 			<div class="col-10">
 				<div class="row">
-				<% if(loginUser != null && loginUser.getId().equals(board.getWriter())) { %>
+				<% if(loginUser != null && loginUser.getId().equals(board.getWriter()) || loginUser.getAdminCode() != null)  { %>
 					<div class="col-10" style="margin-left:10px;">
 					<textarea rows="3" cols="107" class="form-control" id="replyContent" style="resize: none; border-color: lightgray;" placeholder="댓글을 입력하세요."></textarea>
 					</div>
@@ -271,7 +273,7 @@ button.firstBtn:focus{
 						var $updateTd = $('<span class="repBtnF repUpdate">').text('수정').css({"margin-left":"24px"});
 						var $deleteCT = $('<span class="repBtnB repDelete">').text('삭제').css({"margin-left":"14px"});
 						var $br = $('<br>');
-						var $contentTd = $('<span>').text(data[i].replyContent);
+						var $contentTd = $('<pre>').text(data[i].replyContent);
 						var $input = $('<input type="hidden" id="replyId'+ i +'" value="'+ data[i].replyId +'">');
 						var $div2 = $('<div id="repUpdateForm' + i + '">').css({"display":"none", "width":"760px", "height":"120px"});
 						var $writer = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
@@ -286,13 +288,9 @@ button.firstBtn:focus{
 						$div.append($writerTd);
 						$div.append($dateTd);
 						
-						var admin = "admin"
-						if(data[i].memberId.indexOf(admin) ){
-								
-							if($userId != null){
-								$div.append($updateTd);
-								$div.append($deleteCT);
-							}
+						if($userId == data[i].memberId){
+							$div.append($updateTd);
+							$div.append($deleteCT);
 						}
 						
 						$div.append($br);
@@ -405,7 +403,7 @@ button.firstBtn:focus{
 							var $updateTd = $('<span class="repBtnF repUpdate">').text('수정').css({"margin-left":"24px"});
 							var $deleteCT = $('<span class="repBtnB repDelete">').text('삭제').css({"margin-left":"14px"});
 							var $br = $('<br>');
-							var $contentTd = $('<span>').text(data[i].replyContent);
+							var $contentTd = $('<pre>').text(data[i].replyContent);
 							var $input = $('<input type="hidden" id="replyId'+ i +'" value="'+ data[i].replyId +'">');
 							var $div2 = $('<div id="repUpdateForm' + i + '">').css({"display":"none", "width":"760px", "height":"120px"});
 							var $writer = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
@@ -420,15 +418,12 @@ button.firstBtn:focus{
 							$div.append($writerTd);
 							$div.append($dateTd);
 							
-							var admin = "admin"
-							if(data[i].memberId.indexOf(admin) ){
-								
-								if($userId != null){
-									$div.append($updateTd);
-									$div.append($deleteCT);
-								}
-							}
 							
+							if($userId == data[i].memberId){
+								$div.append($updateTd);
+								$div.append($deleteCT);
+							}
+									
 							
 							$div.append($br);
 							$div.append($contentTd);

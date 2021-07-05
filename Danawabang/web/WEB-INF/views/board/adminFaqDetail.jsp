@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자_게시판관리_FAQ상세</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -65,7 +65,7 @@ table {
 					<tr>
 						<th scope="col" style="vertical-align: middle;">제목</th>
 						<td>
-						<input type="hidden" name="id" value="<%= board.getBoardId()  %>">
+						<input type="hidden" name="id" value="<%= board.getBoardId()%>">
 						<textarea style="width:350px; resize:none;" name="title"
 							class="form-control" readonly><%=board.getBoardTitle()%></textarea></td>
 						<th scope="col" style="vertical-align: middle;">카테고리</th>
@@ -92,8 +92,10 @@ table {
 					<input type="button" class="button1"
 						onclick="location.href='<%=request.getContextPath()%>/adminFaq.me'"
 						value="돌아가기" style="margin-left: 210px; margin-right: 400px;">
+						<% if(loginUser != null && loginUser.getIsAdmin().contains("ADMIN")) { %>
 					<input type="submit" class="button1" id="update" value="수정">
 					<input type="button" class="button1" id="delete" value="삭제">
+					<% } %>
 				</div>
 			</form>
 		</div>
@@ -107,20 +109,22 @@ table {
 	</div>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 
-	
+	<!-- 상단 스크립트 -->
 	<script>
-	<!-- 중단 스크립트 -->
-		// 삭제 버튼
+	// 삭제 버튼
 		$(function() {
 			$('#delete').click(function() {
 				var bool = prompt('정말 삭제하시겠습니까? 삭제하시려면 관리자 코드를 입력하십시오')
 				
-				console.log(bool);
 				if (bool == "realadmin") {
 					$('#detailForm').attr('action', 'adminFaqDeleteForm.me');
 					$('#detailForm').submit();
-				} else {
-					alert("관리자 코드를 잘못입력하셨습니다.");
+				}	else {
+					if(bool == null) {
+						
+					} else {
+						alert("값을 제대로 입력해주세요.");	
+					}
 				}
 			});
 		});

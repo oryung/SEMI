@@ -16,7 +16,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>셀프가이드 게시판 관리</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -50,7 +50,7 @@
 		<!-- 중단 카테고리 -->	
 		<%@ include file="../common/adminMiddleCategory.jsp" %>
 		
-		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 본문(공지사항 게시글 리스트) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 본문(셀프가이드 리스트) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 		<div class="row" style="padding: 10px;">
 			<div class="col" style="padding: 0px;">
 				<div
@@ -109,7 +109,7 @@
 			</div>
 			
 			<!-- 버튼 -->
-			<% if(loginUser != null){ %>
+			<% if(loginUser != null && loginUser.getIsAdmin().equals("ADMIN")){ %>
 			<div class="col" style="left: 38%; width: 70%;">
 				<!-- 등록 버튼 -->
 				<button type="button" class="button1" onclick="location.href='<%=request.getContextPath() %>/adminSelfGuideEnroll.bo'">등록</button>
@@ -165,7 +165,6 @@
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	</div>
 
-	<!-- 상단 스크립트 -->
 	<script>
 	
 		/* 체크박스 선택방식 메소드 */
@@ -233,7 +232,7 @@
 			} else if(result == null){
 					
 			} else {
-				alert("잘못 입력하셨습니다.");				
+				alert("값을 제대로 입력해주세요.");				
 			}
 		} 
 		

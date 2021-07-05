@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>메인페이지</title>
+<title>다나와방</title>
 <!-- --------------------- -->
 <style>
 /*상단 관련 스타일*/
@@ -107,6 +107,7 @@
 </head>
 <body style="font-family: 'Nanum Gothic', sans-serif;">
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<form action="<%= request.getContextPath() %>/searchAll.bo" id="searchAll" method="post" onsubmit="return search();">
 		<!-- 1행 -->
 		<div class="row" id="top-bar">
 			<!-- 상단 광고 -->
@@ -129,14 +130,15 @@
 			<div class="col-3">
 				<!-- 검색 아이콘  -->
 				<div style="margin-top: 30px;">
-					<input type="text" class="form-control" placeholder="검색어를 입력해주세요" 
+					<input type="text" class="form-control" placeholder="검색어를 입력해주세요" id="searchAllWord" name="searchAllWord"
 						style="font-size: 14px; border:2px solid #11bbff; margin-left: 30px;">
 				</div>
 			</div>
 			<div class="col-1">
 				<button class="btn btn-outline-secondary" type="submit"
 					id="main-search" style="font-size: 14px; margin-top: 30px;">검색</button>
-			</div>		
+					
+			</div>
 			<% if(loginUser == null) { %>
 			<!-- 로그인/회원가입 아이콘 -->
 			<div class="col-2">
@@ -158,7 +160,7 @@
 			<% } else if (loginUser != null && loginUser.getIsAdmin().equals("ADMIN")) { %>
 				<i class="bi bi-person i-plain" onclick="location.href='<%= request.getContextPath() %>/adminMember.me';"></i>
 			<% } else {%>
-				<i class="bi bi-person i-plain" onclick="location.href='<%= request.getContextPath() %>/myOrder.me';"></i>
+				<i class="bi bi-person i-plain" onclick="location.href='<%= request.getContextPath() %>/myOrder.bo';"></i>
 			<% } %>	
 			</div>
 			<!-- 고객센터 아이콘  -->
@@ -170,12 +172,12 @@
 			<% if(loginUser == null) { %>
 				<i class="bi bi-cart2 i-plain" onclick="location.href='<%= request.getContextPath() %>/loginForm.me';"></i>
 			<% } else if (loginUser != null && loginUser.getIsAdmin().equals("USER")) { %>
-				<i class="bi bi-cart2 i-plain" onclick="location.href='<%= request.getContextPath() %>/????????';"></i>
-			<% } %>	
+            <i class="bi bi-cart2 i-plain" onclick="location.href='<%= request.getContextPath() %>/cart.bo';"></i>
+         	<% } %>   	
 			</div>
 		</div>
 
-
+	</form>
 
 		<!-- 3행 -->
 		<!-- 메뉴아이콘 -->
@@ -282,7 +284,25 @@
 			$(this).css('color', '#11BBFF');
 		});
 	});
+	
+	// 검색창 
+	function search() {
+		var keyword = document.getElementById('searchAllWord').value;
+		
+		console.log(keyword);
+		if (keyword == '' || keyword.length == 0) {
+			document.getElementById('searchAllWord').focus();
+			return false;
+		}
+	}
+	
+	
+	
+	
+	
 	</script>
+	
+	
 
 	<!-- 필요한 외부 script -->
 	<script

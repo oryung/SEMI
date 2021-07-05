@@ -1,10 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, board.model.vo.*"%>
 <!DOCTYPE html>
+<%
+ArrayList<Orders> list = (ArrayList<Orders>)request.getAttribute("list");
+PageInfo pi = (PageInfo) request.getAttribute("pi");
+
+int listCount = pi.getListCount();
+int currentPage = pi.getCurrentPage();
+int maxPage = pi.getMaxPage();
+int startPage = pi.getStartPage();
+int endPage = pi.getEndPage();
+
+%>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원_나의쇼핑</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -44,12 +55,12 @@
 			<!-- 중단 카테고리 여백 -->
 			<div class="col-3"></div>
 			<!-- 나의쇼핑, 나의활동, 설정 중단카테고리 -->
-			<div onclick="location.href='<%= request.getContextPath() %>/myOrder.me';"
+			<div onclick="location.href='마이페이지-나의 쇼핑.html';"
 					class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold; padding-right:10px;">
 					나의 쇼핑</div>
 			<div onclick="location.href='<%= request.getContextPath() %>/myReply.bo'"
-               class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold; padding-right:20px;">
-             	  나의 활동</div>
+					class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold; padding-right:20px;">
+					나의 활동</div>
 			<div onclick="location.href='<%= request.getContextPath() %>/mySettingForm.me';"
 					class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold;">
 					설정</div>
@@ -57,84 +68,8 @@
 			<div class="col-3"></div>
 		</div>
 		
-		
-		
-		
-		
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 40px;"></div>
-
-			<!-- 배송현황 제목 -->
-			<div class="row">
-				<!-- 중단 카테고리 여백 -->
-				<div class="col"></div>
-				<!-- 배송 현황 제목-->
-				<div class="col"
-					style="text-align: center; font-size: 23px; font-weight: bold; color: #11BBFF;">배송
-					현황</div>
-				<!-- 중단 카테고리 여백 -->
-				<div class="col"></div>
-			</div>
-			<!-- 행 사이 빈공간-->
-			<div class="row" style="margin-top: 20px;"></div>
-
-			<!-- 박스 -->
-			<div class="row">
-				<!-- 여백 -->
-				<div class="col-3"></div>
-				<!-- 박스 테두리-->
-				<div class="col-6"
-					style="border: 2px solid; height: 130px; border-color: #11BBFF;">
-					<!-- 박스 상단-->
-					<div class="row" style="margin-top: 35px;">
-						<!-- 여백 -->
-						<div class="col-1"></div>
-						<!-- 주문완료 -->
-						<div class="col-3"
-							style="text-align: center; font-size: 17px; font-weight: bold;">주문완료</div>
-						<!-- 아이콘 -->
-						<div class="col-1">
-						<i class="bi bi-arrow-right-circle-fill" style="color:#11BBFF; font-size: 18px;"></i>
-						</div>
-						<!-- 배송중 -->
-						<div class="col-2"
-							style="text-align: center; font-size: 17x; font-weight: bold;">배송중</div>
-						<!-- 아이콘 -->
-						<div class="col-1">
-							<i class="bi bi-arrow-right-circle-fill" style="color:#11BBFF; font-size: 18px;"></i>
-							</div>
-						<!-- 배송완료 -->
-						<div class="col-3"
-							style="text-align: center; font-size: 17px; font-weight: bold;">배송완료</div>
-						<!-- 여백 -->
-						<div class="col-1"></div>
-					</div>
-					<!-- 여백 -->
-						<div class="col-3"></div>
-					<!-- 여백 -->
-					<div class="row" style="margin-top: 10px;"></div>
-					<!-- 박스 중단-->
-					<div class="row">
-						<div class="col-1"></div>
-						<!-- 주문완료숫자 -->
-						<div class="col-3"
-							style="text-align: center; font-size: 13px; font-weight: bold;">주문완료개수</div>
-						<div class="col-1"></div>
-						<div class="col-2"
-							style="text-align: center; font-size: 13px; font-weight: bold;">배송중개수</div>
-						<div class="col-1"></div>
-						<div class="col-3"
-							style="text-align: center; font-size: 13px; font-weight: bold;">배송완료개수</div>
-						<div class="col-1"></div>
-					</div>
-				</div>
-				<!-- 여백 -->
-				<div class="col-3"></div>
-			</div>
-
-
-			<!-- 행 사이 빈공간-->
-			<div class="row" style="margin-top: 50px;"></div>
 
 			<!-- 주문 내역 제목 -->
 			<div class="row">
@@ -151,131 +86,80 @@
 			<div class="row" style="margin-top: 20px;"></div>
 
 
-
 			<!-- 주문 내역 -->
 			<div class="row">
 				<table class="table"
 					style="margin-left: 15%; width: 70%; text-align: center; font-size:14px;">
 					<thead>
 						<tr>
-							<th scope="col">주문번호</th>
-							<th scope="col">상품명</th>
-							<th scope="col">총금액</th>
-							<th scope="col">주문일자</th>
-							<th scope="col">주문상태</th>
-							<th scope="col">상세보기</th>
+							<th scope="col" style="width: 130px;">주문번호</th>
+							<th scope="col" style="width: 300px;">상품명</th>
+							<th scope="col" style="width: 130px;">주문가격</th>
+							<th scope="col" style="width: 130px;">주문일</th>
+							<th scope="col" style="width: 80px;">상세보기</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>0000001</td>
-							<td>맛이나요맛이나캔디</td>
-							<td>50,000</td>
-							<td>2021-05-29</td>
-							<td>배송중</td>
-							<td onclick="location.href='마이페이지-나의 쇼핑-상세.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-						</tr>
-						<tr>
-							<td>0000002</td>
-							<td>맛이나요맛이나캔디</td>
-							<td>50,000</td>
-							<td>2021-05-29</td>
-							<td>배송완료</td>
-							<td onclick="location.href='마이페이지-나의 쇼핑-상세.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-						</tr>
-						<tr>
-							<td>0000003</td>
-							<td>맛이나요맛이나캔디</td>
-							<td>50,000</td>
-							<td>2021-05-29</td>
-							<td>배송중</td>
-							<td onclick="location.href='마이페이지-나의 쇼핑-상세.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-						</tr>
-						<tr>
-							<td>0000004</td>
-							<td>맛이나요맛이나캔디</td>
-							<td>50,000</td>
-							<td>2021-05-29</td>
-							<td>주문취소</td>
-							<td onclick="location.href='마이페이지-나의 쇼핑-상세.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-						</tr>
-						<tr>
-							<td>0000005</td>
-							<td>맛이나요맛이나캔디</td>
-							<td>50,000</td>
-							<td>2021-05-29</td>
-							<td>교환완료</td>
-							<td onclick="location.href='마이페이지-나의 쇼핑-상세.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-						</tr>
-						<tr>
-							<td>0000006</td>
-							<td>맛이나요맛이나캔디</td>
-							<td>50,000</td>
-							<td>2021-05-29</td>
-							<td>교환취소</td>
-							<td onclick="location.href='마이페이지-나의 쇼핑-상세.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-						</tr>
-						<tr>
-							<td>0000007</td>
-							<td>맛이나요맛이나캔디</td>
-							<td>50,000</td>
-							<td>2021-05-29</td>
-							<td>교환취소</td>
-							<td onclick="location.href='마이페이지-나의 쇼핑-상세.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-						</tr>
-						<tr>
-							<td>0000008</td>
-							<td>맛이나요맛이나캔디</td>
-							<td>50,000</td>
-							<td>2021-05-29</td>
-							<td>반품중</td>
-							<td onclick="location.href='마이페이지-나의 쇼핑-상세.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-						</tr>
-						<tr>
-							<td>0000009</td>
-							<td>맛이나요맛이나캔디</td>
-							<td>50,000</td>
-							<td>2021-05-29</td>
-							<td>배송완료</td>
-							<td onclick="location.href='마이페이지-나의 쇼핑-상세.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-						</tr>
-						<tr>
-							<td>0000010</td>
-							<td>맛이나요맛이나캔디</td>
-							<td>50,000</td>
-							<td>2021-05-29</td>
-							<td>배송완료</td>
-							<td onclick="location.href='마이페이지-나의 쇼핑-상세.html';" style="cursor:pointer;"><i class="bi bi-search"></i></td>
-						</tr>
+					<% if(list.isEmpty()) { %>
+					<tr>
+						<td colspan="5" style="font-size: 20px;">회원님의 주문 내역이 없습니다.</td>
+					</tr>
+					<!-- 행 사이 빈공간-->
+					<div class="row" style="margin-top: 500px;"></div>
+					<% } else { %>
+						<% for(Orders o : list) { %>
+							<tr>
+								<td><%= o.getOrderId() %></td>
+								<td><%= o.getOrderProductName() %></td>
+								<td><%= o.getOrderPrice() %></td>
+								<td><%= o.getOrderDate() %></td>
+								<td onclick="location.href='myOrderDetail.bo?orderId=<%= o.getOrderId() %>'" style="cursor:pointer;"><i class="bi bi-search"></i></td>
+							</tr>
+						<% } %>
+						<% } %>
 					</tbody>
 				</table>
 			</div>
 			
-			<!-- 페이지 -->
-			<div class="row">
-				<div class="col"></div>
-				<div class="col" style="margin-left: 53px;">
-				<nav aria-label="Page navigation example">
-					<ul class="pagination">
-						<li class="page-item"><a class="page-link" href="#"
-							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-						</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">4</a></li>
-						<li class="page-item"><a class="page-link" href="#">5</a></li>
-						<li class="page-item"><a class="page-link" href="#"
-							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-						</a></li>
-					</ul>
-				</nav>
-				</div>
-				<div class="col"></div>
-			</div>
+			<!-- 행 사이 빈공간-->
+			<div class="row" style="margin-top: 60px;"></div>
+			
+			
+			<!-- 페이지수 표시 -->
+		<nav aria-label="Page navigation example" class="pagination justify-content-center page-item">
+         <!-- 맨 처음으로 -->
+         <button class="page-link" onclick="location.href='<%=request.getContextPath() %>/myOrder.bo?currentPage=1'" id="bebeforeBtn"> &lt;&lt; </button>
+         <!-- 이전 페이지로 -->
+         <button class="page-link" onclick="location.href='<%=request.getContextPath() %>/myOrder.bo?currentPage=<%= currentPage -1 %>'" id="beforeBtn"> &lt; </button>
+         <script>
+            if(<%= currentPage %> <= 1){
+               $('#bebeforeBtn').attr('disabled', 'true');
+               $('#beforeBtn').attr('disabled', 'true');
+            }
+         </script>
+         <!-- 숫자 버튼 -->
+         <% for(int p = startPage; p <=endPage; p++) { %>
+         <%       if(p== currentPage) { %>
+                  <button class="page-link" id="chosen" disabled> <%= p %> </button>
+         <%         } else { %>
+                  <button class="page-link" id="numBtn" onclick="location.href='<%= request.getContextPath()%>/myOrder.bo?currentPage=<%= p %>'"><%= p %></button>
+         <%             } %>   
+         <% }%>
+         
+         <!-- 다음 페이지로 -->
+         <button class="page-link" onclick="location.href='<%=request.getContextPath() %>/myOrder.bo?currentPage=<%= currentPage + 1%>'" id="afterBtn"> &gt; </button>
+         <!-- 맨 끝으로 -->
+         <button class="page-link" onclick="location.href='<%=request.getContextPath() %>/myOrder.bo?currentPage=<%= maxPage %>'" id="afafterBtn"> &gt;&gt;</button>
+         <script>
+            if(<%= currentPage %> >= <%=maxPage %>){
+               $('#afafterBtn').prop('disabled', true);
+               $('#afterBtn').prop('disabled', true);
+            }
+         </script>
+      </nav>
 
-			
-			
+		<!-- 행 사이 빈공간-->
+			<div class="row" style="margin-top: 60px;"></div>
 			
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>

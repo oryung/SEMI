@@ -16,7 +16,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로모션</title>
+<title>다나와방</title>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -54,7 +54,6 @@
 .bottomNav.show {bottom: 0; }
 
 
-
 /* ------------따라다니는 오른쪽 네비게이션---------------------------------------------------------- */
 #followquick {
 	position: absolute;
@@ -63,7 +62,6 @@
 	margin-top: 270px;
 	margin-right: -800px;
 }
-
 </style>
 
 </head>
@@ -74,7 +72,6 @@
 
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단 끝!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	
-		
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 40px;"></div>
 		
@@ -157,7 +154,7 @@
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
-	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	
 	
 	<!-- 오른쪽 따라 다니는 네비게이션 바 -->
 
@@ -192,14 +189,11 @@
 				style="cursor: pointer;" onclick="window.scrollTo(0,0);"></i>
 		</div>
 	</div>
+	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	
 
 		<!-- ---------------------------------------스크립트 영역 --------------------------------------->
 		
-		
-	
-
-
 	<!-- 스크롤 시 하단 아이콘 보이기-------------------------------------------- -->
 	<script>
 	//Javascript
@@ -239,6 +233,8 @@
 	};
 	
 	</script>
+	<!-- --------------------따라오는 오른쪽 네비게이션 ------------------------------- -->
+
 	<script>
 	//follow quick menu
 	$(window).scroll(function(){
@@ -257,8 +253,25 @@
 		$(this).css({'background-color':'#11BBFF', 'color' : '#fff'});
 	});
 	});
-</script>
+	</script>
 
+	<script>
+		$(function(){
+			$('.thumb-list').click(function(){
+				var bId = $(this).find("input").val();
+				console.log(bId);
+				location.href="<%=request.getContextPath()%>/boardPromotionDetail.bo?bId=" + bId;
+			});
+		});
+		
+		$(function(){
+			$('.thumb-list').children().hover(function(){
+				$(this).css('color', '#11BBFF');
+			}, function() {
+				$(this).css('color', 'black');
+			});
+		});
+	</script>	
 			
 </body>
 </html>

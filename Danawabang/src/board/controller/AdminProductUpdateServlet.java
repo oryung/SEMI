@@ -78,8 +78,16 @@ public class AdminProductUpdateServlet extends HttpServlet {
 			p.setProductId(pId);
 			p.setProductName(multipartRequest.getParameter("name"));
 			
-			p.setProductCategoryId(Integer.parseInt(multipartRequest.getParameter("category")));
-			System.out.println(p.getProductCategoryId());
+			String category = multipartRequest.getParameter("category"); 
+			switch(category) {
+			case "침대" : p.setProductCategoryId(1); break;
+			case "매트리스" : p.setProductCategoryId(2); break;
+			case "서랍장" : p.setProductCategoryId(3); break;
+			case "커튼" : p.setProductCategoryId(4); break;
+			case "조명" : p.setProductCategoryId(5); break;
+			case "행거" : p.setProductCategoryId(6); break;
+			}
+			
 			p.setProductBrand(multipartRequest.getParameter("brand"));
 			p.setProductPrice(Integer.parseInt(multipartRequest.getParameter("price")));
 			p.setProductSize(multipartRequest.getParameter("size"));
@@ -90,16 +98,13 @@ public class AdminProductUpdateServlet extends HttpServlet {
 			
 			ArrayList<ProductOption> optionList = new ArrayList<ProductOption>();
 			String[] options = multipartRequest.getParameterValues("options");
-			String[] optionsExtraPrice = multipartRequest.getParameterValues("optionsExtraPrice");
 			String[] optionsAmount = multipartRequest.getParameterValues("optionsAmount");
 			String[] pOId =  multipartRequest.getParameterValues("pOId");
-			
 			int productAmount = 0;
 			for(int i = 0; i < options.length; i++) {
 				ProductOption po = new ProductOption();
-				if(!options[i].trim().equals("") && !optionsExtraPrice[i].trim().equals("") && !optionsAmount[i].trim().equals("")) {
+				if(!options[i].trim().equals("") && !optionsAmount[i].trim().equals("")) {
 					po.setProductOptionValue(options[i]);
-					po.setProductOptionOriginPrice(Integer.parseInt(optionsExtraPrice[i]));
 					po.setProductOptionAmount(Integer.parseInt(optionsAmount[i]));
 					productAmount += Integer.parseInt(optionsAmount[i]);
 					po.setProductOptionId(Integer.parseInt(pOId[i]));
@@ -145,7 +150,6 @@ public class AdminProductUpdateServlet extends HttpServlet {
 			}
 			
 			int result = new BoardService().updateProductThumbnail(p, fileList, optionList);
-			
 			if(result>0) {
 				response.sendRedirect("adminProductDetail.bo?pId=" + pId);
 			} else {

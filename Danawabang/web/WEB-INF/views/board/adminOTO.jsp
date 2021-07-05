@@ -88,7 +88,7 @@
 					</thead>
 							<% if (list.isEmpty()) { %>
 						<tr>
-							<td>조회된 리스트가 없습니다.</td>
+							<td colspan="6">조회된 리스트가 없습니다.</td>
 						</tr>
 						<% } else { %>
 						<tbody>
@@ -114,20 +114,15 @@
 		<div class="row" style="margin-top: 30px;"></div>
 		
 		<div class="row" style="height: 50px;">
-			<!-- 검색창  -->
-			<div class="col-3" style="left: 20%;">
-				<div class="input-group mb-3">
-				</div>
-			</div>
+			
 			
 			<!-- 버튼 -->
-			<% if(loginUser != null){ %>
-			<div class="col" style="left: 47%; width: 70%;">
-				
-				<!-- 삭제 버튼 -->
-				<button class="button1" id="delete" onclick="selectDeleteBoard();">삭제</button>
-			</div>
-			<% } %>
+         <% if(loginUser.getAdminCode() != null){ %>
+         <div class="col" style="left: 70%; width: 70%;">
+            <!-- 삭제 버튼 -->
+            <button class="button1" id="delete" onclick="selectDeleteBoard();">삭제</button>
+         </div>
+         <% } %>
 		</div>
 		</form>
 		<!-- 행 사이 빈공간-->

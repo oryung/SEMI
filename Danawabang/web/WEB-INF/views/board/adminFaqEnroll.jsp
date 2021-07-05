@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자_게시판관리_FAQ등록</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -56,7 +56,7 @@ table{
 				<table class="table" style="width: 720px; margin-left: 220px; margin-top: 10px; text-align: center;">
 						<tr>
 							<th scope="col" style="vertical-align: middle;">제목</th>
-							<td><input type="text" size="35px" name="title" class="form-control"></td>
+							<td><input type="text" size="35px" id="title" name="title" class="form-control"></td>
 							<th scope="col" style="vertical-align: middle;">카테고리</th>
 							<td width="30%">
 							<select name="faqCategory" id="category" class="form-control" style="vertical-align: middle;">
@@ -69,15 +69,17 @@ table{
 							</td>
 						</tr>
 						<tr>
-							<th scope="col" id="ie" style="vertical-align: middle;">내용</th>
-							<td colspan="3"><textarea class="form-control" name="content"
+							<th scope="col" style="vertical-align: middle;">내용</th>
+							<td colspan="3"><textarea class="form-control" id="content" name="content"
 									style="height: 500px; resize:none;"></textarea></td>
 						</tr>
 					</table>
 				<br>
 				<div class="col">
 					<input type="button" class="button1" onclick="location.href='<%=request.getContextPath()%>/adminFaq.me'" value="돌아가기" style="margin-left: 205px; margin-right: 510px;">
+					<% if(loginUser.getIsAdmin().equals("ADMIN")){ %>
 					<input type="submit" class="button1" value="등록">
+					<% } %>
 				</div>
 			</form>
 		</div>
@@ -95,14 +97,23 @@ table{
 
 	<!-- 상단 스크립트 -->
 	<script>
-		
 		function enroll(){
-			var bool = confirm('정말 등록하시겠습니까?');
-			if (bool) {
-				alert('등록되었습니다.');
-				return true;
-			} else {
+			if($('#title').val().trim() == ""){
+				alert("제목을 입력해주세요");
+				$('#title').focus();
 				return false;
+			} else if($('#content').val().trim() == ""){
+				alert("내용을 입력해주세요");
+				$('#content').focus();
+				return false;
+			} else {
+				var bool = confirm('정말 등록하시겠습니까?');
+				if (bool) {
+					alert('등록되었습니다.');
+					return true;
+				} else {
+					return false;
+				}
 			}
 		}
 	</script>

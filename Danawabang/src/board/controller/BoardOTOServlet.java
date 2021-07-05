@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import board.model.service.BoardService;
 import board.model.vo.Board;
 import board.model.vo.PageInfo;
-import board.model.vo.Reply;
 
 /**
  * Servlet implementation class BoardOTOServlet
@@ -60,16 +59,20 @@ public class BoardOTOServlet extends HttpServlet {
 		maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		
 		startPage = ((currentPage - 1)/pageLimit)* pageLimit + 1;
+		
 		endPage = startPage + pageLimit - 1;
 		
 		if(pageLimit > maxPage) {
 			pageLimit = maxPage;
-		}	
-
-		
+		}
 		PageInfo pi = new PageInfo(currentPage, listCount, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
+		
 		ArrayList<Board> list = bService.selectOTOList(pi);
+		
+		//--------------------------------------------------
+		
+		
 		
 //		여기서부터 댓글 개수를 파악하는 코드
 		
@@ -84,12 +87,15 @@ public class BoardOTOServlet extends HttpServlet {
 //		게시물 번호들이 있는 bIds를 이용해 각 게시물에 있는 댓글의 수를 파악하기위해 DB까지 다녀온다 
 		int[] replyCount = bService.replyCount(bIds);
 		//DB에 가서 각 게시물의 댓글 수를 replyCount에 넣는다
-
+		
 //		replyCount배열 안에는 각 게시물에 들어있는 댓글의 수가 들어있는데 Board객체에 넣었고 각 게시물에 들어있는 댓글의 수를 BoardOTO.jsp에서 쓰기위해 담았다	
 		for(int j = 0 ; j < list.size() ; j++) {
 			list.get(j).setReplyCount(replyCount[j]);
 		}
 //		댓글 개수 관련 코드 끝-----------------------------------
+		
+	
+		
 		
 		String page = null;
 		if(list != null) {

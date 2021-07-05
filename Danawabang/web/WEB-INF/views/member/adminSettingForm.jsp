@@ -17,7 +17,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 설정</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -86,7 +86,7 @@
 					 	
 					 	<label class="form-label">아이디</label><br>
 					 		<input class="form-control" type="text" id="id" name="id" value="<%=userId%>"
-					 		style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 60%;"><br>
+					 		style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 60%;" readonly><br>
 		               
 		               <label class="form-label">비밀번호</label><br>
 		                <input class="form-control" type="password" id="pw1" name="pwd"
@@ -135,12 +135,10 @@
 
 	<!-- 상단 스크립트 -->
 	<script>
-		
 		 /* 회원가입시 빠진 항목 확인 메소드 */
 	      function enroll() {
 	          var userName = document.getElementById('name').value;
-	          var userId = document.getElementById('id').value;
-	    	  var userPw1 = document.getElementById('pw1').value;
+	   	  var userPw1 = document.getElementById('pw1').value;
 	          var email = document.getElementById('email').value;
 	          var post = document.getElementById('post').value;
 	          var add1 = document.getElementById('add1').value;
@@ -156,11 +154,6 @@
 	            alert('이름을 입력해주세요.');
 	             document.getElementById('name').focus();
 	             return false;
-	          } else if(userId != '<%= userId %>') {
-	        	  alert('아이디는 수정하실 수 없습니다.');
-	        	  document.getElementById('id').value = '<%= userId %>';
-	        	  document.getElementById('id').focus();
-	          	  return false;
 	          } else if (userPw1 == '' || userPw1.length == 0) {
 	             alert('비밀번호를 입력해주세요.');
 	             document.getElementById('pw1').focus();
@@ -179,16 +172,7 @@
 	        	document.getElementById('email').value = '';
 	        	document.getElementById('email').focus();
 	            return false; 
-	          } else if (phone == '' || phone.length == 0) {
-	              alert('연락처를 입력해주세요.');
-	              document.getElementById('email').focus();
-	              return false;
-	           } else if (!regExpPhone.test(phone)){
-	          		alert('연락처가 조건에 맞지 않습니다.\n(000-0000-0000)');
-	          		document.getElementById('phone').value = '';
-	    				document.getElementById('phone').focus();
-	    				return false;
-	  		 } else if (post == '' || post.length == 0) {
+	          } else if (post == '' || post.length == 0) {
 	             alert('우편번호를 입력해주세요.');
 	             document.getElementById('post').focus();
 	             return false;

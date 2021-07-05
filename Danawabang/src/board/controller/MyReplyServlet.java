@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import board.model.service.BoardService;
+import board.model.vo.MyReply;
 import board.model.vo.PageInfo;
+import board.model.vo.ProductReply;
 import board.model.vo.Reply;
-import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
@@ -63,22 +64,38 @@ public class MyReplyServlet extends HttpServlet {
 		maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		
 		startPage = ((currentPage - 1) / pageLimit) * pageLimit + 1;
-		
 		endPage = startPage + pageLimit - 1;
+		
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
 		
+		//탭구분
+		int oTOTab = 0;
+		if(request.getParameter("oTOTab") == null ) {
+			oTOTab = 1;
+		} else {
+			oTOTab = Integer.parseInt(request.getParameter("oTOTab"));
+			
+		}
+		
+		System.out.println("서블릿oto :"+oTOTab);
+		
 		PageInfo pi = new PageInfo(currentPage, listCount, pageLimit, boardLimit, maxPage, startPage, endPage);
-	
-		ArrayList<Reply> list = bService.selectMyReply(pi, userId);
+		PageInfo pi2 = new PageInfo(currentPage, listCount, pageLimit, boardLimit, maxPage, startPage, endPage);
+		ArrayList<Reply> list = bService.selectReply(pi, userId);
+		ArrayList<ProductReply> storeList = bService.selectMyStoreReply(pi2, userId);
+		
 		
 		String page = null;
 		
-		if(list != null) {
+		if(list != null || storeList != null ) {
 			page = "WEB-INF/views/board/myReply.jsp";
 			request.setAttribute("list", list);
+			request.setAttribute("storeList", storeList);
 			request.setAttribute("pi", pi);
+			request.setAttribute("pi2", pi2);
+			request.setAttribute("oTOTab", oTOTab);
 		} else {
 			page = "WEB-INF/views/common/errorPage.jsp";
 			request.setAttribute("msg", "댓글 조회에 실패하였습니다.");

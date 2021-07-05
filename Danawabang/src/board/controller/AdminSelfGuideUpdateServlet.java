@@ -53,14 +53,13 @@ public class AdminSelfGuideUpdateServlet extends HttpServlet {
 				f.mkdirs();
 			}
 			
-			MultipartRequest multipartRequest
-			= new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
+			MultipartRequest multipartRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 			
 			ArrayList<String> saveFiles = new ArrayList<String>();		
 			ArrayList<String> originFiles = new ArrayList<String>();
 			
 			Enumeration<String> files = multipartRequest.getFileNames();
-			int count = 1;
+			int count = 5;
 			while(files.hasMoreElements()) {
 				String name = files.nextElement();
 				if(multipartRequest.getFilesystemName(name) != null) {				
@@ -77,8 +76,12 @@ public class AdminSelfGuideUpdateServlet extends HttpServlet {
 			
 //		
 			ArrayList<BoardAttachment> fileList = new ArrayList<BoardAttachment>();
-			int titleImgFileId = Integer.parseInt(multipartRequest.getParameter("titleImgFileId"));
-			int contentImg1FileId = Integer.parseInt(multipartRequest.getParameter("contentImg1FileId"));
+			int titleImgId = Integer.parseInt(multipartRequest.getParameter("titleImgId"));
+			int contentImg1Id = Integer.parseInt(multipartRequest.getParameter("contentImg1Id"));
+			int contentImg2Id = Integer.parseInt(multipartRequest.getParameter("contentImg2Id"));
+			int contentImg3Id = Integer.parseInt(multipartRequest.getParameter("contentImg3Id"));
+			int contentImg4Id = Integer.parseInt(multipartRequest.getParameter("contentImg4Id"));
+			int contentImg5Id = Integer.parseInt(multipartRequest.getParameter("contentImg5Id"));
 			
 			for(int i = originFiles.size()-1; i >= 0; i--) {	
 				BoardAttachment ba = new BoardAttachment();
@@ -88,10 +91,22 @@ public class AdminSelfGuideUpdateServlet extends HttpServlet {
 				
 				if(i == originFiles.size()-1) {
 					ba.setFileLevel(0);
-					ba.setFileId(titleImgFileId);
+					ba.setFileId(titleImgId);
+				} else if(i == originFiles.size()-2){
+					ba.setFileLevel(1); 		
+					ba.setFileId(contentImg1Id);
+				} else if(i == originFiles.size()-3) {
+					ba.setFileLevel(1); 		
+					ba.setFileId(contentImg2Id);
+				} else if(i == originFiles.size()-4){
+					ba.setFileLevel(1); 		
+					ba.setFileId(contentImg3Id);
+				} else if(i == originFiles.size()-5) {
+					ba.setFileLevel(1); 		
+					ba.setFileId(contentImg4Id);
 				} else {
 					ba.setFileLevel(1); 		
-					ba.setFileId(contentImg1FileId);
+					ba.setFileId(contentImg5Id);
 				}
 				
 				fileList.add(ba);
