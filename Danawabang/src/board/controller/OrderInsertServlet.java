@@ -92,14 +92,16 @@ public class OrderInsertServlet extends HttpServlet {
 		
 		int result = new BoardService().insertOrder(order);
 		int result2 = 0;
+		int result3 = 0;
 		for(int i = 0 ; i < board.length ; i++) {
 			int cId = Integer.parseInt(board[i]);
+			result3 = new BoardService().sold(cId);
 			result2 = new BoardService().deleteCart(cId);
 		}
 		
 		
 		
-		if(result>0 && result2 == boards.length()) {
+		if(result>0 && result2 == boards.length() && result3 != 0) {
 			/* response.setContentType("application/json; charset=UTF-8"); */
 		Gson gson = new Gson();
 		gson.toJson(result, response.getWriter());

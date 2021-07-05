@@ -667,7 +667,7 @@ public class BoardService {
 
 		return result;
 	}
-
+	
 	///////////////////////////// 주문////////////////////////////
 	// 주문 완료 후 주문 신규등록
 	public int insertOrder(Orders order) {
@@ -686,6 +686,28 @@ public class BoardService {
 		close(conn);
 		return result;
 	}
+
+	// 주문 완료후 상품 재고 깍기
+	public int sold(int cId) {
+		Connection conn = getConnection();
+
+		BoardDAO bd = new BoardDAO();
+
+		Cart c = bd.selectCart(conn, cId);
+
+		int result = new BoardDAO().sold(conn, c);
+
+		if (result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		close(conn);
+
+		return result;
+	}
+
 
 	////////////////////////// 메인페이지/////////////////////////////
 	public ArrayList selectAllForMain(int i) {
@@ -1086,5 +1108,7 @@ public class BoardService {
 
 		return list;
 	}
+	
+	
 
 }

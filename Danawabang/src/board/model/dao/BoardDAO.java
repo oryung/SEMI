@@ -1427,6 +1427,59 @@ public class BoardDAO {
 		return result;
 	}
 	
+	// 주문완료 후에 상품의 재고를 구매한 수량만큼 깍기
+	public int sold(Connection conn, Cart c) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("sold");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setInt(1, c.getCartProductAmount());
+			pstmt.setInt(2, c.getProductOptionId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	// 카트에 담긴 상품 정보를 가져옴
+	public Cart selectCart(Connection conn, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Cart c = null;
+		
+		String query = prop.getProperty("selectCart");
+		
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				c = new Cart(rset.getInt("cart_id"), rset.getInt("cart_product_amount"), rset.getInt("product_id"), rset.getString("member_id"),
+								rset.getString("cart_delete"), rset.getDate("cart_enroll_date"), rset.getInt("product_option_id"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return c;
+	}
+	
 	/////////////////////메인페이지 ////////////////////////
 	
 	// Promotion, SelfGuide 게시글 전체 가져오기

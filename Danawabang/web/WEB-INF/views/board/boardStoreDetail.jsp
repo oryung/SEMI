@@ -12,14 +12,23 @@
 	ArrayList<ProductOption> optionList = (ArrayList) request.getAttribute("optionList");
 	
 	ArrayList<ProductReply> productReplyList = (ArrayList)request.getAttribute("productReplyList");
-	
-	System.out.println("productReplyList : "+productReplyList);
+
+	int checkStock = 0;
+	String[] select = new String[optionList.size()];
+	for(int i = 0 ; i < optionList.size() ; i++) {
+		if(optionList.get(i).getProductOptionAmount() == 0) {
+			select[i] = "disabled";
+		} else {
+			select[i] = "";
+			checkStock++;
+		}
+	}
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>다나와방</title>
+<title>스토어_상세</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -150,13 +159,13 @@ div {
 						int links = 0;
 					%>
 					<% switch(p.getProductCategoryId()){ 
-						case 1 : tips = "침구의 종류와 침구를 선책하는 간단한 팁은?"; links= 89; break; // 침대
-						case 2 : tips = "메트리스 종류와 선택하는 팁은?"; links= 86; break; // 매트리스
-						case 3 : tips = "공간에 따른 효율적인 수납 팁은?"; links= 119; break; // 서랍장
-						case 4 : tips = "커튼마다 종류와 기능이 달라요!"; links= 88; break; // 커튼
-						case 5 : tips = "조명 하나로 원하는 분위기를 연출할 수 있어요!"; links= 91; break; // 조명
-						case 6 : tips = "가구를 효율적으로 배치할 수 있는 팁은?"; links= 90; break; // 행거
-					 } %>
+	                  case 1 : tips = "침구의 종류와 침구를 선책하는 간단한 팁은?"; links= 89; break; // 침대
+	                  case 2 : tips = "메트리스 종류와 선택하는 팁은?"; links= 86; break; // 매트리스
+	                  case 3 : tips = "공간에 따른 효율적인 수납 팁은?"; links= 119; break; // 서랍장
+	                  case 4 : tips = "커튼마다 종류와 기능이 달라요!"; links= 88; break; // 커튼
+	                  case 5 : tips = "조명 하나로 원하는 분위기를 연출할 수 있어요!"; links= 91; break; // 조명
+	                  case 6 : tips = "가구를 효율적으로 배치할 수 있는 팁은?"; links= 90; break; // 행거
+                	} %>
 					<div class="row">
 						<div class="col-12">
 							<div style="font-size: 20px; width:500px; border-radius:8px;  background: rgb(184, 233, 255)">
@@ -204,16 +213,17 @@ div {
 							<b style="font-size: 20px;">옵션</b>
 						</div>
 						<div class="col-12">
-							<select class="form-control" name="pOptionId" id="pOptionId"
+							<select class="form-control" name="pOptionId" id="pOptionId" onchange="changeOption();"
 								style="width: 200px; margin-top: 5px; margin-bottom: 10px;">
 								<option disabled>== 선택 ==</option>
-								<%
-									for (ProductOption op : optionList) {
+								<%	
+									for (int i = 0 ; i < optionList.size() ; i++) {
 								%>
-								<option value="<%=op.getProductOptionId()%>"><%=op.getProductOptionValue()%></option>
-								<%
-									}
-								%>
+								<option <%= select[i] %> name="options" value="<%=optionList.get(i).getProductOptionId()%>"><%=optionList.get(i).getProductOptionValue()%>&nbsp;&nbsp;&nbsp;</option>
+								<%	}	%>
+								<% for (int i = 0 ; i < optionList.size() ; i++) {	%>
+								<input type="hidden" id="optionAmount<%= i %>" name="optionAmount" value="<%= optionList.get(i).getProductOptionAmount() %>">
+								<% } %>	
 							</select>
 						</div>
 					</div>
@@ -225,20 +235,28 @@ div {
 					<div class="row">
 						<div class="col-12">
 							<input class="form-control" type="number" id ="cartProductAmount" name="cartProductAmount" min="1"
-								max="100" step="1" value="1"
+								max="<%= optionList.get(0).getProductOptionAmount() %>" step="1" value="1" onchange="totalPrice();"
 								style="width: 80px; height: 30px; margin-top: 5px; margin-bottom: 10px;">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<b>합계: <span style="color: rgb(192, 57, 43);"><%= p.getProductPrice() + p.getProductDeliveryFee() %></span>원
-							</b>
+							<b>합계: <span style="color: rgb(192, 57, 43);" id="sumPrice"><%= p.getProductPrice() + p.getProductDeliveryFee() %></span>원</b>
+							<input type="hidden" id="price" name="price">
 						</div>
 					</div>
 						<div class="row" style="margin-top: 5px; margin-bottom: 10px;">
 						<div class="col-12">
+						<% if(checkStock != 0) { %>
 							<input type="button" class="pay" id="cart" value="장바구니 담기"> &nbsp;&nbsp;
 							<input type="submit" class="pay" id="cartPayment" value="결제하기">
+						<% } else { %>
+							<br><br><span style="font-size: 24px; margin-left: 30px;">일시품절입니다.</span>
+							<script>
+								document.getElementById("cartProductAmount").value = 0;
+								document.getElementById("sumPrice").innerText = 0;
+							</script>
+						<%} %>
 						</div>
 					</div>
 				</div>
@@ -263,11 +281,60 @@ div {
 						if (bool == true) {
 							$('#detailForm').attr('action', 'cartPayment.bo');
 							$('#detailForm').submit();
-						} else {
-							return false;
 						}	
 					});
 				});
+				
+				// 상품 옵션이 품절일 때의 상태 나타내기
+				(function() {
+					var option = document.getElementsByName("options");
+					
+					for(var i = 0 ; i < option.length ; i++) {
+						if(option[i].disabled) {
+							option[i].innerText = option[i].innerText + " (품절)";
+							option[i].style.backgroundColor = "lightgray";
+						}
+					}
+				})();
+				
+				// 상품 옵션을 바꿀 때 수량을 1로 바꾸기
+				function changeOption() {
+					document.getElementById("cartProductAmount").value = 1;
+					var option  = document.getElementsByName("options");
+					var price = 0;
+					
+					document.getElementById("sumPrice").innerText = <%= p.getProductPrice() %> + <%= p.getProductDeliveryFee() %> + price;
+				}
+				
+				// 총 합계 가격 계산
+				function totalPrice() {
+					var productPrice = <%= p.getProductPrice() %>;
+					var amount = document.getElementById("cartProductAmount").value;
+					var option  = document.getElementsByName("options");
+					var optionAmount = document.getElementsByName("optionAmount");
+					var result = document.getElementById("sumPrice");
+					var maxValue = document.getElementById("cartProductAmount");
+					var price = 0;
+
+					for(var i = 0 ; i < option.length ; i++) {
+						if(option[i].selected) {
+							maxValue.setAttribute("max", optionAmount[i].value);
+							price = productPrice;
+						}
+					}
+					
+					result.innerText = price * amount + <%= p.getProductDeliveryFee() %>;
+					
+					if(<%= p.getProductPrice() %> < 100000 && result.innerText >= 110000) {
+						result.innerText -= 10000; 
+					}
+					
+					document.getElementById("price").value = result.innerText;
+					
+				}
+				
+
+				
 		</script>
 		
 		<!-- -------------------------------- 상품상세정보 / 리뷰 / 배송/환불 ----------------------------------- -->
@@ -332,12 +399,7 @@ div {
 																	<span style="margin-left: 10px"><%= productReplyList.get(i).getProductReplyEnrollDate() %></span>
 																	
 																	<% ProductReply pr = productReplyList.get(i); %>
-																	<%if(loginUser != null && loginUser.getId().contains("admin")) { %>
-																		
-																	&nbsp;&nbsp;<span class="repBtnB repDelete" id="repDelete">삭제</span>
-																	<% } %>
 																	<% if(loginUser != null && loginUser.getId().equals(pr.getMemberId()))  { %>
-																	
 																	&nbsp;&nbsp;&nbsp;&nbsp;<span class="repBtnF repUpdate" id="repUpdate">수정</span>
 																	&nbsp;&nbsp;<span class="repBtnB repDelete" id="repDelete">삭제</span>
 																	
@@ -370,7 +432,7 @@ div {
 									<div class="col"></div>
 									<div class="col-10">
 										<div class="row">
-										<% if(loginUser != null && !loginUser.getId().contains("admin"))  { %>
+										<% if(loginUser != null)  { %>
 											<div class="col-10" style="margin-left:10px;">
 											<textarea rows="3" cols="107" class="form-control" id="replyContent" style="resize: none; border-color: lightgray;" placeholder="댓글을 입력하세요."></textarea>
 											</div>
@@ -552,7 +614,6 @@ div {
 					$div.append($writerTd);
 					$div.append($dateTd);
 					
-					
 					if($userId == data[i].memberId){
 						$div.append($updateTd);
 						$div.append($deleteCT);
@@ -646,6 +707,7 @@ div {
 						$replyTableCT.html('');
 						
 						
+						
 						for(var i in data){
 							
 							
@@ -656,7 +718,7 @@ div {
 							var $deleteCT = $('<span class="repBtnB repDelete">').text('삭제').css({"margin-left":"14px"});
 							var $br = $('<br>');
 							var $contentTd = $('<span>').text(data[i].productReplyContent);
-							var $input = $('<input type="hidden" id="replyId'+ i +'" value="'+ data[i].productReplyId +'">');
+							var $input = $('<input type="hidden" id="replyId'+ i +'" value="'+ data[i].replyId +'">');
 							var $div2 = $('<div id="repUpdateForm' + i + '">').css({"display":"none", "width":"760px", "height":"120px"});
 							var $writer = $('<span>').text(data[i].memberId).css({"font-size":"18px","font-weight":"bold"});
 							var $update = $('<span class="repBtnF update" id="update'+i+'">').text("등록");
@@ -671,11 +733,10 @@ div {
 							$div.append($dateTd);
 							
 							
-						
-						if($userId == data[i].memberId){
-							$div.append($updateTd);
-							$div.append($deleteCT);
-						}
+							if($userId == data[i].memberId){
+								$div.append($updateTd);
+								$div.append($deleteCT);
+							}
 									
 							
 							$div.append($br);
