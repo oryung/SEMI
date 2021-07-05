@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>다나와방</title>
+<title>관리자_게시판관리_프로모션_등록</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -61,7 +61,7 @@ table{
 					<tbody>
 						<tr>
 							<th scope="col" style="vertical-align: middle;">제목</th>
-							<td colspan="3"><input type="text" size="35px" id="title" name="title" class="form-control"></td>
+							<td colspan="3"><input type="text" size="35px" id="title" name="title" class="form-control" required></td>
 						</tr>
 						<tr>
 							<th scope="col" style="vertical-align: middle;">상품 대표이미지 등록</th>
@@ -79,20 +79,15 @@ table{
 							<td id="contentImgArea3" style="cursor: pointer;">
 							<img id="contentImg3" width="200" height="200"></td>
 						</tr>
-						<tr>
-							<th scope="col" style="vertical-align: middle;">내용</th>
-							<td colspan="3"><textarea class="form-control" id="content" name="content"
-									style="height: 200px; resize:none;"></textarea></td>
-						</tr>
 					</tbody>
 				</table>
 
 			<!-- 파일 업로드 하는 부분 -->
 				<div id="fileArea">
-					<input type="file" id="thumbnailImg1" multiple="multiple" name="thumbnailImg1" onchange="LoadImg(this,1)">
-					<input type="file" id="thumbnailImg2" multiple="multiple" name="thumbnailImg2" onchange="LoadImg(this,2)">
-					<input type="file" id="thumbnailImg3" multiple="multiple" name="thumbnailImg3" onchange="LoadImg(this,3)">
-					<input type="file" id="thumbnailImg4" multiple="multiple" name="thumbnailImg4" onchange="LoadImg(this,4)">
+					<input type="file" id="thumbnailImg1" multiple="multiple" name="thumbnailImg1" onchange="LoadImg(this,1)" required>
+					<input type="file" id="thumbnailImg2" multiple="multiple" name="thumbnailImg2" onchange="LoadImg(this,2)" required>
+					<input type="file" id="thumbnailImg3" multiple="multiple" name="thumbnailImg3" onchange="LoadImg(this,3)" required>
+					<input type="file" id="thumbnailImg4" multiple="multiple" name="thumbnailImg4" onchange="LoadImg(this,4)" required>
 				</div>
 				<script>
 					// 내용 작성 부분의 공간을 클릭할 때 파일 첨부 창이 뜨도록 설정하는 함수
@@ -142,7 +137,9 @@ table{
 				
 				<div class="col">
 					<input type="button" class="button1" onclick="location.href='<%=request.getContextPath()%>/adminPromotion.bo'" value="돌아가기" style="margin-left: 205px; margin-right: 510px;">
+					<% if(loginUser.getIsAdmin().equals("ADMIN")){ %>
 					<input type="submit" class="button1" value="등록">
+					<%} %>
 				</div>
 			</form>
 		</div>
@@ -152,8 +149,6 @@ table{
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
-
-	<!-- 상단 스크립트 -->
 	<script>
 		function enroll(){
 			var bool = confirm('정말 등록하시겠습니까?');
@@ -165,6 +160,5 @@ table{
 			}
 		}
 	</script>
-	
 </body>
 </html>

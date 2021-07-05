@@ -6,13 +6,6 @@
 	ArrayList<Product> discountProList = (ArrayList<Product>)request.getAttribute("discountProList");
 	ArrayList<Product> newProList = (ArrayList<Product>)request.getAttribute("newProList");
 	ArrayList<ProductAttachment> pFileList = (ArrayList<ProductAttachment>)request.getAttribute("pFileList");
-		
-// 	for(Board b : bList){
-		
-//  		if(b.getBoardCategoryId() == 2421){
-//  			 System.out.println(b.getBoardCategoryId() == 2421);
-//  		}
-// 	}
 	
 %>
 
@@ -154,7 +147,6 @@
 
 
 		<!-- 중간 메인사진 사이드 바-->
-
 		<!-- Swiper -->
 		<div class="swiper-container mySwiper">
 			 <% if(bList.isEmpty() || bFileList.isEmpty()) { %>
@@ -165,7 +157,8 @@
               	 	</div>
               	 <% } else { %>	
 	                  <div class="swiper-wrapper" style="font-weight: bold; font-size: 20px;">
-	              	 	<% for(int i = 0; i < 5; i++) { %>
+						<% int count = 0; %>
+	              	 	<% for(int i = 0; i < bList.size(); i++) { %>
 						<% Board b = bList.get(i); %>
 						<% int bId =  b.getBoardId(); %>
 		                 		 <input type="hidden" value="<%= bId %>">
@@ -174,11 +167,13 @@
 									<% if(b.getBoardId() == a.getBoardId()) { %>
 										<% if(b.getBoardCategoryId() == 2430) { %>
 			                     			<div class="swiper-slide">
-						                        	<img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= a.getChangeName() %>"  onclick="location.href='<%= request.getContextPath() %>/boardPromotionDetail.bo?bId='+ <%= bId %>"  style="width:700px; height:700px" class="img-rounded">
+						                        <img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= a.getChangeName() %>"  onclick="location.href='<%= request.getContextPath() %>/boardPromotionDetail.bo?bId='+ <%= bId %>"  style="width:700px; height:700px" class="img-rounded">
 			                   				</div>
+			                   				<% count++; %>
 		                       	    	<% } %>
 		                       	    <% } %>
 		                       	 <% } %>   
+								<% if(count > 5) {break;}%>
 	                 	 <% } %>
                 	  </div>
                   <% } %>	

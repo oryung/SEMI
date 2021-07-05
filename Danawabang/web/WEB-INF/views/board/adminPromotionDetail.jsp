@@ -13,7 +13,7 @@ BoardAttachment contentImg3 = fileList.get(3);
 <html>
 <head>
 <meta charset="UTF-8">
-<title>다나와방</title>
+<title>관리자_게시판관리_프로모션_상세</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -101,18 +101,15 @@ table{
 							<a href="<%=request.getContextPath()%>/thumbnail_uploadFiles/<%=contentImg3.getChangeName()%>">
 							<img id="contentImg3" name="contentImg3" width="200" height="200" src="<%=request.getContextPath()%>/thumbnail_uploadFiles/<%=contentImg3.getChangeName()%>"></a></td>
 						</tr>
-						<tr>
-							<th scope="col" style="vertical-align: middle;">내용</th>
-							<td colspan="3"><textarea class="form-control" id="content" name="content"
-									style="height: 200px; resize:none;" readonly><%=b.getBoardContent()%></textarea></td>
-						</tr>
 					</tbody>
 				</table>
 		
 		<div class="col">
 					<input type="button" class="button1" onclick="location.href='<%=request.getContextPath()%>/adminPromotion.bo'" value="돌아가기" style="margin-left: 205px; margin-right: 410px;">
+					<% if(loginUser.getIsAdmin().equals("ADMIN")){ %>
 					<input type="submit" class="button1" value="수정">
 					<input type="button" class="button1" id="delete" value="삭제">
+					<%} %>
 				</div>
 			</form>
 		</div>
@@ -128,17 +125,21 @@ table{
 	<!-- 상단 스크립트 -->
 	<script>
 	// 삭제 버튼
-		$(function() {
-			$('#delete').click(function() {
+		$(function(){
+			$('#delete').click(function(){
 				var bool = prompt('정말 삭제하시겠습니까? 삭제하시려면 관리자 코드를 입력하십시오')
-				if (bool == "realadmin") {
-					$('#detailForm').attr('action', 'adminPromotionDelete.bo');
+				if(bool == "realadmin"){
+					$('#detailForm').attr('action', 'delete.bo');
 					$('#detailForm').submit();
-				} else {
-					alert("관리자 코드를 잘못입력하셨습니다.");
+				}  else {
+					if(bool == null) {
+						
+					} else {
+						alert("값을 제대로 입력해주세요.");	
+					}
 				}
-			});
-		});
+			});	
+		});	
 	</script>
 </body>
 </html>

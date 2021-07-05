@@ -16,7 +16,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>다나와방</title>
+<title>관리자_게시판관리_프로모션</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -77,9 +77,9 @@
 							<th scope="col" style="width: 90px;">상세보기</th>
 						</tr>
 					</thead>
-					<% if (bList.isEmpty()) { %>
-						<tr>
-							<td>조회된 리스트가 없습니다.</td>
+					<% if(bList.isEmpty()) {%>
+					<tr>
+						<td colspan="5">조회된 리스트가 없습니다.</td>
 					</tr>
 					<% } else { %>
 					<tbody>
@@ -116,7 +116,7 @@
 			</div>		
 			
 			<!-- 버튼 -->
-			<% if(loginUser != null){ %>
+			<% if(loginUser.getIsAdmin().equals("ADMIN")){ %>
 			<div class="col" style="margin-left: 150px;">
 				<!-- 등록 버튼 -->
 				<button class="button1" type="button" onclick="location.href='<%=request.getContextPath() %>/adminPromotionEnrollForm.bo';">등록</button>

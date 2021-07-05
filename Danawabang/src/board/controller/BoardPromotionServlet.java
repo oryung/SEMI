@@ -55,11 +55,11 @@ public class BoardPromotionServlet extends HttpServlet {
 		}
 		
 		pageLimit = 5;
-		boardLimit = 10;
+		boardLimit = 3;
 		
-		maxPage = (int) Math.ceil((double)listCount / boardLimit);
+		maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		
-		startPage = ((currentPage - 1)/pageLimit)* pageLimit + 1;
+		startPage = ((currentPage - 1) / pageLimit) * pageLimit + 1;
 		
 		endPage = startPage + pageLimit - 1;
 		
@@ -71,7 +71,7 @@ public class BoardPromotionServlet extends HttpServlet {
 		
 		ArrayList<Board> bList = bService.selectPList(pi);
 		ArrayList<BoardAttachment> fList = bService.selectThumbnailList();
-
+		
 		String page = null;
 		if(bList != null && fList != null) {
 			request.setAttribute("bList", bList);

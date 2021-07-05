@@ -59,14 +59,16 @@ public class AdminPromotionServlet extends HttpServlet implements Servlet {
 		pageLimit = 5;
 		boardLimit = 10;
 		
-		maxPage = (int) Math.ceil((double)listCount / boardLimit);
+		maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		
-		startPage = ((currentPage - 1)/pageLimit)* pageLimit + 1;
+		startPage = ((currentPage - 1) / pageLimit) * pageLimit + 1;
+		
 		endPage = startPage + pageLimit - 1;
 		
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
+		
 		
 		PageInfo pi = new PageInfo(currentPage, listCount, pageLimit, boardLimit, maxPage, startPage, endPage);
 		

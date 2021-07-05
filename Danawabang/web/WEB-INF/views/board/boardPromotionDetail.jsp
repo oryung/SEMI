@@ -13,7 +13,7 @@ BoardAttachment contentImg3 = fileList.get(3);
 <html>
 <head>
 <meta charset="UTF-8">
-<title>다나와방</title>
+<title>프로모션_상세</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -27,7 +27,15 @@ BoardAttachment contentImg3 = fileList.get(3);
 div {
 	border: 0px solid green;
 	}
-
+.water3 {
+	background: #11BBFF;
+	border-color: #11BBFF;
+	width: 100px;
+	height: 30px;
+	border: none;
+	color:  white;
+	border-radius: 4px;
+}
 
 /* ----------스크롤시 하단아이콘  보이기 --------------------------------------------------------------------- */
 
@@ -62,7 +70,29 @@ div {
 				<div class="col-4"></div>
 			</div>
 		</div>
-
+		<div class="row">
+			<div class="col-2"></div>
+			<div class="col-7" style=" font-size: 30px; text-decoration: none; font-weight: bold; margin-left: 20px; margin-bottom:30px;"><%= b.getBoardTitle() %></div>
+			<div class="col-3"></div>
+		</div>
+		<!-- 행 사이 빈공간-->
+		<div class="row" style="margin-top: 40px;"></div>
+		<div class="row" style="margin-bottom: 20px;">
+			<div class="col-2"></div>
+			<div class="col-5" style=" font-size: 17px; text-decoration: none; font-weight: bold; margin-left: 20px;">조회수 : <%= b.getBoardCount() %></div>
+			<div class="col-4" style=" font-size: 17px; text-decoration: none; font-weight: bold; margin-left: 50px;">작성일자 : <%= b.getEnrollDate() %></div>
+		</div>
+		<% 
+			String links = "";
+		%>
+		<% switch(b.getBoardId()){ 
+						case 272 : links= "1,"; break;
+						case 271 : links= "3,"; break;
+						case 270 : links= "3,"; break;
+						case 269 : links= "6,"; break;
+						case 268 : links= "3,"; break;
+						case 267 : links= "6,"; break;
+					 } %>
 		<div class="container">
 			<div class="row">
 				<div class="col-2"></div>
@@ -72,7 +102,9 @@ div {
 						<div style="margin-bottom:30px;"><img id="titleImg" width=720 name="contentImg1" src="<%=request.getContextPath()%>/thumbnail_uploadFiles/<%=contentImg1.getChangeName()%>"></div>
 						<div style="margin-bottom:30px;"><img id="titleImg" width=720 name="contentImg2" src="<%=request.getContextPath()%>/thumbnail_uploadFiles/<%=contentImg2.getChangeName()%>"></div>
 						<div style="margin-bottom:30px;"><img id="titleImg" width=720 name="contentImg3" src="<%=request.getContextPath()%>/thumbnail_uploadFiles/<%=contentImg3.getChangeName()%>"></div>
-						<div><%= b.getBoardContent() %></div>
+						<div style="margin-top: 50px;font-weight:bold; font-size:20px;">프로모션 관련 상품을 보고 싶으시다면<br>
+						<button class="water3" style="margin-top:30px; font-size: 18px;" 
+						onclick="location.href='<%=request.getContextPath() %>/boardStore.bo?currentPage=1&checkedItemCategory=<%=links%>'">보러 가기</button></div>
 					</div>
 		</div>
 		<div class="col-2"></div>

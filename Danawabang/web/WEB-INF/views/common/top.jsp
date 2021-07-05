@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>다나와방</title>
+<title>메인페이지</title>
 <!-- --------------------- -->
 <style>
 /*상단 관련 스타일*/
@@ -111,7 +111,7 @@
 		<!-- 1행 -->
 		<div class="row" id="top-bar">
 			<!-- 상단 광고 -->
-			<div class="col-12" onclick="location.href='<%= request.getContextPath()%>/boardPromotionDetail.bo?bId=204'"
+			<div class="col-12" onclick="location.href='<%= request.getContextPath()%>/boardPromotionDetail.bo?bId=271'"
 				style="background: #11BBFF; text-align: center; cursor: pointer; line-height: 30px; font-size: 14px; font-weight: bold; color: white;">
 				정리정돈의 달인이 될 수 있는 기회, 수납/정리 프로모션으로 함께 떠나요!</div>
 		</div>
