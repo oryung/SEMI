@@ -565,16 +565,17 @@ public class BoardService {
 		return listCount;
 	}
 
-	// 장바구니 전체 리스트 조회(페이징x)
-	public ArrayList<Cart> selectCartList() {
-		Connection conn = getConnection();
-
-		ArrayList<Cart> list = new BoardDAO().selectCartList(conn);
-
-		close(conn);
-
-		return list;
-	}
+	
+	 //장바구니 전체 리스트 조회(페이징x)
+	  public ArrayList<Cart> selectCartList(String id) {
+	     Connection conn = getConnection();
+	     
+	     ArrayList<Cart> list = new BoardDAO().selectCartList(conn, id);
+	     
+	     close(conn);
+	     
+	     return list;
+	  }  
 
 	// 장바구니 전체 리스트 조회(페이징o)
 	public ArrayList<CartWhole> selectCartListC(PageInfo pi, String id) {

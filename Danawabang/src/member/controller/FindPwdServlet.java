@@ -50,8 +50,8 @@ public class FindPwdServlet extends HttpServlet {
 		
 		MemberService ms = new MemberService();
 
-		final String sender = "seohee658@naver.com"; // 보내는 사람의 실제 네이버 이메일 주소
-		final String password = "";  // 보내는 사람의 실제 네이버 이메일 비밀번호
+		final String sender = "danawabang@naver.com"; // 보내는 사람의 실제 네이버 이메일 주소
+		final String password = "danawabang!!";  // 보내는 사람의 실제 네이버 이메일 비밀번호
 
 		String memberId = request.getParameter("id");
 

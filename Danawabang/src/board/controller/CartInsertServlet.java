@@ -36,7 +36,7 @@ public class CartInsertServlet extends HttpServlet {
         int pId = Integer.parseInt(request.getParameter("productId"));
         String id = ((Member)request.getSession().getAttribute("loginUser")).getId();
         int pOptionId = Integer.parseInt(request.getParameter("pOptionId"));   
-        ArrayList<Cart> cartList = new BoardService().selectCartList();
+        ArrayList<Cart> cartList = new BoardService().selectCartList(id);
         int result1 = 0;
         int result2 = 0;
         Cart c = new Cart();
@@ -44,7 +44,6 @@ public class CartInsertServlet extends HttpServlet {
      
         
         if(cartList.size() == 0) {
-           System.out.println("여기");
            c2.setCartProductAmount(cartProductAmount);
            c2.setProductId(pId);
            c2.setMemberId(id);
@@ -54,7 +53,6 @@ public class CartInsertServlet extends HttpServlet {
            for(int i = 0; i<cartList.size(); i++) {
               c = cartList.get(i);
               if(c.getProductId() != pId || c.getProductOptionId() != pOptionId) {
-                 System.out.println("거기");
                  c2.setCartProductAmount(cartProductAmount);
                  c2.setProductId(pId);
                  c2.setMemberId(id);
@@ -62,9 +60,7 @@ public class CartInsertServlet extends HttpServlet {
                  result2 = new BoardService().insertCart(c2);
                  break;   
               } else if (c.getProductId() == pId && c.getProductOptionId() == pOptionId){
-                 System.out.println("저기");
                  int amount = c.getCartProductAmount() + cartProductAmount;
-//                 c.setCartId(c.getCartId());
                  c.setCartProductAmount(amount);
                  result1 = new BoardService().updateCart(c);
                  break;

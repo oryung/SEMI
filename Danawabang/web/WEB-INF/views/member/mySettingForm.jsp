@@ -11,7 +11,7 @@
    
    
    String[] splitStr = address.split("/");
-   
+   System.out.println(member);
 %>   
 <!DOCTYPE html>
 <html>
@@ -44,18 +44,22 @@
          <!-- 중단 카테고리 여백 -->
          <div class="col-3"></div>
          <!-- 나의쇼핑, 나의활동, 설정 중단카테고리 -->
-         <div onclick="location.href='마이페이지-나의 쇼핑.html';"
+         <div onclick="location.href='<%= request.getContextPath() %>/myOrder.bo'"
                class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold; padding-right:10px;">
                나의 쇼핑</div>
-         <div onclick="location.href='마이페이지-나의 활동.html';"
+         <div onclick="location.href='<%= request.getContextPath() %>/myReply.bo'"
                class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold; padding-right:20px;">
                나의 활동</div>
-         <div onclick="location.href='마이페이지-설정-회원정보수정.html';"
+         <div onclick="location.href='<%= request.getContextPath() %>/mySettingForm.me';"
                class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold;">
                설정</div>
          <!-- 상단 카테고리 여백 -->
          <div class="col-3"></div>
       </div>
+      
+      
+      
+      
       
       <!-- 행 사이 빈공간-->
       <div class="row" style="margin-top: 40px;"></div>
@@ -79,36 +83,30 @@
             <div class="col-4"></div>
             <!-- 기입칸-->
          <div class="col-5" style="font-size: 18px; font-weight: bold;">
-            <form action="<%=request.getContextPath() %>/mySetting.me" method="post" id="myForm">
+            <form action="<%=request.getContextPath() %>/update.me" method="post" id="myForm">
             	<button type="button" onclick="withdraw();" style="text-decoration: underline; font-weight: normal; border-style: none; background-color: #fff; color: rgb(127, 127, 127); cursor: pointer; font-size: 12px; margin-left: 350px;">탈퇴하기</button>
                <label class="form-label">이름</label>
-               <br><span class="form-control" style="color: rgb(94, 94, 94); width: 60%; font-weight: normal;"> <%=userName%> </span>
-               <input class="form-control" type="hidden" id="name" name="name" value="<%=userName%>"
+               <br><input class="form-control" type="text" id="name" name="name" value="<%=userName%>"
                   style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 60%;"><br>
-               <label class="form-label">아이디</label><br><span class="form-control" style="color: rgb(94, 94, 94); width: 60%; font-weight: normal;"><%=userId%></span>
-			<input class="form-control" type="hidden" id="id" name="id" 
-                  value="<%=userId%>"
-                  style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 60%;"><br><input type="hidden" id="pwd" name="pwd" value="<%=userPwd%>">
-             <label class="form-label">이메일</label><br><span class="form-control" style="color: rgb(94, 94, 94); width: 80%; font-weight: normal;"><%=email%></span><input
-                  class="form-control" type="hidden" id="email" name="email"
-                  value="<%=email%>"
-                  style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 80%;"><br>
-               <label class="form-label">연락처</label><br><span class="form-control" style="color: rgb(94, 94, 94); width: 70%; font-weight: normal;"><%=phone%></span><input
-                  class="form-control" type="hidden" id="phone" name="phone"
-                  value="<%=phone%>"
+               <label class="form-label">아이디</label><br>
+			<input class="form-control" type="text" id="id" name="id" value="<%=userId%>"
+			 style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 60%;" readonly><br>
+             <label class="form-label">이메일</label><br>
+             <input class="form-control" type="text" id="email" name="email" value="<%=email%>"
+                 style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 80%;"><br>
+               <label class="form-label">연락처</label>
+				<input class="form-control" type="text" id="phone" name="phone" value="<%=phone%>"
                   style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 70%;"><br>
-               <label class="form-label">주소</label><br><span class="form-control" style="color: rgb(94, 94, 94); width: 40%; font-weight: normal;"><%=splitStr[0]%></span><input
-                  class="form-control" type="hidden" id="post" name="post"
-                  value="<%=splitStr[0]%>"
-                  style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 40%;"><br><span class="form-control" style="color: rgb(94, 94, 94); width: 80%; font-weight: normal;"><%=splitStr[1]%></span>
-               <input class="form-control" type="hidden" id="add1" name="add1"
+               <label class="form-label">주소</label><br>
+               <input class="form-control" type="text" id="post" name="post" value="<%=splitStr[0]%>"
+                  style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 40%;"><br>
+               <input class="form-control" type="text" id="add1" name="add1"
                   value="<%=splitStr[1]%>"
                   style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 80%; margin-top: -13px;"><br>
-			<span class="form-control" style="color: rgb(94, 94, 94); width: 80%; font-weight: normal;"><%=splitStr[2]%></span>
-               <input class="form-control" type="hidden" id="add2" name="add2"
-                  value="<%=splitStr[2]%>"
-                  style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 80%; margin-top: -13px;"><br>
-               <button type="submit" id="update"
+               <input class="form-control" type="text" id="add2" name="add2" value="<%=splitStr[2]%>"
+			     style="color: rgb(94, 94, 94); font-size: 14px; line-height: 200%; width: 80%; margin-top: -13px;"><br>
+			     <input type="hidden" name="isAdmin" value="<%= member.getIsAdmin() %>">
+               <button type="submit" id="update" onclick="return enroll();"
                   class="button1" style="width: 150px; margin-left: 80px;">회원정보수정</button>
             </form>
          </div>
@@ -122,83 +120,82 @@
       <%@ include file="../common/bottom.jsp" %>
    </div>
    <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<%@ include file="../common/navbar.jsp"%>
 
 
    <!-- 상단 스크립트 -->
-   <script>
-   $(function() {
-		$('#middleCategories').children().hover(function() {
-			$(this).css('color', '#11BBFF');
-		}, function() {
-			$(this).css('color', 'black');
-		});
-	});
-      function withdraw() {
-    	 $('#myForm').attr('action', '<%=request.getContextPath()%>/deleteForm.me');
-    	 $('#myForm').submit();
-       }
-        <%-- /* 회원가입시 빠진 항목 확인 메소드 */
+     <script>
+  //중단 카테고리 색변환
+         $('#middleCategories').children().hover(function() {
+            $(this).css('color', '#11BBFF');
+         }, function() {
+            $(this).css('color', 'black');
+         });
+      
+      /* 회원가입시 빠진 항목 확인 메소드 */
       function enroll() {
           var userName = document.getElementById('name').value;
-          var userPw1 = document.getElementById('pw1').value;
-          var userPw2 = document.getElementById('pw2').value;
-         var email = document.getElementById('email').value;
+          var email = document.getElementById('email').value;
+          var post = document.getElementById('post').value;
+          var add1 = document.getElementById('add1').value;
+          var add2 = document.getElementById('add2').value;
+         var regExpEmail = /^[0-9a-zA-Z_\-]+@[.0-9a-zA-Z_\-]+$/;
+         var regExpPost = /^\d{5}$/;
+         var regExpPass = /^[A-Za-z0-9]{8,15}$/;
 
           if (userName == '' || userName.length == 0) {
             alert('이름을 입력해주세요.');
              document.getElementById('name').focus();
              return false;
-          } else if (userPw1 == '' || userPw1.length == 0) {
-             alert('비밀번호를 입력해주세요.');
-             document.getElementById('pw1').focus();
-             return false;
-          } else if (userPw2 == '' || userPw2.length == 0) {
-             alert('비밀번호 확인을 입력해주세요.');
-             document.getElementById('pw2').focus();
-             return false;
-          } else if (document.getElementById('check').style.color == 'red') {
-             alert('비밀번호가 일치하지 않습니다.');
-             document.getElementById('pw2').value = '';
-             document.getElementById('pw2').focus();
-             return false;
           } else if (email == '' || email.length == 0) {
              alert('이메일을 입력해주세요.');
              document.getElementById('email').focus();
              return false;
-          } else if(userPw1 != '<%= userPwd %>'){
-          // 회원정보수정 버튼 눌렀을 때, 비밀번호가 이전 비밀번호와 일치하지 않으면 뜨는 경고창
-             var bool = confirm('이전 비밀번호와 다릅니다. 이대로 진행하시겠습니까?');
-            if(bool){
-               alert(userName + "님, 정보 수정이 성공적으로 완료되었습니다.");
-                return true;
-            } else {
-               $('#pw1').val('').focus();
-               $('#pw2').val('');
-               return false;
-            }   
-          } else {
-             alert(userName + "님, 정보 수정이 성공적으로 완료되었습니다.");
-             return true;
-          }
+          } else if (!regExpEmail.test(email)){
+        	alert('이메일이 조건에 맞지않습니다.\n(영문,숫자@영문,숫자)');
+        	document.getElementById('email').value = '';
+        	document.getElementById('email').focus();
+            return false; 
+          }   else if (post == '' || post.length == 0) {
+             alert('우편번호를 입력해주세요.');
+             document.getElementById('post').focus();
+             return false;
+          } else if (!regExpPost.test(post)){
+         		alert('우편번호가 조건에 맞지 않습니다.\n(00000)');
+         		document.getElementById('post').value = '';
+   				document.getElementById('post').focus();
+   				return false;
+ 		 } else if (add1 == '' || add1.length == 0) {
+             alert('주소를 입력해주세요.');
+             document.getElementById('add1').focus();
+             return false;
+          } else if (add2 == '' || add2.length == 0) {
+              alert('상세주소를 입력해주세요.');
+              document.getElementById('add2').focus();
+              return false;
+           } else {
+              var bool = confirm('정말 수정하시겠습니까?');
+             if(bool){
+                alert(userName + "님, 정보 수정이 성공적으로 완료되었습니다.");
+                 return true;
+             } else {
+              	return false;
+             }   
+           } 
        }
-      /* 비밀번호 확인하는 메소드 */
-      function checkPw() {
-          var pw1 = document.getElementById('pw1').value;
-          var pw2 = document.getElementById('pw2').value;
-          var check = document.getElementById('check');
-
-          if (pw2 == '' || pw2.length == 0) {
-             check.innerHTML = '';
-          } else if (pw1 != pw2) {
-             check.style.color = 'red';
-             check.innerHTML = '비밀번호가 일치하지 않습니다.';
-          } else {
-             check.style.color = 'green';
-             check.innerHTML = '비밀번호가 일치합니다.';
-          }
-       } --%>
+      
+      function withdraw() {
+    	  var bool = confirm('정말 탈퇴하시겠습니까?');
+    	  var userName = document.getElementById('name').value;
+    	  if(bool) {
+    		alert(userName +"님, 탈퇴되셨습니다. 언젠가 다시 뵙길 바래요!")
+     	 $('#myForm').attr('action', '<%=request.getContextPath()%>/delete.me');
+     	 $('#myForm').submit();
+     	 return true;
+    	  } else {
+    		  return false;
+    	  }
+        }
    </script>
-   
-   
 </body>
 </html>

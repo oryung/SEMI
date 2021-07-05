@@ -129,27 +129,26 @@ private Properties prop = new Properties();
 	}
 
 	public int updateMember(Connection conn, Member member) {
-		PreparedStatement pstmt = null;
-		int result = 0;
-		
-		String query = prop.getProperty("updateMember");
-		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, member.getName());
-			pstmt.setString(2, member.getPwd());
-			pstmt.setString(3, member.getEmail());
-			pstmt.setString(4, member.getPhone());
-			pstmt.setString(5, member.getAddress());
-			pstmt.setString(6, member.getId());
-			
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		  return result;
-	}
+	      PreparedStatement pstmt = null;
+	      int result = 0;
+	      
+	      String query = prop.getProperty("updateMember");
+	      try {
+	         pstmt = conn.prepareStatement(query);
+	         pstmt.setString(1, member.getName());
+	         pstmt.setString(2, member.getEmail());
+	         pstmt.setString(3, member.getPhone());
+	         pstmt.setString(4, member.getAddress());
+	         pstmt.setString(5, member.getId());
+	         
+	         result = pstmt.executeUpdate();
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close(pstmt);
+	      }
+	        return result;
+	   }
 
 	public int deleteMember(Connection conn, String userId) {
 		PreparedStatement pstmt = null;

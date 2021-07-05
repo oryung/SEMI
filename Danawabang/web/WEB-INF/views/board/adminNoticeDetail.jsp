@@ -82,13 +82,14 @@ table{
 						<button type="button" class="button1" onclick="location.href='<%= request.getContextPath() %>/adminNotice.bo'">돌아가기</button>
 					</div>
 					<div class="col" style="left: 26%;">
-						<% if(loginUser != null && loginUser.getIsAdmin().contains("ADMIN")) { %>
-						<!-- 수정 버튼 -->
-						<button type="submit" class="button1">수정</button>
-						<!-- 삭제 버튼 -->
-						<button type="button" id="delete" class="button1">삭제</button>
-						<% } %>
-					</div>	
+				
+				<% if(loginUser != null && loginUser.getIsAdmin().contains("ADMIN")) { %>
+				<!-- 수정 버튼 -->
+				<button type="submit" class="button1">수정</button>
+				<!-- 삭제 버튼 -->
+				<button type="button" id="delete" class="button1">삭제</button>
+				<% } %>
+			</div>	
 				</div>
 			</form>
 		</div>
@@ -100,10 +101,13 @@ table{
 		<%@ include file="../common/bottom.jsp" %>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	</div>
+		<%@ include file="../common/navbar.jsp"%>
 
 
 	<!-- 상단 스크립트 -->
 	<script>
+		
+		<!-- 중단 스크립트 -->
 		// 삭제 버튼
 		$(function(){
 			$('#delete').click(function(){

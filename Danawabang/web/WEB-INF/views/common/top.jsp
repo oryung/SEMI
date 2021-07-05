@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>메인페이지</title>
+<title>다나와방</title>
 <!-- --------------------- -->
 <style>
 /*상단 관련 스타일*/

@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>1대1 게시판</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -26,6 +26,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 <style>
 
+body{line-height: 1.5;
+	
+	margin-left: 0px;
+	margin-right: 0px;
+	}
 
 /*th색상변경*/
 .table th[scope="col"] {
@@ -59,7 +64,7 @@
 </head>
 <body style="font-family: 'Nanum Gothic', sans-serif;">
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-	<div id="main-container" class="container">
+	<div id="main-container" class="container" >
 		<%@ include file="../common/top.jsp" %>
 
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단 끝!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
@@ -75,7 +80,7 @@
 		</div>
 
 		<!-- 행 사이 빈공간-->
-		<div class="row" style="margin-top: 40px;"></div>
+		<div class="row" style="margin-top: 50px;"></div>
 
 		<!-- 본문 -->
 		<div class="row">
@@ -198,6 +203,7 @@
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+		<%@ include file="../common/navbar.jsp"%>
 
 	<!-- 상단 스크립트 -->
 	<script>

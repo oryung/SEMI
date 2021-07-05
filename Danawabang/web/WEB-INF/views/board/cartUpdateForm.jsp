@@ -12,7 +12,7 @@ int checkPriceCount = 0;
 <html>
 <head>
 <meta charset="UTF-8">
-<title>다나와방</title>
+<title>장바구니</title>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -55,16 +55,7 @@ body {
 	color:  white;
 	border-radius: 4px;
 }
-/* ----------스크롤시 하단아이콘  보이기 --------------------------------------------------------------------- */
 
-.bottomNav {position: fixed; font-size:50px; color: #11BBFF;}
-.bottomNav {bottom: -90px;  transition:bottom .2s;}
-.bottomNav.show {bottom: 0; }
-
-
-
-/* ------------따라다니는 오른쪽 네비게이션---------------------------------------------------------- */
-#followquick { position:absolute; top:200px; right:50%; margin-right:-850px; }
 </style>
 </head>
 <body style="font-family: 'Nanum Gothic', sans-serif;">
@@ -136,50 +127,8 @@ body {
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 
 		<%@ include file="../common/bottom.jsp" %>
+		<%@ include file="../common/navbar.jsp"%>
 	
-	<!-- 오른쪽 따라 다니는 네비게이션 바 -->
-
-	<div id="followquick" style="width: 7%;">
-		<div class="row"
-			style="height: 280px; background: #11BBFF; border-radius: 3px;">
-			<div class="col" style="margin-top: -10px;">
-				<br> <i class="bi bi-house"
-					style="font-size: 50px; margin-left: 5px; color: #fff"></i> <span
-					style="font-size: 18px; font-weight: bold; color: #fff">다나와방</span>
-				<div class="row" style="margin-top: 110px;"></div>
-
-				<div>
-					<a href="" class="side-nav"
-						style="font-size: 20px; font-weight: bold; text-decoration: none">
-						<i class="bi bi-whatsapp i-side"
-						style="font-size: 23px; text-align: center;"></i>&nbsp;&nbsp;고객센터
-					</a>
-				</div>
-
-				<span style="font-size: 15px; font-weight: bold; color: #fff">1555-5551</span>
-
-				<div
-					style="margin-top: 10px; width: 100%; border-bottom: 2px solid #fff"></div>
-			</div>
-		</div>
-	</div>
-	
-	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-
-	
-	<!-- --------------------따라오는 오른쪽 네비게이션 ------------------------------- -->
-	
-	<script>
-	//follow quick menu
-	$(window).scroll(function(){
-	var scrollTop = $(document).scrollTop();
-	if (scrollTop < 180) {
-	 scrollTop = 180;
-	}
-	$("#followquick").stop();
-	$("#followquick").animate( { "top" : scrollTop });
-	});
-	</script>
 	<script>
 	// 수정 버튼
 		$(function() {

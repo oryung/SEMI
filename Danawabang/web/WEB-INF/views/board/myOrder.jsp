@@ -55,7 +55,7 @@ int endPage = pi.getEndPage();
 			<!-- 중단 카테고리 여백 -->
 			<div class="col-3"></div>
 			<!-- 나의쇼핑, 나의활동, 설정 중단카테고리 -->
-			<div onclick="location.href='마이페이지-나의 쇼핑.html';"
+			<div onclick="location.href='<%= request.getContextPath() %>/myOrder.bo'"
 					class="col-2" style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold; padding-right:10px;">
 					나의 쇼핑</div>
 			<div onclick="location.href='<%= request.getContextPath() %>/myReply.bo'"
@@ -89,7 +89,7 @@ int endPage = pi.getEndPage();
 			<!-- 주문 내역 -->
 			<div class="row">
 				<table class="table"
-					style="margin-left: 15%; width: 70%; text-align: center; font-size:14px;">
+					style="margin-left: 16.5%; width: 70%; text-align: center; font-size:14px;">
 					<thead>
 						<tr>
 							<th scope="col" style="width: 130px;">주문번호</th>
@@ -164,6 +164,7 @@ int endPage = pi.getEndPage();
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
+		<%@ include file="../common/navbar.jsp"%>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	
 	<!-- 상단 스크립트 -->

@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>1대1 게시글 리스트</title>
+<title>다나와방</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -62,6 +62,7 @@
 		<%@ include file="../common/adminMiddleCategory.jsp" %>
 		
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 본문(1대1 게시글 리스트) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+		<div class="row" style="margin-top: 10px;"></div>
 		<div class="row">
 			<div class="col">
 				<div style="font-weight: bold; font-size: 25px; text-align: center; color: rgb(17, 187, 255);"
@@ -70,8 +71,8 @@
 		</div>
 
 		<!-- 행 사이 빈공간-->
+		
 		<div class="row" style="margin-top: 10px;"></div>
-
 		<!-- 테이블  -->
 		<form action="" id="adminOTOForm">
 		<div class="row">
@@ -83,12 +84,12 @@
 							<th scope="col" style="width: 600px;">제목</th>
 							<th scope="col" style="width: 150px;">작성자ID</th>
 							<th scope="col" style="width: 150px;">작성일</th>
-							<th scope="col" style="width: 140px;">상세보기</th>
+							<th scope="col" style="width: 150px;">상세보기</th>
 						</tr>
 					</thead>
 							<% if (list.isEmpty()) { %>
 						<tr>
-							<td colspan="6">조회된 리스트가 없습니다.</td>
+							<td colspan="6" style="cursor:default;">조회된 리스트가 없습니다.</td>
 						</tr>
 						<% } else { %>
 						<tbody>
@@ -165,6 +166,7 @@
 <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
+		<%@ include file="../common/navbar.jsp"%>
 
 	<!-- 상단 스크립트 -->
 	<script>
@@ -241,6 +243,10 @@
 			}
 		}
 		
+		
+		 $('#empty').on('click', function(){
+				
+			});
 	</script>
 	
 	

@@ -46,9 +46,8 @@ public class BoardStoreCartInsertServlet extends HttpServlet {
 				int result = 0;
 				Cart c = new Cart();
 				int count = 0;
-				
-				
-				ArrayList<Cart> cartList = new BoardService().selectCartList();
+
+				ArrayList<Cart> cartList = new BoardService().selectCartList(id);
 				
 				if(cartList.size() == 0) {		
 					c.setCartProductAmount(cartProductAmount);
@@ -60,7 +59,7 @@ public class BoardStoreCartInsertServlet extends HttpServlet {
 				} else {
 					for(int i = cartList.size()-1; i >= 0; i--) {
 						c = cartList.get(i);
-						if(c.getProductId() == pId && c.getProductOptionId() == pOptionId && c.getMemberId().equals(id)) {
+						if(c.getProductId() == pId && c.getProductOptionId() == pOptionId) {
 							int cartId = c.getCartId();
 							int amount = c.getCartProductAmount();
 							int sum = amount + cartProductAmount;

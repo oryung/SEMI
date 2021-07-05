@@ -111,7 +111,7 @@
 						<h3 class="featurette-heading" style="color:#11bbff; margin-bottom:30px;">
 							<span class="text-muted">이런 저희의 서비스를</span><br>경험해보고 싶으시다면,<br>
 						</h3>
-						<button onclick="location.href='스토어페이지.html;'"style="border: 1px solid rgb(17, 187, 255); background-color: rgb(17, 187, 255); color: white;
+						<button onclick="location.href='<%= request.getContextPath() %>/boardStore.bo';" style="border: 1px solid rgb(17, 187, 255); background-color: rgb(17, 187, 255); color: white;
 	border-radius: 4px; width: 130px; height: 60px; margin-bottom:30px;">지금 바로<br>쇼핑하러 가기</button>
 					</div>
 					
@@ -127,6 +127,7 @@
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
+		<%@ include file="../common/navbar.jsp"%>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 
 	<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>

@@ -15,11 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 <style>
 
-/* ----------스크롤시 하단아이콘  보이기 --------------------------------------------------------------------- */
 
-.bottomNav {position: fixed; font-size:50px; color: #11BBFF;}
-.bottomNav {bottom: -90px;  transition:bottom .2s;}
-.bottomNav.show {bottom: 0; }
 </style>
 </head>
 <body style="font-family: 'Nanum Gothic', sans-serif;">
@@ -160,60 +156,12 @@
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
+	<%@ include file="../common/navbar.jsp"%>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-	<!-- 탭 하면 맨위로 올라가는 버튼 -->				 
-	<div class="row">
-		<div class="col-10"></div>
-		<div class="col-1" style="float-right">
-			<i class="bi bi-arrow-up-circle-fill bottomNav i-plain" 
-			style="cursor:pointer;" onclick="window.scrollTo(0,0);" ></i>
-		</div>
-		<div class="col-1">
-			<i class="bi bi-whatsapp bottomNav i-plain" style="cursor:pointer;" ></i>
-		
-		</div>
-	</div>	
 	
 	
-	<!-- 스크롤 시 하단 아이콘 보이기-------------------------------------------- -->
-	<script>
-	//Javascript
-	var lastScrollTop = 0;
-	var delta = 10;
-	var fixBox = document.querySelector('.bottomNav');
-	var fixBoxHeight = fixBox.offsetHeight;
-	var didScroll;
-	//스크롤 이벤트 
-	window.onscroll = function(e) {
-	    didScroll = true;
-	};
-
-	//0.25초마다 스크롤 여부 체크하여 스크롤 중이면 hasScrolled() 호출
-	setInterval(function(){
-	    if(didScroll){
-	        hasScrolled();
-	        didScroll = false;
-	    }
-	}, 250);
-
-	function hasScrolled(){
-	    var nowScrollTop = window.scrollY;
-	    if(Math.abs(lastScrollTop - nowScrollTop) <= delta){
-	        return;
-	    }
-	    if(nowScrollTop > lastScrollTop && nowScrollTop > fixBoxHeight){
-	        //Scroll down
-	        fixBox.classList.add('show');
-	    }else{
-	        if(nowScrollTop + window.innerHeight < document.body.offsetHeight){
-	            //Scroll up
-	            fixBox.classList.remove('show');
-	        }
-	    }
-	    lastScrollTop = nowScrollTop;
-	}
 	
-	</script>
+	
 	
 </body>
 </html>

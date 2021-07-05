@@ -46,14 +46,14 @@ public class CartUpdateServlet extends HttpServlet {
 		int result2 = 0;
 		int count = 0;
 		
-		ArrayList<Cart> cartList = new BoardService().selectCartList();
+		ArrayList<Cart> cartList = new BoardService().selectCartList(id);
 		Cart c = new Cart();
 		int cartNum = 0;
 		int cartProductAmount = 0;
 
 			for(int i = cartList.size()-1; i >= 0; i--) {
 				c = cartList.get(i);
-				if(c.getProductId() == pId && c.getProductOptionId() == pOptionId && c.getMemberId().equals(id)) {
+				if(c.getProductId() == pId && c.getProductOptionId() == pOptionId) {
 					cartNum = c.getCartId();
 					cartProductAmount = c.getCartProductAmount();	
 					count++;

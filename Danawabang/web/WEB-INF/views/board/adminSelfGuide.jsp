@@ -87,10 +87,11 @@
 									<td style="vertical-align: middle;"><%= b.getBoardTitle() %></td>
 									<td style="vertical-align: middle;"><%= b.getWriter() %></td>
 									<td style="vertical-align: middle;"><%= b.getEnrollDate() %></td>
-									<td onclick="location.href='<%= request.getContextPath() %>/adminSelfGuideDetail.bo?bId='+ <%= bId %>" style="cursor:pointer; vertical-align: middle;"><i class="bi bi-search"></i></td>
+									<td onclick="location.href='<%= request.getContextPath() %>/adminSelfGuideDetail.bo?bId='+ <%= bId %>" 
+									style="cursor:pointer; vertical-align: middle;"><i class="bi bi-search"></i></td>
 								</tr>
 								<% checkBoardCount++; %>
-					<% 		} %>	
+					<% 		} %>	X
 					<% } %>			
 					</tbody>
 				</table>
@@ -107,7 +108,6 @@
 				<div class="input-group mb-3">
 				</div>
 			</div>
-			
 			<!-- 버튼 -->
 			<% if(loginUser != null && loginUser.getIsAdmin().equals("ADMIN")){ %>
 			<div class="col" style="left: 38%; width: 70%;">
@@ -164,9 +164,11 @@
 		<%@ include file="../common/bottom.jsp" %>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	</div>
+	<%@ include file="../common/navbar.jsp"%>
+
+	<!-- 상단 스크립트 -->
 
 	<script>
-	
 		/* 체크박스 선택방식 메소드 */
 		function selectAll() {
 			var check = document.getElementsByName("check");

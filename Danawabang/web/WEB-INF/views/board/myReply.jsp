@@ -73,7 +73,7 @@
 
 </style>
 </head>
-<body style="font-family: 'Nanum Gothic', sans-serif;">
+<body style="font-family: 'Nanum Gothic', sans-serif; margin-left:-17px">
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<div id="main-container" class="container">
 		<%@ include file="../common/top.jsp"%>
@@ -86,7 +86,7 @@
 			<!-- 중단 카테고리 여백 -->
 			<div class="col-3"></div>
 			<!-- 나의쇼핑, 나의활동, 설정 중단카테고리 -->
-			<div onclick="location.href='마이페이지-나의 쇼핑.html';" class="col-2"
+			<div onclick="location.href='<%= request.getContextPath() %>/myOrder.bo'" class="col-2"
 				style="text-align: center; cursor: pointer; font-size: 20px; font-weight: bold; padding-right: 10px;">
 				나의 쇼핑</div>
 			<div
@@ -318,6 +318,7 @@
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp"%>
 	</div>
+	<%@ include file="../common/navbar.jsp"%>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 
 	<!-- 상단 스크립트 -->

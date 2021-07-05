@@ -51,13 +51,13 @@ public class CartPaymentServlet extends HttpServlet {
 		c.setProductOptionId(pOptionId);
 		result = bService.insertCart(c);
 		
-		ArrayList<Cart> cartList = bService.selectCartList();
+		ArrayList<Cart> cartList = bService.selectCartList(id);
 		int cartId = 0;
 		
 		
 		for(int i = 0; i <cartList.size(); i++) {
 			c2 = cartList.get(i);
-			if(c2.getMemberId().equals(id) && c2.getCartProductAmount() == cartProductAmount
+			if(c2.getCartProductAmount() == cartProductAmount
 					&& c2.getProductId()==pId && c2.getProductOptionId()==pOptionId) {
 				cartId = c2.getCartId();
 				break;

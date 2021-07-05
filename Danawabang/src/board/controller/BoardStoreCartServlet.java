@@ -48,7 +48,7 @@ public class BoardStoreCartServlet extends HttpServlet {
 		int count = 0;
 		BoardService bService = new BoardService();
 		
-		ArrayList<Cart> cartList = bService.selectCartList();
+		ArrayList<Cart> cartList = bService.selectCartList(id);
 		
 		if(cartList.size() == 0) {		
 			c.setCartProductAmount(cartProductAmount);
@@ -60,7 +60,7 @@ public class BoardStoreCartServlet extends HttpServlet {
 		} else {
 			for(int i = cartList.size()-1; i >= 0; i--) {
 				c = cartList.get(i);
-				if(c.getProductId() == pId && c.getProductOptionId() == pOptionId && c.getMemberId().equals(id)) {
+				if(c.getProductId() == pId && c.getProductOptionId() == pOptionId) {
 					int cartId = c.getCartId();
 					int amount = c.getCartProductAmount();
 					int sum = amount + cartProductAmount;
@@ -84,8 +84,6 @@ public class BoardStoreCartServlet extends HttpServlet {
 		
 		if(result > 0) {
 		
-		
-		
 		int listCount;
 		int currentPage;
 		int pageLimit;
@@ -104,14 +102,9 @@ public class BoardStoreCartServlet extends HttpServlet {
 		pageLimit = 5;
 		boardLimit = 5;
 		
-		if(listCount == 0) {
-			listCount = 1;
-		}
+
 		maxPage = (int) Math.ceil((double)listCount / boardLimit);
 		
-		if(pageLimit > maxPage) {
-			pageLimit = maxPage;
-		}
 		startPage = ((currentPage - 1)/pageLimit)* pageLimit + 1;
 		endPage = startPage + pageLimit - 1;
 		

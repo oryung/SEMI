@@ -98,6 +98,7 @@ table {
 		<%@ include file="../common/bottom.jsp" %>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	</div>
+		<%@ include file="../common/navbar.jsp"%>
 	<script>
 	function enroll(){
 		if($('#title').val().trim() == ""){

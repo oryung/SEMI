@@ -71,9 +71,9 @@
 								onclick="selectAll();" style="width: 30px;"></th>
 							<th scope="col" style="width: 100px; vertical-align: middle;">상품번호</th>
 							<th scope="col" style="width: 250px; vertical-align: middle;">상품명</th>
-							<th scope="col" style="width: 140px; vertical-align: middle;">브랜드</th>
-							<th scope="col" style="width: 140px; vertical-align: middle;">가격</th>
-							<th scope="col" style="width: 100px; vertical-align: middle;">상세보기</th>
+							<th scope="col" style="width: 150px; vertical-align: middle;">브랜드</th>
+							<th scope="col" style="width: 150px; vertical-align: middle;">가격</th>
+							<th scope="col" style="width: 90px; vertical-align: middle;">상세보기</th>
 						</tr>
 					</thead>
 					<% if (list.isEmpty()) { %>
@@ -167,6 +167,7 @@
 <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
+		<%@ include file="../common/navbar.jsp"%>
 
 	<!-- 상단 스크립트 -->
 	<script>			

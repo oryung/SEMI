@@ -22,10 +22,8 @@ import common.wrapper.EncryptWrapper;
 				"AdminSettingFormServlet", 
 				"AdminUpdateServlet", 
 				"LoginServlet", 
-				"MemberDeleteFormServlet", 
 				"MemberInsertServlet", 
 				"MemberUpdateServlet", 
-				"MySettingServlet",
 				"ChangePwdServlet",         //여기 추가하기
 				"KaKaoLoginServlet"
 		})

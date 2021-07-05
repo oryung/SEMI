@@ -1144,6 +1144,34 @@ public class BoardDAO {
 	
 ///////////////////////////장바구니//////////////////////////////////
 //장바구니 전체 개수 조회
+	
+	 // 장바구니 전체리스트 조회(페이징x)
+    public ArrayList<Cart> selectCartList(Connection conn, String id) {
+       PreparedStatement stmt = null;
+       ResultSet rset = null;
+       ArrayList<Cart> list = new ArrayList<Cart>();
+
+       String query = prop.getProperty("selectCartList");
+
+       try {
+          stmt = conn.prepareStatement(query); 
+          rset = stmt.executeQuery();
+          while (rset.next()) {
+             list.add(new Cart(rset.getInt("CART_ID"), rset.getInt("CART_PRODUCT_AMOUNT"),
+                   rset.getInt("PRODUCT_ID"), rset.getString("MEMBER_ID"),
+                   rset.getString("CART_DELETE"), rset.getDate("CART_ENROLL_DATE"),
+                  rset.getInt("PRODUCT_OPTION_ID")));
+          }
+       } catch (SQLException e) {
+          e.printStackTrace();
+       } finally {
+          close(rset);
+          close(stmt);
+       }
+
+       return list;
+    }
+    
 	public int getCartCount(Connection conn, String id) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;

@@ -29,7 +29,7 @@ public class AdminOTOSelectDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-String boards = request.getParameter("checkBoards");
+		String boards = request.getParameter("checkBoards");
 		
 		String[] board = boards.split(",");
 		System.out.println(board);

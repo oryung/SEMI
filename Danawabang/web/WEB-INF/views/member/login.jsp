@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>다나와방</title>
+<title>로그인</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -30,9 +30,12 @@
 	font-size: 16px;
 	margin-left: 93px;
 }
+
+
+
 </style>
 </head>
-<body style="font-family: 'Nanum Gothic', sans-serif;">
+<body style="font-family: 'Nanum Gothic', sans-serif; margin-left:-17px" >
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<div id="main-container" class="container">
 		<%@ include file="../common/top.jsp" %>
@@ -101,29 +104,25 @@
 				<div class="row" style="margin-top: 30px;"></div>
 
 				<div class="row" style="">
-					<div class="col"></div>
-					<div class="col"></div>
 					<div class="col">
 						<!-- 카카오 로그인 버튼 -->
 						<a href="javascript:kakaoLogin();"><img
 							src="images/kakao_login_medium_narrow.png"
 							style="height: 45px; width: auto;" /></a>
 					</div>
-<!-- 					<div class="col"> -->
-<!-- 						<a href=""><input type="image" style="width: 40px;" -->
-<!-- 							src="images/네이버.png"></a> -->
-<!-- 					</div> -->
-					<div class="col"></div>
-					<div class="col"></div>
+					<!-- <div class="col">
+						<a href=""><input type="image" style="width: 40px;"
+							src="images/네이버.png"></a> -->
 				</div>
 			</div>
 			<div class="col"></div>
 		</div>
 
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-		<%@ include file="../common/bottom.jsp" %>
 	</div>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<%@ include file="../common/bottom.jsp"%>
+	<%@ include file="../common/navbar.jsp"%>
 
 	<!-- 상단 스크립트 -->
 	<script>

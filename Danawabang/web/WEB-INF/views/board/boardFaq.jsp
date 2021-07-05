@@ -22,6 +22,11 @@
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <style>
+
+body{line-height: 1.5;}
+.form-control {height: calc(1.5em + 1.2rem + 2px);}
+#main-search {height: calc(1.5em + 1.2rem + 2px);}
+
 .category {
 	font-size: 18px;
 	color: black;
@@ -66,18 +71,13 @@ td>p {
 
 .categories:hover {color: #FBA481; text-decoration: none;}
 
-/* ----------스크롤시 하단아이콘  보이기 --------------------------------------------------------------------- */
 
-.bottomNav {position: fixed; font-size:50px; color: #11BBFF;}
-.bottomNav {bottom: -90px;  transition:bottom .2s;}
-.bottomNav.show {bottom: 0; }
 </style>
 </head>
 <body style="font-family: 'Nanum Gothic', sans-serif;">
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<div id="main-container" class="container">
 		<%@ include file="../common/top.jsp" %>
-		
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!상단 끝!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<div class="row" id="middleCategories">
 			<div class="col-3"></div>
@@ -88,6 +88,7 @@ td>p {
 				FAQ</div>
 			<div class="col-3"></div>
 		</div>
+
 
 		<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 50px;"></div>
@@ -321,21 +322,14 @@ td>p {
 			<div class="col"></div>
 		</div>
 
-	<!-- 탭 하면 맨위로 올라가는 버튼 -->				 
-	<div class="row">
-		<div class="col-11"></div>
-		<div class="col-1" style="float-right">
-			<i class="bi bi-arrow-up-circle-fill bottomNav i-plain" 
-			style="cursor:pointer; margin-left:165px;" onclick="window.scrollTo(0,0); "  ></i>
-		</div>
-		
-	</div>	
+	
 	<!-- 행 사이 빈공간-->
 		<div class="row" style="margin-top: 120px;"></div>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+		<%@ include file="../common/navbar.jsp"%>
 	<!-- 상단 스크립트 -->
 	<script>
 		/* 중단 카테고리 호버 */
@@ -353,43 +347,7 @@ td>p {
 			});
 		});
 	</script>
-	<!-- 스크롤 시 하단 아이콘 보이기-------------------------------------------- -->
-		<script>
-		//Javascript
-		var lastScrollTop = 0;
-		var delta = 10;
-		var fixBox = document.querySelector('.bottomNav');
-		var fixBoxHeight = fixBox.offsetHeight;
-		var didScroll;
-		//스크롤 이벤트 
-		window.onscroll = function(e) {
-		    didScroll = true;
-		};
-
-		//0.25초마다 스크롤 여부 체크하여 스크롤 중이면 hasScrolled() 호출
-		setInterval(function(){
-		    if(didScroll){
-		        hasScrolled();
-		        didScroll = false;
-		    }
-		}, 250);
-
-		function hasScrolled(){
-		    var nowScrollTop = window.scrollY;
-		    if(Math.abs(lastScrollTop - nowScrollTop) <= delta){
-		        return;
-		    }
-		    if(nowScrollTop > lastScrollTop && nowScrollTop > fixBoxHeight){
-		        //Scroll down
-		        fixBox.classList.add('show');
-		    }else{
-		        if(nowScrollTop + window.innerHeight < document.body.offsetHeight){
-		            //Scroll up
-		            fixBox.classList.remove('show');
-		        }
-		    }
-		    lastScrollTop = nowScrollTop;
-		};
-		</script>
+	
+		
 </body>
 </html>

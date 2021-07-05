@@ -25,6 +25,8 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">	
 <style>
+
+
 .category {
 	font-size: 18px;
 	color: black;
@@ -90,8 +92,8 @@ td>p {
 			<div class="col-3"></div>
 			<div onclick="location.href='<%= request.getContextPath() %>/boardNotice.bo';" class="col">
 				공지사항</div>
-			<div onclick="location.href='<%= request.getContextPath() %>/boardOTO.bo';" class="col">
-			1:1 게시판</div>
+			<div onclick="location.href='<%= request.getContextPath() %>/boardOTO.bo';"
+				class="col">1:1 게시판</div>
 			<div onclick="location.href='<%= request.getContextPath() %>/boardFaq.bo';" class="col">
 				FAQ</div>
 			<div class="col-3"></div>
@@ -180,6 +182,7 @@ td>p {
 		<%@ include file="../common/bottom.jsp" %>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	</div>
+		<%@ include file="../common/navbar.jsp"%>
 
 	<!-- 상단 스크립트 -->
 	<script>

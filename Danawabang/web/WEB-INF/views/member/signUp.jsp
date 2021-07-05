@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>다나와방</title>
+<title>회원가입</title>
 <script src="js/popper.min.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-4.3.1.js"></script>
@@ -117,12 +117,14 @@
 			</div>
 			<div class="col"></div>
 		</div>
-
+		
+		<div style="margin-bottom: 120px;"></div>
 
 		<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<%@ include file="../common/bottom.jsp" %>
 	</div>
 	<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!하단 끝 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<%@ include file="../common/navbar.jsp"%>
 
 	<!-- 상단 스크립트 -->
 	<script>
@@ -239,7 +241,7 @@
 				alert('이메일을 입력해주세요.');
 				document.getElementById('email').focus();
 				return false;
-			} else if(post == '' || post.length == 0) {
+			}  else if(post == '' || post.length == 0) {
 				alert('우편번호를 입력해주세요.');
 				document.getElementById('post').focus();
 				return false;
