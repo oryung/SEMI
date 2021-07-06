@@ -68,8 +68,9 @@
 					<!-- 비밀번호 동일한지 알림 -->
 					<span id="check" style="font-size: 15px; font-weight: normal;">&nbsp;</span><br>
 
-					이메일<br><input type="email" id="email" name="email" class="form-control"	placeholder="이메일">
-
+					이메일<br><input type="email" id="email" name="email" class="form-control"placeholder="이메일" style="display: inline; background: white;" >
+					<button type="button" class="button1" style="margin-left: 20px;" onclick="emailCheck();">인증하기</button><br>
+					
 					전화번호<br><input type="text" id="phone" name="phone" class="form-control" placeholder="핸드폰 번호 : 000-0000-0000">
 					
 					주소<br>
@@ -200,6 +201,7 @@
 			var userPw1 = document.getElementById('pw1').value;
 			var userPw2 = document.getElementById('pw2').value;
 			var email = document.getElementById('email').value;
+			var email = document.getElementById('email').value;
 			var phone = document.getElementById('phone').value;
 			var post = document.getElementById('post').value;
 			var add1 = document.getElementById('add1').value;
@@ -241,7 +243,7 @@
 				alert('이메일을 입력해주세요.');
 				document.getElementById('email').focus();
 				return false;
-			}  else if(post == '' || post.length == 0) {
+			} else if(post == '' || post.length == 0) {
 				alert('우편번호를 입력해주세요.');
 				document.getElementById('post').focus();
 				return false;
@@ -269,6 +271,10 @@
 		
 		function idCheck() {
 			window.open('checkIdForm.me', 'idCheckForm', 'width=350, height=300');
+		}
+		
+		function emailCheck() {
+			window.open('checkEmailForm.me', 'emailCheckForm', 'width=350, height=300');
 		}
 		
 

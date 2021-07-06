@@ -91,7 +91,7 @@
 									style="cursor:pointer; vertical-align: middle;"><i class="bi bi-search"></i></td>
 								</tr>
 								<% checkBoardCount++; %>
-					<% 		} %>	X
+					<% 		} %>	
 					<% } %>			
 					</tbody>
 				</table>

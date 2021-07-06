@@ -110,9 +110,6 @@
 							src="images/kakao_login_medium_narrow.png"
 							style="height: 45px; width: auto;" /></a>
 					</div>
-					<!-- <div class="col">
-						<a href=""><input type="image" style="width: 40px;"
-							src="images/네이버.png"></a> -->
 				</div>
 			</div>
 			<div class="col"></div>

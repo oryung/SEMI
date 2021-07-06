@@ -51,8 +51,8 @@ public class KaKaoLoginServlet extends HttpServlet {
 		Member checkedMember = mService.selectMember(kakaoLoginId);
 		if(checkedMember == null){ // 존재하지 않는 회원이라면
 			mService.insertMember(kakaoMember);
+			checkedMember = mService.selectMember(kakaoLoginId);
 		}
-		checkedMember = mService.selectMember(kakaoLoginId);
 		
 		if(checkedMember != null) {
 			Member member = new Member(checkedMember.getId(), checkedMember.getPwd());
